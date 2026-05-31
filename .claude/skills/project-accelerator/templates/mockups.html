@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mockups — {{ projectnaam }}</title>
+  <style>
+    /* TODO fase 3: importeer of dupliceer de tokens uit Docs/Specs/styleguide.html */
+    :root {
+      --bg-base: #0b0d10;
+      --bg-surface: #14171c;
+      --border: #262b33;
+      --text-primary: #e7eaf0;
+      --text-secondary: #9ba3af;
+      --primary: #3d9fd0;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --font-sans: "Inter", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg-base); color: var(--text-primary); font-family: var(--font-sans); }
+    nav.top { display: flex; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg-base); }
+    nav.top a { color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 14px; }
+    nav.top a:hover { background: var(--bg-surface); color: var(--text-primary); }
+    nav.top a.active { color: var(--primary); font-weight: 600; }
+    section.screen { display: none; padding: 24px; max-width: 1200px; margin: 0 auto; }
+    section.screen:target { display: block; }
+    section.screen#dashboard { display: block; } /* default */
+    section.screen:target ~ section.screen#dashboard { display: none; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+    h1 { margin-top: 0; }
+    .annotation { background: #1a1f28; border-left: 3px solid var(--primary); padding: 10px 14px; margin: 12px 0; font-size: 13px; color: var(--text-secondary); border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <a href="#dashboard" class="active">Dashboard</a>
+    <a href="#list">Lijst</a>
+    <a href="#detail">Detail</a>
+    <a href="#form">Form</a>
+    <!-- TODO: voeg schermen toe -->
+  </nav>
+
+  <section class="screen" id="dashboard">
+    <h1>Dashboard</h1>
+    <div class="annotation">TODO: vervang met echte mockup van het dashboard. Gebruik componenten uit styleguide.html.</div>
+    <div class="card">Stat card placeholder</div>
+    <div class="card">Recente activiteit placeholder</div>
+  </section>
+
+  <section class="screen" id="list">
+    <h1>Lijstweergave</h1>
+    <div class="annotation">TODO: tabel met filters, sortering, pagination.</div>
+    <div class="card">Tabel placeholder</div>
+  </section>
+
+  <section class="screen" id="detail">
+    <h1>Detailpagina</h1>
+    <div class="annotation">TODO: detail-layout met tabs of secties.</div>
+    <div class="card">Detail placeholder</div>
+  </section>
+
+  <section class="screen" id="form">
+    <h1>Formulier</h1>
+    <div class="annotation">TODO: form-layout met validaties, error states, submit.</div>
+    <div class="card">Form placeholder</div>
+  </section>
+</body>
+</html>

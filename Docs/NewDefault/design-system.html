@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NewDefault Design System</title>
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --paper: #ffffff;
+      --ink: #111111;
+      --muted: #626262;
+      --line: #dadad9;
+      --soft: #efe8dd;
+      --teal: #007a80;
+      --teal-dark: #0d5053;
+      --sand: #d3bea1;
+      --green: #a8bf5d;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 18px 50px rgba(17, 17, 17, 0.08);
+      --font: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+      background: rgba(247, 245, 240, 0.92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 24px;
+    }
+
+    .brand-mark {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      border: 1px solid rgba(17, 17, 17, 0.12);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    .nav a:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .hero {
+      min-height: 620px;
+      display: grid;
+      align-items: center;
+      padding: 72px 0 64px;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(0, 122, 128, 0.12), transparent 28%),
+        radial-gradient(circle at 78% 78%, rgba(211, 190, 161, 0.32), transparent 24%),
+        linear-gradient(180deg, #fbfaf6 0%, #f2eee6 100%);
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 24px;
+      font-size: 68px;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: 44px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 24px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .lead {
+      max-width: 700px;
+      font-size: 20px;
+      color: #3d3d3d;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .logo-stage {
+      display: grid;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .logo-stage img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    section {
+      padding: 76px 0;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 36px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .panel {
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
+    }
+
+    .panel.dark {
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    .panel.dark p,
+    .panel.dark .meta {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .panel.soft {
+      background: #f3eee6;
+    }
+
+    .meta {
+      margin-bottom: 10px;
+      color: rgba(17, 17, 17, 0.48);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .swatch {
+      overflow: hidden;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: var(--radius-md);
+      background: var(--paper);
+    }
+
+    .swatch-top {
+      min-height: 118px;
+    }
+
+    .swatch-copy {
+      padding: 16px;
+    }
+
+    .swatch strong,
+    .token strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    code {
+      color: var(--teal-dark);
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+    }
+
+    .type-sample {
+      display: grid;
+      gap: 18px;
+    }
+
+    .type-xl {
+      font-size: 58px;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .type-lg {
+      font-size: 34px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .type-body {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0 18px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      background: var(--teal);
+      color: #ffffff;
+    }
+
+    .btn.secondary {
+      border-color: rgba(17, 17, 17, 0.16);
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .btn.sand {
+      background: var(--sand);
+      color: var(--ink);
+    }
+
+    .proposal {
+      overflow: hidden;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .proposal-cover {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      min-height: 420px;
+    }
+
+    .proposal-copy {
+      padding: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 36px;
+    }
+
+    .proposal-aside {
+      padding: 34px;
+      background:
+        radial-gradient(circle at 72% 24%, rgba(168, 191, 93, 0.28), transparent 28%),
+        linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      color: #ffffff;
+      display: grid;
+      align-content: end;
+      gap: 18px;
+    }
+
+    .proposal-aside p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      border-top: 1px solid rgba(255, 255, 255, 0.24);
+      padding-top: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+      padding: 14px 12px;
+      text-align: left;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 10px;
+      background: rgba(0, 122, 128, 0.1);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .rule-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .rule-list li {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 12px;
+      align-items: start;
+      color: var(--muted);
+    }
+
+    .rule-list li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: var(--teal);
+    }
+
+    .footer {
+      padding: 48px 0 64px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        width: min(100% - 28px, 720px);
+      }
+
+      .topbar-inner,
+      .hero-grid,
+      .section-head,
+      .proposal-cover {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        display: grid;
+        justify-items: start;
+        padding: 16px 0;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      h2 {
+        font-size: 34px;
+      }
+
+      .type-xl {
+        font-size: 38px;
+      }
+
+      .grid.cols-2,
+      .grid.cols-3,
+      .swatches,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .proposal-copy,
+      .proposal-aside {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <img class="brand-mark" src="assets/logo-nd-basic.png" alt="NewDefault">
+      <nav class="nav" aria-label="Secties">
+        <a href="#principes">Principes</a>
+        <a href="#kleur">Kleur</a>
+        <a href="#typografie">Typografie</a>
+        <a href="#componenten">Componenten</a>
+        <a href="#proposal">Proposal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <p class="eyebrow">NewDefault style source</p>
+          <h1>Rustige premium stijl voor voorstellen en agency-assets.</h1>
+          <p class="lead">Een losse documentatiebron voor NewDefault-materiaal. Niet automatisch toepassen op klantwerk; alleen gebruiken wanneer NewDefault bewust de afzender of visuele laag is.</p>
+        </div>
+        <div class="hero-card logo-stage">
+          <img src="assets/logo-nd-marketing.png" alt="NewDefault marketing, software, design en innovatiebureau">
+          <div class="dot-row" aria-label="Merkaccenten">
+            <span class="dot" style="background: var(--teal);"></span>
+            <span class="dot" style="background: var(--sand);"></span>
+            <span class="dot" style="background: var(--green);"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="principes">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Principes</p>
+            <h2>Slim, menselijk en uitvoerbaar.</h2>
+          </div>
+          <p class="lead">De stijl brengt strategie, design en technologie samen zonder drukte. Denk aan veel witruimte, heldere statements, beperkte kleuraccenten en concrete taal.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="panel">
+            <p class="meta">01</p>
+            <h3>Veel lucht</h3>
+            <p>Laat marges en witruimte het werk doen. NewDefault voelt kalm en zeker, niet vol of hard roepend.</p>
+          </article>
+          <article class="panel">
+            <p class="meta">02</p>
+            <h3>Concreet</h3>
+            <p>Schrijf actief en direct. Koppel strategie altijd aan zichtbare uitvoering en waarde.</p>
+          </article>
+          <article class="panel">
+            <p class="meta">03</p>
+            <h3>Subtiel accent</h3>
+            <p>Gebruik teal als hoofdaccent, zand als warmte en groen alleen ondersteunend.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kleur">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Kleur</p>
+            <h2>Een beperkt palet met warme spanning.</h2>
+          </div>
+          <p class="lead">De basis is wit/off-white met donker tekstcontrast. Kleur ondersteunt de boodschap, bijvoorbeeld in knoppen, grafieken, labels en proposal accenten.</p>
+        </div>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-top" style="background: #007a80;"></div>
+            <div class="swatch-copy"><strong>New Blauw</strong><code>#007A80</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #d3bea1;"></div>
+            <div class="swatch-copy"><strong>Default Zand</strong><code>#D3BEA1</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #a8bf5d;"></div>
+            <div class="swatch-copy"><strong>Groen</strong><code>#A8BF5D</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #111111;"></div>
+            <div class="swatch-copy"><strong>Donker</strong><code>#111111</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #f7f5f0;"></div>
+            <div class="swatch-copy"><strong>Warm off-white</strong><code>#F7F5F0</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #efe8dd;"></div>
+            <div class="swatch-copy"><strong>Soft sand</strong><code>#EFE8DD</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #dadad9;"></div>
+            <div class="swatch-copy"><strong>Lichtgrijs</strong><code>#DADAD9</code></div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-top" style="background: #ffffff;"></div>
+            <div class="swatch-copy"><strong>Wit</strong><code>#FFFFFF</code></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="typografie">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Typografie</p>
+            <h2>Inter, helder en ruim gezet.</h2>
+          </div>
+          <p class="lead">Gebruik een duidelijke hierarchie. Grote koppen mogen dominant zijn, maar bodycopy blijft rustig, kort en goed scanbaar.</p>
+        </div>
+        <div class="panel type-sample">
+          <div class="type-xl">Van strategie naar digitale uitvoering.</div>
+          <div class="type-lg">Digitale vraagstukken concreet, visueel sterk en uitvoerbaar maken.</div>
+          <p class="type-body">NewDefault combineert inhoud, esthetiek en technische slagkracht. De toon is actief en direct, zonder loze marketingclaims of afstandelijke bureauzinnen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="componenten">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Componenten</p>
+            <h2>Bouwblokken voor documenten en HTML-bijlagen.</h2>
+          </div>
+          <p class="lead">Deze componenten zijn bedoeld voor proposal-HTML, interne documentatie en visuele bijlagen. Voor klant-UI blijft de klantstijl leidend.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <p class="meta">Buttons</p>
+            <h3>Acties met zachte ronding</h3>
+            <div class="button-row">
+              <a class="btn primary" href="#">Primaire actie</a>
+              <a class="btn secondary" href="#">Secundair</a>
+              <a class="btn sand" href="#">Warm accent</a>
+            </div>
+          </div>
+          <div class="panel soft">
+            <p class="meta">Labels</p>
+            <h3>Status en hoofdstukken</h3>
+            <div class="button-row">
+              <span class="tag">Strategie</span>
+              <span class="tag">Design</span>
+              <span class="tag">Technologie</span>
+            </div>
+          </div>
+          <div class="panel dark">
+            <p class="meta">Dark variant</p>
+            <h3>Gebruik voor eindslides of duidelijke contrastmomenten.</h3>
+            <p>Gebruik witte logo-varianten alleen op deze donkere of vergelijkbaar rustige achtergronden.</p>
+          </div>
+          <div class="panel">
+            <p class="meta">Tabel</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Fase</th>
+                  <th>Output</th>
+                  <th>Duur</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Strategie</td>
+                  <td>Richting en scope</td>
+                  <td>1 week</td>
+                </tr>
+                <tr>
+                  <td>Design</td>
+                  <td>Prototype en flows</td>
+                  <td>2 weken</td>
+                </tr>
+                <tr>
+                  <td>Build</td>
+                  <td>Werkende versie</td>
+                  <td>4 weken</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proposal">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Proposal layout</p>
+            <h2>NewDefault als afzender, niet als ruis.</h2>
+          </div>
+          <p class="lead">Voorstellen mogen NewDefault voelen wanneer het document vanuit jullie bureau komt. Bij klantgerichte output blijft de klantidentiteit leidend en blijft NewDefault subtiel.</p>
+        </div>
+
+        <div class="proposal">
+          <div class="proposal-cover">
+            <div class="proposal-copy">
+              <img class="brand-mark" src="assets/logo-nd-basic.png" alt="NewDefault">
+              <div>
+                <p class="eyebrow">Voorstel</p>
+                <h2>Digitale versnelling zonder losse eindjes.</h2>
+                <p>Een voorbeeldcover met veel witruimte, directe taal en een rustige visuele laag. Geschikt voor proposal-HTML of PDF-export.</p>
+              </div>
+              <div class="button-row">
+                <span class="tag">Prepared by NewDefault</span>
+                <span class="tag">Versie 1.0</span>
+              </div>
+            </div>
+            <aside class="proposal-aside">
+              <div class="dot-row">
+                <span class="dot" style="background: #ffffff;"></span>
+                <span class="dot" style="background: var(--sand);"></span>
+              </div>
+              <h3>Marketing, software, design en innovatiebureau.</h3>
+              <p>Gebruik deze zijde voor een kernbelofte, korte scope of drie kernresultaten.</p>
+              <div class="metric-grid">
+                <div class="metric"><strong>01</strong><span>Strategie</span></div>
+                <div class="metric"><strong>02</strong><span>Design</span></div>
+                <div class="metric"><strong>03</strong><span>Build</span></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="shell grid cols-2">
+        <div>
+          <p class="eyebrow">Wel doen</p>
+          <ul class="rule-list">
+            <li>Schrijf actief en direct.</li>
+            <li>Gebruik rustige vlakken, duidelijke koppen en beperkt kleuraccent.</li>
+            <li>Leg altijd uit waarom iets waarde heeft.</li>
+            <li>Laat strategie en uitvoering samenkomen.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Niet doen</p>
+          <ul class="rule-list">
+            <li>Geen holle marketingtaal of generieke AI-claims.</li>
+            <li>Geen drukke visuals of overvolle slides.</li>
+            <li>Geen NewDefault-stijl over klantwerk heen leggen zonder opdracht.</li>
+            <li>Geen logo krap plaatsen of kleurstippen wegdrukken.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">NewDefault style source. Gebruik alleen wanneer expliciet om NewDefault-styling wordt gevraagd.</div>
+  </footer>
+</body>
+</html>

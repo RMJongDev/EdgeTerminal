@@ -1,0 +1,1 @@
+-- Add project-specific seed data here once the MVP schema is known.

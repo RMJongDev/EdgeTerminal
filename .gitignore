@@ -1,0 +1,22 @@
+CLAUDE.local.md
+.claude/settings.local.json
+*.bak
+
+# Next.js / Node
+node_modules/
+.next/
+out/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+pnpm-debug.log*
