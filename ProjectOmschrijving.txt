@@ -1,0 +1,882 @@
+Projectomschrijving: Edge Terminal
+Wat is Edge Terminal?
+
+Edge Terminal is mijn persoonlijke trading research terminal. Het wordt een soort eigen Bloomberg-achtige omgeving waarin ik marktinformatie, nieuws, gebeurtenissen, signalen, analyses en paper trades kan verzamelen en beoordelen.
+
+Het doel is niet om automatisch te handelen. Het doel is om mij beter en sneller te helpen nadenken over mogelijke trades op basis van nieuws, marktgebeurtenissen, sentiment, risico’s en historische uitkomsten.
+
+Edge Terminal moet mij elke dag helpen antwoord te geven op vragen zoals:
+
+Wat speelt er vandaag op de markt?
+Welke aandelen of sectoren worden geraakt door belangrijk nieuws?
+Is de impact waarschijnlijk positief, negatief of neutraal?
+Is er een mogelijke trade setup?
+Waarom zou deze setup kunnen werken?
+Waarom zou deze setup juist niet kunnen werken?
+Welke setups heb ik eerder getest?
+Welke signalen blijken achteraf waardevol te zijn?
+Welke strategieën moet ik juist vermijden?
+Belangrijkste doel
+
+Edge Terminal moet een persoonlijke cockpit worden voor event-driven trading research.
+
+De app moet marktgebeurtenissen structureren, analyseren en vertalen naar mogelijke hypotheses voor trades. Die hypotheses worden vervolgens getest via paper trading, zodat ik kan meten of mijn analyses en signalen daadwerkelijk waarde hebben.
+
+De kern is:
+
+Nieuws en gebeurtenissen verzamelen → impact beoordelen → mogelijke setup formuleren → risico’s bekijken → paper trade volgen → resultaat meten.
+
+Belangrijke uitgangspunten
+
+Edge Terminal is een researchtool, geen automatische tradingbot.
+
+De app mag:
+
+mogelijke kansen signaleren;
+marktgebeurtenissen analyseren;
+trading hypotheses voorstellen;
+risico’s benoemen;
+paper trades aanmaken;
+prestaties achteraf meten.
+
+De app mag niet:
+
+automatisch echte trades uitvoeren;
+doen alsof winst zeker is;
+koop- of verkoopadvies geven aan anderen;
+signalen als absolute waarheid presenteren;
+alleen maar positieve bevestiging geven.
+
+Elke setup moet worden behandeld als een hypothese, niet als een zekerheid.
+
+Gebruik daarom woorden zoals:
+
+mogelijke setup;
+hypothese;
+bias;
+risico;
+onzekerheid;
+confidence score;
+paper trade;
+analyse;
+tegenargument.
+Gewenste uitstraling
+
+De app moet voelen als een professionele trading terminal.
+
+De uitstraling moet zijn:
+
+donker;
+strak;
+data-gericht;
+compact;
+serieus;
+snel scanbaar;
+dashboard-achtig;
+meer “market intelligence cockpit” dan simpele consumentenapp.
+
+Het moet prettig zijn om de app dagelijks te openen als mijn vaste markt-dashboard.
+
+Hoofdonderdelen van Edge Terminal
+
+Edge Terminal bestaat functioneel uit de volgende onderdelen:
+
+Dashboard
+Watchlist
+Market Events
+Event Analysis
+Signal Desk
+Risk Review
+Paper Trades
+Performance Lab
+Daily Market Briefing
+Prompt/AI Analysis beheer
+1. Dashboard
+
+Het dashboard is de startpagina van Edge Terminal.
+
+Hier wil ik in één oogopslag zien:
+
+hoeveel relevante marktgebeurtenissen er vandaag zijn;
+welke events de meeste impact lijken te hebben;
+welke aandelen op mijn watchlist geraakt worden;
+hoeveel mogelijke setups er zijn;
+hoeveel paper trades open staan;
+hoe mijn paper trades presteren;
+wat de belangrijkste risico’s van vandaag zijn;
+wat mijn dagelijkse marktbriefing zegt.
+
+Het dashboard moet vooral snel duidelijk maken:
+
+Waar moet ik vandaag mijn aandacht op richten?
+
+Dashboard moet tonen
+Samenvatting van vandaag
+Belangrijkste marktgebeurtenissen
+Meest interessante mogelijke setups
+Open paper trades
+Laatste resultaten
+Performance-overzicht
+Waarschuwingen of risico’s
+Laatste AI-analyses
+2. Watchlist
+
+De watchlist is de lijst met aandelen, ETF’s, indices of andere assets die ik wil volgen.
+
+Ik wil assets kunnen toevoegen, bekijken, bewerken en eventueel tijdelijk uitschakelen.
+
+Per asset wil ik kunnen vastleggen:
+
+ticker/symbool;
+naam;
+type asset;
+sector;
+markt/beurs;
+valuta;
+land;
+notities;
+status actief/inactief.
+
+De watchlist moet de basis vormen voor de rest van de app. Events, analyses en signalen moeten gekoppeld kunnen worden aan assets op mijn watchlist.
+
+Watchlist moet kunnen
+Asset toevoegen
+Asset bewerken
+Asset verwijderen of inactief zetten
+Notities toevoegen
+Assets groeperen
+Prioriteit geven aan assets
+Snel zien welke assets recent geraakt zijn door events
+3. Market Events
+
+Market Events zijn relevante gebeurtenissen die invloed kunnen hebben op aandelen, sectoren of markten.
+
+Voorbeelden van market events:
+
+kwartaalcijfers;
+verhoogde of verlaagde outlook;
+winstwaarschuwing;
+analistenupgrade of downgrade;
+overname;
+productlancering;
+juridische claim;
+boete of onderzoek;
+grote klantdeal;
+macro-economisch nieuws;
+rentebesluit;
+sectornieuws;
+geopolitieke gebeurtenis;
+concurrentienieuws.
+
+In de eerste versie mag ik events ook handmatig kunnen invoeren. Het belangrijkste is dat ik een gebeurtenis kan vastleggen en daarna kan laten analyseren.
+
+Per market event wil ik zien
+titel;
+korte samenvatting;
+bron;
+datum/tijd;
+eventtype;
+betrokken asset(s);
+mogelijke richting van impact;
+belangrijkheid;
+status van analyse;
+gekoppelde setups.
+Market Events moeten kunnen
+Event aanmaken
+Event bewerken
+Event koppelen aan één of meerdere assets
+Event classificeren
+Event gebruiken als basis voor een trade setup
+Events filteren op type, impact, datum en asset
+4. Event Analysis
+
+De Event Analysis beoordeelt wat een market event waarschijnlijk betekent.
+
+De analyse moet niet alleen zeggen of iets positief of negatief is, maar ook uitleggen waarom.
+
+Per event wil ik een analyse met:
+
+korte samenvatting;
+sentiment;
+verwachte impact;
+impactniveau;
+tijdshorizon;
+zekerheid/onzekerheid;
+bullish argument;
+bearish argument;
+belangrijkste risico’s;
+relevante assets;
+eventuele sectorimpact.
+Mogelijke sentimenten
+positief;
+negatief;
+neutraal;
+gemengd.
+Mogelijke impactniveaus
+laag;
+middel;
+hoog.
+Mogelijke tijdshorizons
+intraday;
+korte termijn;
+middellange termijn;
+lange termijn.
+
+De analyse moet kritisch blijven. Als een event niet duidelijk genoeg is, moet de app dat ook aangeven.
+
+5. Signal Desk
+
+De Signal Desk vertaalt een event en analyse naar een mogelijke trade setup.
+
+Dit is geen koopadvies, maar een research-hypothese.
+
+Een setup kan zijn:
+
+long;
+short;
+geen trade.
+
+Belangrijk: geen trade is een volwaardige uitkomst. De app moet dus niet bij elk event geforceerd een trade willen maken.
+
+Een setup moet bevatten
+betrokken asset;
+richting: long, short of no trade;
+strategie/reden;
+entry-logica;
+mogelijk instapniveau;
+stop-loss;
+target;
+tijdshorizon;
+confidence score;
+redenatie;
+wanneer de setup ongeldig wordt;
+belangrijkste aannames.
+Voorbeeld van goede setup-logica
+
+Niet:
+
+Koop ASML, want het nieuws is positief.
+
+Wel:
+
+Mogelijke long-hypothese op ASML, omdat de outlook beter is dan verwacht en de markt mogelijk nog niet volledig heeft ingeprijsd dat de orderinstroom aantrekt. Setup is alleen interessant bij een pullback richting een logisch niveau. Ongeldig als de sector breed zwak blijft of als de koers onder het vorige steunniveau sluit.
+
+De app moet setups formuleren alsof ik ze later objectief kan evalueren.
+
+6. Risk Review
+
+Elke setup moet kritisch worden aangevallen voordat ik hem serieus neem.
+
+De Risk Review is bedoeld om tunnelvisie te voorkomen.
+
+De app moet per setup aangeven:
+
+waarom deze trade mogelijk slecht is;
+welke aannames zwak zijn;
+wat al ingeprijsd kan zijn;
+welke externe risico’s spelen;
+wat de markt anders kan interpreteren;
+waarom ik deze trade misschien beter kan overslaan;
+hoe hoog het risico is.
+Risk Review moet bevatten
+belangrijkste risico’s;
+tegenargument;
+reden om de trade niet te nemen;
+risicoscore;
+eindoordeel: goed genoeg voor paper trade of beter overslaan.
+
+De Risk Review moet niet beleefd bevestigen wat de setup al zegt. Hij moet echt kritisch zijn.
+
+7. Paper Trades
+
+Paper Trades zijn fictieve trades waarmee ik setups kan testen zonder echt geld te gebruiken.
+
+Vanuit een setup moet ik een paper trade kunnen aanmaken.
+
+Per paper trade wil ik vastleggen:
+
+asset;
+richting;
+gekoppelde setup;
+instapprijs;
+stop-loss;
+target;
+openingsdatum;
+sluitingsdatum;
+status;
+resultaat;
+winst/verliespercentage;
+notities;
+reden van sluiten.
+Mogelijke statussen
+open;
+gesloten;
+stop-loss geraakt;
+target geraakt;
+verlopen;
+geannuleerd.
+
+Ik wil paper trades handmatig kunnen sluiten en achteraf kunnen evalueren.
+
+Paper Trades moeten kunnen
+Paper trade aanmaken vanuit setup
+Open trades bekijken
+Gesloten trades bekijken
+Trade handmatig sluiten
+Resultaat invoeren
+Notities toevoegen
+Evalueren of de oorspronkelijke hypothese klopte
+8. Performance Lab
+
+Het Performance Lab laat zien of mijn analyses en setups waarde hebben.
+
+Hier wil ik leren:
+
+welke setups werken;
+welke setups niet werken;
+welke eventtypes interessant zijn;
+welke sectoren goed werken;
+of hoge confidence scores echt beter presteren;
+of long of short setups beter werken;
+welke strategieën ik moet stoppen;
+welke signalen ik verder moet onderzoeken.
+Performance Lab moet tonen
+totaal aantal paper trades;
+aantal open trades;
+aantal gesloten trades;
+winrate;
+gemiddelde winst/verlies;
+beste trade;
+slechtste trade;
+performance per richting;
+performance per strategie;
+performance per eventtype;
+performance per confidence score;
+performance per asset;
+openstaande risico’s.
+
+Het doel is niet alleen winst/verlies tonen, maar vooral leren welke signalen waardevol zijn.
+
+9. Daily Market Briefing
+
+De Daily Market Briefing is mijn dagelijkse startpunt.
+
+Elke ochtend wil ik een overzicht krijgen van:
+
+belangrijkste marktgebeurtenissen;
+relevante assets;
+mogelijke kansen;
+risico’s;
+open paper trades;
+setups die aandacht verdienen;
+marktcontext;
+events waar ik beter vanaf kan blijven.
+
+De briefing moet kort genoeg zijn om snel te lezen, maar concreet genoeg om actiegericht te zijn.
+
+Daily Briefing moet bevatten
+titel;
+datum;
+algemene marktsamenvatting;
+belangrijkste events;
+mogelijke setups;
+belangrijkste risico’s;
+open paper trades om te monitoren;
+“do nothing” waarschuwingen;
+conclusie voor de dag.
+
+Belangrijk: de briefing moet niet geforceerd trades zoeken. Soms moet de conclusie zijn:
+
+Vandaag vooral observeren. Te veel ruis, te weinig duidelijke edge.
+
+10. Prompt/AI Analysis beheer
+
+Omdat AI-analyses een belangrijk onderdeel zijn, wil ik kunnen zien welke analyses zijn uitgevoerd.
+
+Ik wil kunnen bekijken:
+
+welke analyse is gedaan;
+wanneer;
+op basis van welk event;
+wat de input was;
+wat de output was;
+welke prompt of analysetype is gebruikt;
+of de analyse bruikbaar was;
+of er fouten waren.
+
+Op termijn wil ik ook verschillende analyseprompts kunnen verbeteren, vergelijken en vervangen.
+
+AI Analysis beheer moet functioneel kunnen
+Lijst met analyses tonen
+Details van analyse bekijken
+Analyse opnieuw draaien
+Analyse-uitkomst beoordelen
+Zien welke analyse bij welke setup hoort
+Zien welke analyse bij welke risk review hoort
+Belangrijkste gebruikersflow voor de eerste versie
+
+De eerste versie is geslaagd als deze flow goed werkt:
+
+Ik log in op Edge Terminal.
+Ik voeg een asset toe aan mijn watchlist.
+Ik maak een market event aan.
+Ik koppel het event aan één of meerdere assets.
+Ik laat het event analyseren.
+De app toont sentiment, impact, kansen en risico’s.
+Ik laat een mogelijke trade setup maken.
+De app geeft long, short of no trade terug.
+Ik laat een Risk Review uitvoeren.
+De app geeft tegenargumenten en een risicobeoordeling.
+Ik maak van de setup een paper trade.
+Ik volg de paper trade.
+Ik sluit de paper trade handmatig.
+Het Performance Lab verwerkt het resultaat.
+Ik kan achteraf zien of de hypothese waarde had.
+
+Deze flow is belangrijker dan alle extra features.
+
+MVP: wat moet als eerste werken?
+
+De eerste versie moet minimaal dit kunnen:
+
+Basis
+Inloggen
+Dashboard bekijken
+Navigeren tussen hoofdonderdelen
+Watchlist
+Asset toevoegen
+Asset bekijken
+Asset bewerken
+Asset inactief zetten
+Market Events
+Event aanmaken
+Event bekijken
+Event koppelen aan asset
+Event analyseren
+Signal Desk
+Setup genereren vanuit event
+Setup bekijken
+Setup goedkeuren of afwijzen
+Risk Review
+Setup kritisch laten beoordelen
+Risico’s bekijken
+Eindoordeel tonen
+Paper Trades
+Paper trade aanmaken vanuit setup
+Open paper trades bekijken
+Paper trade sluiten
+Resultaat registreren
+Performance Lab
+Gesloten trades tellen
+Winrate tonen
+Gemiddelde winst/verlies tonen
+Simpele performance per richting tonen
+Daily Briefing
+Briefing tonen
+Belangrijkste events en setups samenvatten
+Wat bewust niet in de eerste versie hoeft
+
+Nog niet bouwen:
+
+automatische echte trades;
+brokerkoppeling;
+betaalde abonnementen;
+externe gebruikers;
+complexe grafieken;
+real-time koersschermen;
+mobiele app;
+uitgebreide backtesting;
+social sentiment scraping;
+automatische portfolio-optimalisatie;
+alerts via meerdere kanalen;
+publieke signalen;
+communityfunctie;
+nieuws volledig automatisch ophalen als dat de eerste versie vertraagt.
+
+Eerst moet de kernflow werken.
+
+Belangrijkste schermen
+Dashboard
+
+Startpunt met overzicht van vandaag.
+
+Watchlist
+
+Assets die ik volg.
+
+Event Radar
+
+Alle marktgebeurtenissen.
+
+Event Detail
+
+Detailpagina van één gebeurtenis met analyse.
+
+Signal Desk
+
+Alle mogelijke setups.
+
+Setup Detail
+
+Detailpagina van één setup met redenering en risico’s.
+
+Risk Review
+
+Kritische beoordeling van een setup.
+
+Paper Trades
+
+Overzicht van open en gesloten paper trades.
+
+Performance Lab
+
+Analyse van resultaten.
+
+Daily Briefing
+
+Dagelijkse marktbriefing.
+
+AI Analysis Log
+
+Overzicht van uitgevoerde AI-analyses.
+
+Functionele principes
+1. Geen trade zonder event
+
+Een setup moet altijd gekoppeld zijn aan een concrete aanleiding.
+
+Dus niet zomaar:
+
+Tesla ziet er interessant uit.
+
+Maar:
+
+Tesla wordt geraakt door dit specifieke nieuws/event.
+
+2. Geen setup zonder tegenargument
+
+Elke setup moet een Risk Review krijgen.
+
+3. No trade is een geldige uitkomst
+
+De app moet niet geforceerd altijd kansen willen vinden.
+
+4. Alles moet later meetbaar zijn
+
+Elke setup moet achteraf beoordeeld kunnen worden.
+
+5. Confidence is geen zekerheid
+
+Een hoge confidence score betekent alleen dat de hypothese sterker lijkt, niet dat de trade zeker werkt.
+
+6. Research eerst, handelen later
+
+De eerste versie is volledig gericht op leren en meten.
+
+7. Kritisch boven enthousiast
+
+De app moet liever te voorzichtig zijn dan te roekeloos.
+
+8. Snel scanbaar
+
+De app moet dagelijks bruikbaar zijn. Niet te veel tekst waar een badge, score of samenvatting beter werkt.
+
+Gewenste tone of voice in de app
+
+De app mag professioneel en scherp klinken.
+
+Voorbeelden:
+
+“Possible long setup”
+“No clear edge”
+“High uncertainty”
+“Event impact appears mixed”
+“Risk review suggests caution”
+“Setup invalidated if...”
+“Worth tracking, not trading yet”
+“Paper trade only”
+“Hypothesis failed”
+“Signal quality improving”
+
+Vermijd overdreven taal zoals:
+
+“Huge opportunity”
+“Guaranteed winner”
+“Must buy”
+“Perfect setup”
+“Risk-free”
+“Easy money”
+Voorbeeld van gewenste analyse
+Market Event
+
+ASML publiceert kwartaalcijfers en verhoogt de outlook voor het komende jaar.
+
+Event Analysis
+
+Het event lijkt positief voor ASML, vooral omdat de verhoogde outlook wijst op meer vertrouwen in toekomstige vraag. De impact is waarschijnlijk middel tot hoog, afhankelijk van hoe de markt de verwachtingen vooraf had ingeprijsd.
+
+Bull case: betere outlook kan leiden tot herwaardering en positief sectormomentum.
+
+Bear case: als de koers vooraf al sterk is opgelopen, kan het nieuws deels ingeprijsd zijn en volgt mogelijk winstneming.
+
+Risico’s: bredere chipsector, renteontwikkeling, geopolitiek, orderboekdetails.
+
+Trade Setup
+
+Mogelijke long-hypothese als de markt positief reageert maar niet direct te ver uitbreekt. Interessant bij een gecontroleerde pullback of sterke bevestiging boven een belangrijk niveau.
+
+Geen trade als de openingsreactie extreem is en het risico/rendement ongunstig wordt.
+
+Risk Review
+
+De setup kan zwak zijn als het positieve nieuws al volledig is ingeprijsd. Ook kan brede marktdruk de individuele positieve catalyst overschaduwen. Zonder goed instapniveau is het risico op chasing te groot.
+
+Eindoordeel: alleen geschikt voor paper trade bij duidelijke entry en beperkte downside.
+
+Prioriteit voor ontwikkeling
+
+Bouw niet alles tegelijk.
+
+Werk in deze volgorde:
+
+Fase 1: Basiservaring
+Dashboard
+Watchlist
+Market Events
+Handmatig events invoeren
+Fase 2: Analyseflow
+Event Analysis
+Signal Desk
+Risk Review
+Fase 3: Paper trading
+Paper trade aanmaken
+Paper trade volgen
+Paper trade sluiten
+Fase 4: Leren van resultaten
+Performance Lab
+Resultaten per strategie
+Resultaten per eventtype
+Resultaten per confidence score
+Fase 5: Daily Briefing
+Dagelijkse samenvatting
+Belangrijkste events
+Mogelijke setups
+Risico’s
+Fase 6: Automatisering
+Meer automatische dataverzameling
+Alerts
+Periodieke updates
+Betere analysehistorie
+Definitie van succes voor de eerste versie
+
+De eerste versie is succesvol als ik dagelijks kan:
+
+mijn watchlist bekijken;
+relevante events invoeren;
+events laten analyseren;
+mogelijke setups beoordelen;
+risk reviews lezen;
+paper trades aanmaken;
+resultaten vastleggen;
+zien welke hypotheses werken en welke niet.
+
+De eerste versie hoeft nog niet perfect of volledig automatisch te zijn. Het belangrijkste is dat de volledige researchcyclus werkt:
+
+Event → Analyse → Setup → Risk Review → Paper Trade → Resultaat → Leren.
+
+
+
+
+
+wat ik nog mis in de events zijn dingen als het volgende . Deze week heeft Ferrari een nieuwe auto gepresenteerd. Dit was een flinke flater. De markt reageerde direct op de belachelijke auto en de kroes van ferrari kelderde. Dat vind ik een goed voorbeeld van wat ik uit mijn dashboard had willen halen.
+
+
+
+Thought for 7s
+
+Helemaal terecht. Dit is juist het soort event waar Edge Terminal sterk in moet zijn: niet alleen klassieke financiële events zoals kwartaalcijfers, maar ook marktperceptie-events.
+
+Dus niet alleen:
+
+Ferrari publiceert cijfers.
+
+Maar ook:
+
+Ferrari presenteert een nieuw model. De markt, media en fans reageren negatief. Het narratief rond het merk krijgt een tik. De koers reageert direct.
+
+Dat moet inderdaad in je dashboard boven komen drijven.
+
+Hieronder staat de verwerkte aanvulling die je in de functionele projectomschrijving kunt zetten.
+
+Aanvulling op Market Events
+
+Market Events zijn niet alleen formele financiële gebeurtenissen. Edge Terminal moet ook gebeurtenissen herkennen die invloed hebben op het vertrouwen, sentiment of narratief rond een bedrijf.
+
+Naast klassieke events zoals kwartaalcijfers, analistenupdates en macro-economisch nieuws, moet de app ook ruimte bieden voor perceptiegedreven events.
+
+Voorbeelden:
+
+een mislukte productpresentatie;
+negatieve reacties op een nieuw model;
+slechte ontvangst van een campagne;
+reputatieschade;
+negatieve media-aandacht;
+teleurstellende reacties van fans, klanten of analisten;
+onverwachte kritiek op design, prijs, strategie of positionering;
+een product launch die als flop wordt gezien;
+social media backlash;
+plotselinge twijfel aan het merk of management;
+een opvallende koersreactie na een publiek event.
+
+Een goed voorbeeld van het type event dat Edge Terminal moet kunnen signaleren:
+
+Ferrari presenteert een nieuwe auto. De presentatie wordt slecht ontvangen door markt, media en publiek. De reacties zijn negatief, het merkverhaal krijgt een tik en de koers daalt direct. Dit is geen traditioneel financieel event, maar wel een relevante marktgebeurtenis.
+
+De app moet zulke gebeurtenissen kunnen behandelen als volwaardige Market Events.
+
+Nieuwe eventcategorie: Perception Event
+
+Voeg als functionele eventcategorie toe:
+
+Perception Event
+
+Een Perception Event is een gebeurtenis waarbij de markt niet primair reageert op cijfers, maar op beeldvorming, sentiment, merkvertrouwen of publieke ontvangst.
+
+Voorbeelden:
+
+product launch flop;
+slechte presentatie;
+negatieve reacties op design of strategie;
+reputatieschade;
+social media backlash;
+media-narratief slaat om;
+merk wordt plots belachelijk gemaakt;
+consumenten of fans reageren massaal negatief;
+managementcommunicatie valt verkeerd;
+koers daalt door verlies aan vertrouwen.
+Perception Event moet kunnen vastleggen
+
+Per event wil ik kunnen zien:
+
+wat is er gebeurd?
+welk bedrijf of asset wordt geraakt?
+waarom is dit relevant voor de markt?
+hoe reageert de koers?
+hoe reageren media, analisten en publiek?
+is de reactie fundamenteel of vooral sentimentgedreven?
+lijkt de reactie overdreven of terecht?
+is er sprake van reputatieschade?
+is er een mogelijke trading opportunity?
+is dit vooral een short setup, long rebound setup of no trade?
+Aanvulling op Event Analysis
+
+De Event Analysis moet bij perceptie-events extra aandacht besteden aan:
+
+publieke ontvangst;
+mediareactie;
+sentiment;
+merkimpact;
+koersreactie;
+snelheid van de reactie;
+mogelijke overreactie;
+mogelijke reputatieschade;
+verschil tussen tijdelijke hype en structurele schade.
+
+De analyse moet bij dit soort events expliciet onderscheid maken tussen:
+
+Fundamentele impact
+Heeft dit echt invloed op omzet, winst, strategie of concurrentiepositie?
+Sentimentimpact
+Reageert de markt vooral emotioneel of narratief?
+Koersimpact
+Is er al een directe koersbeweging zichtbaar?
+Reversal-kans
+Is de reactie mogelijk overdreven en ontstaat er later een rebound?
+Follow-through risico
+Kan het negatieve sentiment langer blijven hangen?
+Aanvulling op Signal Desk
+
+Bij perceptie-events moet de Signal Desk niet alleen klassieke setups maken, maar ook setups rond marktreactie en sentiment.
+
+Mogelijke setups:
+
+1. Sentiment Short
+
+Als een productpresentatie of publiek event zeer slecht wordt ontvangen en de koers begint te dalen, kan er een mogelijke short-hypothese ontstaan.
+
+Voorbeeld:
+
+Mogelijke short setup omdat de markt negatief reageert op een productpresentatie, het sentiment snel verslechtert en de koers onder druk staat. Alleen interessant als de negatieve reactie wordt bevestigd door volume, nieuwsflow of analistencommentaar.
+
+2. Overreaction Rebound
+
+Als de koers extreem daalt op vooral emotionele reacties, kan er later een mogelijke rebound-hypothese ontstaan.
+
+Voorbeeld:
+
+Mogelijke long rebound setup als de koersreactie overdreven lijkt ten opzichte van de fundamentele impact. Alleen interessant als de verkoopdruk afneemt en het narratief stabiliseert.
+
+3. No Trade
+
+Als de situatie te veel op ruis lijkt, moet de app ook gewoon zeggen:
+
+Geen duidelijke edge. De reactie is sterk sentimentgedreven, maar het is nog onduidelijk of dit tijdelijk of structureel is.
+
+Aanvulling op Daily Market Briefing
+
+De Daily Market Briefing moet niet alleen financiële headlines tonen, maar ook opvallende marktverhalen.
+
+De briefing moet dus ook signaleren:
+
+welk bedrijf plots negatief in het nieuws is;
+welke productpresentatie slecht valt;
+welke koers hard beweegt door sentiment;
+welke merken reputatieschade oplopen;
+waar de markt mogelijk overdreven reageert;
+waar een event-driven setup kan ontstaan.
+
+Nieuwe vraag die de briefing moet beantwoorden:
+
+Welke bedrijven bewegen vandaag door sentiment, imago, productontvangst of narratief — en is dat tradable?
+
+Aanvulling op Dashboard
+
+Het dashboard moet een onderdeel krijgen voor:
+
+Narrative & Sentiment Movers
+
+Hierin komen events die niet puur financieel zijn, maar waar de markt wel duidelijk op reageert.
+
+Voorbeelden van signalen:
+
+product launch badly received;
+negative media reaction;
+social backlash;
+brand confidence drop;
+unexpected stock move after public event;
+possible overreaction;
+sentiment-driven selloff;
+reputational pressure.
+
+Dit onderdeel moet snel zichtbaar maken:
+
+Waar verandert vandaag het verhaal rond een bedrijf?
+
+Nieuwe functionele regel
+
+Voeg deze toe aan de functionele principes:
+
+Niet alleen cijfers bewegen markten
+
+Edge Terminal moet niet alleen zoeken naar formele financiële events, maar ook naar gebeurtenissen waarbij sentiment, merkvertrouwen, publieke ontvangst of narratief de koers beïnvloeden.
+
+Een slecht ontvangen productpresentatie, campagne, managementuitspraak of publieke flater kan net zo relevant zijn als een kwartaalrapport.
+
+De app moet daarom altijd kijken naar:
+
+wat is het nieuws?
+hoe reageert de markt?
+hoe reageert het publiek?
+verandert het narratief?
+beweegt de koers opvallend?
+is dit ruis, reputatieschade of een echte setup?

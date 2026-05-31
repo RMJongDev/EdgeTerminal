@@ -1,0 +1,1398 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge Terminal - Mockups</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b0f;
+      --surface: #111820;
+      --surface-2: #17212b;
+      --surface-3: #1d2834;
+      --border: #263241;
+      --border-soft: #1c2631;
+      --text: #e6edf3;
+      --muted: #8b98a7;
+      --faint: #5f6c7a;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --nd-teal: #007A80;
+      --nd-sand: #D3BEA1;
+      --radius: 8px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      background: #0a0f14;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      padding: 4px 6px 14px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--cyan);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .brand-subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nd-lockup {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nd-lockup img {
+      display: block;
+      width: 104px;
+      height: auto;
+      max-height: 21px;
+      object-fit: contain;
+    }
+
+    .nd-lockup.compact img {
+      width: 82px;
+      max-height: 17px;
+    }
+
+    .nd-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(0, 122, 128, 0.42);
+      border-radius: 999px;
+      background: rgba(0, 122, 128, 0.08);
+      color: #b5f3f0;
+      min-height: 26px;
+      padding: 4px 9px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .nd-chip::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--nd-teal);
+      box-shadow: 12px 0 0 var(--nd-sand);
+      margin-right: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 9px 10px;
+      border-radius: 7px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+      background: var(--surface);
+      border-color: var(--border-soft);
+    }
+
+    .nav-count {
+      font-family: var(--mono);
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 11, 15, 0.94);
+      padding: 10px 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .search {
+      width: min(520px, 52vw);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      color: var(--muted);
+    }
+
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      border-color: rgba(34, 211, 238, 0.55);
+      background: rgba(34, 211, 238, 0.12);
+      color: #baf6ff;
+    }
+
+    .btn:hover {
+      border-color: var(--cyan);
+    }
+
+    .screen {
+      display: none;
+      padding: 18px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .screen.active { display: block; }
+
+    .screen-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 2px 0 16px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: 23px;
+      line-height: 1.1;
+      font-weight: 750;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .screen-kicker {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .status-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      min-height: 24px;
+      padding: 3px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .badge.green { color: #9af5b9; border-color: rgba(34, 197, 94, 0.38); background: rgba(34, 197, 94, 0.08); }
+    .badge.red { color: #ffb3b3; border-color: rgba(239, 68, 68, 0.38); background: rgba(239, 68, 68, 0.08); }
+    .badge.amber { color: #ffd18a; border-color: rgba(245, 158, 11, 0.38); background: rgba(245, 158, 11, 0.08); }
+    .badge.blue { color: #c6ddff; border-color: rgba(96, 165, 250, 0.38); background: rgba(96, 165, 250, 0.08); }
+    .badge.cyan { color: #baf6ff; border-color: rgba(34, 211, 238, 0.42); background: rgba(34, 211, 238, 0.08); }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.main-dashboard { grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr); }
+    .grid.detail { grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr); }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 42px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .panel-body {
+      padding: 12px;
+    }
+
+    .metric {
+      padding: 13px 12px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric-value {
+      margin-top: 7px;
+      font-family: var(--mono);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .metric-foot {
+      margin-top: 4px;
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border-soft);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .table tr:hover td {
+      background: rgba(255,255,255,0.018);
+    }
+
+    .mono {
+      font-family: var(--mono);
+      letter-spacing: 0;
+    }
+
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .green { color: #9af5b9; }
+    .red { color: #ffb3b3; }
+    .amber { color: #ffd18a; }
+    .cyan { color: #baf6ff; }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr) 92px 112px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .event-row:last-child { border-bottom: 0; }
+
+    .event-title {
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-sub {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .split-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .split-line:last-child { border-bottom: 0; }
+
+    .briefing {
+      display: grid;
+      gap: 10px;
+    }
+
+    .maker-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(0, 122, 128, 0.32);
+      background: linear-gradient(90deg, rgba(0, 122, 128, 0.12), rgba(211, 190, 161, 0.06));
+    }
+
+    .brief-item {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .brief-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: #0c1117;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: var(--cyan);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b1117;
+    }
+
+    .step {
+      min-height: 78px;
+      padding: 10px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .step:last-child { border-right: 0; }
+
+    .step-index {
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .step-title {
+      margin-top: 5px;
+      font-weight: 750;
+    }
+
+    .step-status {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .copy-block {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .copy-block p {
+      color: var(--muted);
+    }
+
+    .setup-ticket {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .setup-ticket:last-child { border-bottom: 0; }
+
+    .ticket-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ticket-title {
+      font-weight: 750;
+    }
+
+    .ticket-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #0c1218;
+      color: var(--text);
+      padding: 9px 10px;
+      outline: 0;
+    }
+
+    .field textarea {
+      min-height: 102px;
+      resize: vertical;
+    }
+
+    .chart {
+      height: 220px;
+      padding: 12px;
+      display: grid;
+      align-items: end;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 8px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .bar {
+      min-height: 20px;
+      border-radius: 5px 5px 0 0;
+      background: rgba(34, 211, 238, 0.42);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+    }
+
+    .bar.redbar {
+      background: rgba(239, 68, 68, 0.34);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .mobile-tabs {
+      display: none;
+      overflow: auto;
+      border-bottom: 1px solid var(--border);
+      background: #0a0f14;
+      padding: 8px;
+      gap: 6px;
+    }
+
+    .mobile-tabs button {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 1120px) {
+      .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.main-dashboard,
+      .grid.detail { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .step { border-right: 0; border-bottom: 1px solid var(--border-soft); }
+      .step:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 780px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .mobile-tabs { display: flex; position: sticky; top: 58px; z-index: 9; }
+      .topbar { align-items: stretch; flex-direction: column; }
+      .search { width: 100%; }
+      .top-actions { justify-content: space-between; }
+      .top-actions .nd-lockup { display: none; }
+      .screen { padding: 12px; }
+      .screen-head { align-items: flex-start; flex-direction: column; }
+      .status-strip { justify-content: flex-start; }
+      .grid.cols-4,
+      .grid.cols-3,
+      .form-grid { grid-template-columns: 1fr; }
+      .event-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .table-wrap { overflow-x: auto; }
+      .table { min-width: 740px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title"><span class="mark">ET</span><span>Edge Terminal</span></div>
+        <div class="brand-subtitle">Event-driven research cockpit</div>
+      </div>
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <a href="#dashboard" class="active" data-target="dashboard"><span>Dashboard</span><span class="nav-count">12</span></a>
+        <a href="#events" data-target="events"><span>Event Radar</span><span class="nav-count">28</span></a>
+        <a href="#event-detail" data-target="event-detail"><span>Event Detail</span><span class="nav-count">AI</span></a>
+        <a href="#signals" data-target="signals"><span>Signal Desk</span><span class="nav-count">7</span></a>
+        <a href="#trades" data-target="trades"><span>Paper Trades</span><span class="nav-count">5</span></a>
+        <a href="#performance" data-target="performance"><span>Performance Lab</span><span class="nav-count">64</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="nd-lockup compact">
+          <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+        </div>
+        <div class="mono">Supabase Auth</div>
+        <div>Robin de Jong</div>
+        <div class="faint">Single-user MVP by New Default</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search">
+          <span class="mono">/</span>
+          <input value="Search ticker, event, setup or paper trade" aria-label="Search" />
+        </div>
+        <div class="top-actions">
+          <div class="nd-lockup">
+            <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+            <span>private product</span>
+          </div>
+          <span class="badge cyan">OpenAI analysis</span>
+          <span class="badge blue">Gemini research</span>
+          <button class="btn">Import event</button>
+          <button class="btn primary">New event</button>
+        </div>
+      </header>
+
+      <div class="mobile-tabs" aria-label="Mobiele navigatie">
+        <button class="btn primary" data-target="dashboard">Dashboard</button>
+        <button class="btn" data-target="events">Events</button>
+        <button class="btn" data-target="event-detail">Detail</button>
+        <button class="btn" data-target="signals">Signals</button>
+        <button class="btn" data-target="trades">Trades</button>
+        <button class="btn" data-target="performance">Performance</button>
+      </div>
+
+      <section class="screen active" id="dashboard">
+        <div class="screen-head">
+          <div>
+            <h1>Daily Market Command</h1>
+            <p class="screen-kicker">VS equities, EU equities and ETF watchlist - paper trade only.</p>
+          </div>
+          <div class="status-strip">
+            <span class="nd-chip">New Default build</span>
+            <span class="pill">May 31, 2026</span>
+            <span class="badge amber">High uncertainty</span>
+            <span class="badge cyan">12 relevant events</span>
+          </div>
+        </div>
+
+        <div class="panel maker-panel" style="margin-bottom:12px;">
+          <div class="nd-lockup">
+            <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+            <span>Personal market intelligence cockpit</span>
+          </div>
+          <span class="muted">Research first. Paper trades only.</span>
+        </div>
+
+        <div class="grid cols-4">
+          <div class="panel metric">
+            <div class="metric-label">Relevant events today</div>
+            <div class="metric-value">12</div>
+            <div class="metric-foot">4 perception events</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Possible setups</div>
+            <div class="metric-value">7</div>
+            <div class="metric-foot">2 marked no trade</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Open paper trades</div>
+            <div class="metric-value">5</div>
+            <div class="metric-foot">1 risk review pending</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Closed winrate</div>
+            <div class="metric-value">58%</div>
+            <div class="metric-foot">64 paper trades</div>
+          </div>
+        </div>
+
+        <div class="grid main-dashboard" style="margin-top:12px;">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Narrative & Sentiment Movers</h2>
+                <span class="badge amber">Perception events</span>
+              </div>
+              <div class="event-row">
+                <span class="badge red">RACE</span>
+                <div>
+                  <div class="event-title">Ferrari launch receives negative public reaction</div>
+                  <div class="event-sub">Brand confidence drop, sentiment-driven selloff, volume elevated</div>
+                </div>
+                <span class="badge red">Bearish</span>
+                <span class="mono red">-6.8%</span>
+              </div>
+              <div class="event-row">
+                <span class="badge amber">TSLA</span>
+                <div>
+                  <div class="event-title">Model refresh criticism spreads through media cycle</div>
+                  <div class="event-sub">Unclear if temporary narrative pressure or demand signal</div>
+                </div>
+                <span class="badge amber">Mixed</span>
+                <span class="mono red">-2.1%</span>
+              </div>
+              <div class="event-row">
+                <span class="badge blue">VWCE</span>
+                <div>
+                  <div class="event-title">ETF flows rotate back to broad market exposure</div>
+                  <div class="event-sub">Risk appetite improves after macro print stabilizes</div>
+                </div>
+                <span class="badge green">Bullish</span>
+                <span class="mono green">+0.7%</span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>High Priority Event Flow</h2>
+                <span class="badge cyan">Research cycle</span>
+              </div>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-index">01</div>
+                  <div class="step-title">Event</div>
+                  <div class="step-status">Ferrari perception event</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">02</div>
+                  <div class="step-title">Analysis</div>
+                  <div class="step-status">Sentiment impact high</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">03</div>
+                  <div class="step-title">Setup</div>
+                  <div class="step-status">Short or no trade</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">04</div>
+                  <div class="step-title">Risk Review</div>
+                  <div class="step-status">Chasing risk flagged</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">05</div>
+                  <div class="step-title">Paper Trade</div>
+                  <div class="step-status">Awaiting entry logic</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Daily Briefing</h2>
+                <span class="badge amber">Caution</span>
+              </div>
+              <div class="panel-body briefing">
+                <div class="brief-item">
+                  <span class="mono faint">08:00</span>
+                  <div>
+                    <strong>Market context</strong>
+                    <p class="muted">Risk appetite is selective. Semis remain strong, luxury sentiment is weaker.</p>
+                  </div>
+                </div>
+                <div class="brief-item">
+                  <span class="mono faint">08:12</span>
+                  <div>
+                    <strong>Focus</strong>
+                    <p class="muted">RACE perception event deserves review before any short thesis.</p>
+                  </div>
+                </div>
+                <div class="brief-item">
+                  <span class="mono faint">08:19</span>
+                  <div>
+                    <strong>Do nothing</strong>
+                    <p class="muted">Avoid chasing opening gaps without confirmation and defined invalidation.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Open Risk</h2>
+                <span class="badge red">3 alerts</span>
+              </div>
+              <div class="panel-body">
+                <div class="split-line">
+                  <span>Setup without price confirmation</span>
+                  <span class="badge red">High</span>
+                </div>
+                <div class="split-line">
+                  <span>Headline already priced in</span>
+                  <span class="badge amber">Medium</span>
+                </div>
+                <div class="split-line">
+                  <span>ETF macro beta masking signal</span>
+                  <span class="badge amber">Medium</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="events">
+        <div class="screen-head">
+          <div>
+            <h1>Event Radar</h1>
+            <p class="screen-kicker">Manual events first, with Gemini research enrichment when useful.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">28 events</span>
+            <span class="badge amber">6 need analysis</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Market Events</h2>
+            <div class="status-strip">
+              <span class="pill">All markets</span>
+              <span class="pill">US / EU / ETF</span>
+              <span class="pill">Impact high</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Asset</th>
+                  <th>Event</th>
+                  <th>Type</th>
+                  <th>Impact</th>
+                  <th>Move</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">09:14</td>
+                  <td><strong>RACE</strong><br><span class="muted">Ferrari NV</span></td>
+                  <td>New model presentation receives negative media and public reaction</td>
+                  <td><span class="badge amber">Perception</span></td>
+                  <td><span class="badge red">High</span></td>
+                  <td class="mono red">-6.8%</td>
+                  <td><span class="badge cyan">Analyzed</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">10:02</td>
+                  <td><strong>ASML</strong><br><span class="muted">ASML Holding</span></td>
+                  <td>Supplier commentary suggests demand remains stronger than feared</td>
+                  <td><span class="badge blue">Sector</span></td>
+                  <td><span class="badge amber">Medium</span></td>
+                  <td class="mono green">+1.9%</td>
+                  <td><span class="badge amber">Needs setup</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">10:41</td>
+                  <td><strong>SPY</strong><br><span class="muted">S&P 500 ETF</span></td>
+                  <td>Inflation print lands near expectations; rates volatility cools</td>
+                  <td><span class="badge blue">Macro</span></td>
+                  <td><span class="badge amber">Medium</span></td>
+                  <td class="mono green">+0.5%</td>
+                  <td><span class="badge cyan">Briefed</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">11:20</td>
+                  <td><strong>NVO</strong><br><span class="muted">Novo Nordisk</span></td>
+                  <td>Competitor data adds pressure to obesity drug narrative</td>
+                  <td><span class="badge red">Competitive</span></td>
+                  <td><span class="badge red">High</span></td>
+                  <td class="mono red">-3.4%</td>
+                  <td><span class="badge amber">Review risk</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head"><h2>New Event</h2></div>
+            <div class="panel-body form-grid">
+              <div class="field">
+                <label>Ticker</label>
+                <input value="RACE" />
+              </div>
+              <div class="field">
+                <label>Event type</label>
+                <select><option>Perception event</option></select>
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Title</label>
+                <input value="Ferrari launch receives negative public reaction" />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Summary</label>
+                <textarea>Presentation was poorly received. Media and public commentary turned negative. Stock reacted immediately.</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Research Sources</h2><span class="badge blue">Gemini</span></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Official announcement</span><span class="badge cyan">1</span></div>
+              <div class="split-line"><span>Market reaction</span><span class="badge amber">4</span></div>
+              <div class="split-line"><span>Media sentiment</span><span class="badge red">8</span></div>
+              <div class="split-line"><span>Analyst notes</span><span class="badge blue">2</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Watchlist Scope</h2></div>
+            <div class="panel-body">
+              <div class="split-line"><span>US equities</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>EU equities</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>ETF's</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>Crypto</span><span class="badge">Later</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="event-detail">
+        <div class="screen-head">
+          <div>
+            <h1>RACE - Ferrari perception event</h1>
+            <p class="screen-kicker">New model launch was poorly received. Stock sold off immediately.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge red">Impact high</span>
+            <span class="badge amber">Sentiment-driven</span>
+            <span class="badge cyan">Paper trade only</span>
+          </div>
+        </div>
+
+        <div class="grid detail">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Event Analysis</h2>
+                <span class="badge cyan">OpenAI</span>
+              </div>
+              <div class="copy-block">
+                <h3>Summary</h3>
+                <p>The market reaction appears negative because the product presentation damaged the short-term brand narrative. The direct fundamental impact is uncertain, but sentiment pressure is visible in price action and media response.</p>
+              </div>
+              <div class="copy-block">
+                <h3>Bull case</h3>
+                <p>If the reaction is mostly emotional and not tied to orders or margins, the selloff may become an overreaction rebound candidate after sentiment stabilizes.</p>
+              </div>
+              <div class="copy-block">
+                <h3>Bear case</h3>
+                <p>The event may signal broader concern about design direction, pricing power or brand confidence. Negative follow-through could continue if analysts amplify the narrative.</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Impact Split</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Fundamental impact</span><span class="badge amber">Unclear</span></div>
+                <div class="split-line"><span>Sentiment impact</span><span class="badge red">High</span></div>
+                <div class="split-line"><span>Price impact</span><span class="badge red">Confirmed</span></div>
+                <div class="split-line"><span>Reversal chance</span><span class="badge amber">Possible</span></div>
+                <div class="split-line"><span>Follow-through risk</span><span class="badge red">Elevated</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Analysis Scores</h2>
+                <span class="badge amber">Mixed edge</span>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Sentiment</span><span class="badge red">Negative</span></div>
+                <div class="split-line"><span>Time horizon</span><span class="badge blue">Intraday / short term</span></div>
+                <div class="split-line"><span>Confidence</span><span class="mono">62/100</span></div>
+                <div class="progress"><span style="width:62%;"></span></div>
+                <div class="split-line"><span>Trade bias</span><span class="badge amber">Short or no trade</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Risk Flags</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Opening gap already extended</span><span class="badge red">High</span></div>
+                <div class="split-line"><span>Fundamental damage unproven</span><span class="badge amber">Medium</span></div>
+                <div class="split-line"><span>Luxury sector beta</span><span class="badge amber">Medium</span></div>
+                <div class="split-line"><span>Rebound squeeze risk</span><span class="badge red">High</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Next Action</h2></div>
+              <div class="panel-body">
+                <button class="btn primary" data-target="signals">Generate setup hypothesis</button>
+                <button class="btn" style="margin-left:6px;">Mark no trade</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="signals">
+        <div class="screen-head">
+          <div>
+            <h1>Signal Desk</h1>
+            <p class="screen-kicker">Every setup is a hypothesis. No trade remains a valid outcome.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">7 active hypotheses</span>
+            <span class="badge amber">3 need risk review</span>
+          </div>
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Setup Candidates</h2>
+              <span class="badge cyan">OpenAI</span>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE possible sentiment short</div>
+                  <div class="muted">Only if price confirms below prior support after the first reaction.</div>
+                </div>
+                <span class="badge red">Short</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge amber">Confidence 62</span>
+                <span class="badge red">Risk high</span>
+                <span class="badge cyan">Paper trade only</span>
+              </div>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE overreaction rebound watch</div>
+                  <div class="muted">Valid only after selling pressure fades and narrative stabilizes.</div>
+                </div>
+                <span class="badge green">Long</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge amber">Confidence 48</span>
+                <span class="badge amber">Needs trigger</span>
+                <span class="badge">Watch only</span>
+              </div>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE no clear edge</div>
+                  <div class="muted">The event is tradable only if the next candle confirms follow-through.</div>
+                </div>
+                <span class="badge blue">No trade</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge cyan">Preferred until confirmation</span>
+                <span class="badge amber">High uncertainty</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Selected Hypothesis</h2>
+                <span class="badge red">Short</span>
+              </div>
+              <div class="copy-block">
+                <h3>Reasoning</h3>
+                <p>Possible short setup because the market is reacting negatively to a brand perception event and price action confirms immediate pressure. The setup is only valid if the selloff shows follow-through, not just a one-candle emotional move.</p>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Entry logic</span><span>Break below prior support</span></div>
+                <div class="split-line"><span>Invalidation</span><span>Close back above launch-day VWAP</span></div>
+                <div class="split-line"><span>Stop-loss</span><span class="mono">Manual / level based</span></div>
+                <div class="split-line"><span>Target</span><span class="mono">2R or prior demand zone</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Risk Review</h2>
+                <span class="badge red">Attack the thesis</span>
+              </div>
+              <div class="copy-block">
+                <p>The setup may be weak because the negative reaction is visible and may already be priced in. Shorting after a sharp opening move risks chasing. Without clear follow-through, this is better tracked than traded.</p>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Final review</span><span class="badge amber">Wait for confirmation</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Decision</h2></div>
+              <div class="panel-body">
+                <button class="btn primary" data-target="trades">Create paper trade</button>
+                <button class="btn" style="margin-left:6px;">Reject setup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="trades">
+        <div class="screen-head">
+          <div>
+            <h1>Paper Trades</h1>
+            <p class="screen-kicker">Fictional trades for measuring research quality. No broker execution.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">5 open</span>
+            <span class="badge green">37 closed wins</span>
+            <span class="badge red">27 closed losses</span>
+          </div>
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Open Paper Trades</h2>
+              <span class="badge cyan">Manual close</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Direction</th>
+                    <th>Event</th>
+                    <th>Entry</th>
+                    <th>Stop</th>
+                    <th>Target</th>
+                    <th>P/L</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>RACE</strong></td>
+                    <td><span class="badge red">Short</span></td>
+                    <td>Perception event</td>
+                    <td class="mono">382.20</td>
+                    <td class="mono">392.40</td>
+                    <td class="mono">361.80</td>
+                    <td class="mono green">+1.8%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>ASML</strong></td>
+                    <td><span class="badge green">Long</span></td>
+                    <td>Sector demand</td>
+                    <td class="mono">931.00</td>
+                    <td class="mono">902.50</td>
+                    <td class="mono">988.00</td>
+                    <td class="mono red">-0.4%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>SPY</strong></td>
+                    <td><span class="badge green">Long</span></td>
+                    <td>Macro print</td>
+                    <td class="mono">612.40</td>
+                    <td class="mono">604.10</td>
+                    <td class="mono">628.80</td>
+                    <td class="mono green">+0.6%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Close Trade</h2>
+              <span class="badge cyan">Evaluation</span>
+            </div>
+            <div class="panel-body form-grid">
+              <div class="field">
+                <label>Asset</label>
+                <input value="RACE" />
+              </div>
+              <div class="field">
+                <label>Close reason</label>
+                <select><option>Target hit</option><option>Stop-loss hit</option><option>Manual close</option><option>Hypothesis invalidated</option></select>
+              </div>
+              <div class="field">
+                <label>Exit price</label>
+                <input value="365.40" />
+              </div>
+              <div class="field">
+                <label>Result</label>
+                <input value="+4.39%" />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Hypothesis review</label>
+                <textarea>The sentiment short worked because follow-through was confirmed after the first selloff. Risk review was correct about avoiding the opening chase.</textarea>
+              </div>
+              <button class="btn primary">Save result</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="performance">
+        <div class="screen-head">
+          <div>
+            <h1>Performance Lab</h1>
+            <p class="screen-kicker">Measure research quality by event type, direction, strategy and confidence score.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">64 closed trades</span>
+            <span class="badge green">+0.82% avg</span>
+          </div>
+        </div>
+
+        <div class="grid cols-4">
+          <div class="panel metric">
+            <div class="metric-label">Closed paper trades</div>
+            <div class="metric-value">64</div>
+            <div class="metric-foot">5 open</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Winrate</div>
+            <div class="metric-value">58%</div>
+            <div class="metric-foot">Long 61% / short 52%</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Avg result</div>
+            <div class="metric-value green">+0.82%</div>
+            <div class="metric-foot">Median +0.41%</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Best signal</div>
+            <div class="metric-value">Event</div>
+            <div class="metric-foot">Earnings revisions</div>
+          </div>
+        </div>
+
+        <div class="grid detail" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Result by Event Type</h2>
+              <span class="badge cyan">Learning view</span>
+            </div>
+            <div class="chart" aria-label="Result chart">
+              <div class="bar" style="height:74%;"></div>
+              <div class="bar" style="height:58%;"></div>
+              <div class="bar redbar" style="height:32%;"></div>
+              <div class="bar" style="height:67%;"></div>
+              <div class="bar redbar" style="height:46%;"></div>
+              <div class="bar" style="height:81%;"></div>
+              <div class="bar" style="height:52%;"></div>
+              <div class="bar redbar" style="height:28%;"></div>
+              <div class="bar" style="height:63%;"></div>
+              <div class="bar" style="height:71%;"></div>
+              <div class="bar redbar" style="height:38%;"></div>
+              <div class="bar" style="height:56%;"></div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Strategy Quality</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Earnings revision long</span><span class="badge green">Good</span></div>
+                <div class="split-line"><span>Perception short</span><span class="badge amber">Promising</span></div>
+                <div class="split-line"><span>Opening gap chase</span><span class="badge red">Avoid</span></div>
+                <div class="split-line"><span>ETF macro continuation</span><span class="badge amber">Mixed</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Confidence Calibration</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>80-100 confidence</span><span class="mono green">+1.9%</span></div>
+                <div class="split-line"><span>60-79 confidence</span><span class="mono green">+0.7%</span></div>
+                <div class="split-line"><span>40-59 confidence</span><span class="mono red">-0.3%</span></div>
+                <div class="split-line"><span>No-trade avoided losses</span><span class="mono green">11</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('[data-target]');
+    const screens = document.querySelectorAll('.screen');
+    const sidebarLinks = document.querySelectorAll('.nav a');
+    const mobileButtons = document.querySelectorAll('.mobile-tabs button');
+
+    function activate(target) {
+      screens.forEach((screen) => screen.classList.toggle('active', screen.id === target));
+      sidebarLinks.forEach((link) => link.classList.toggle('active', link.dataset.target === target));
+      mobileButtons.forEach((button) => button.classList.toggle('primary', button.dataset.target === target));
+      history.replaceState(null, '', '#' + target);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const target = button.dataset.target;
+        if (!target) return;
+        event.preventDefault();
+        activate(target);
+      });
+    });
+
+    const initial = location.hash.replace('#', '');
+    if (initial && document.getElementById(initial)) activate(initial);
+  </script>
+</body>
+</html>
