@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Project Accelerator",
-  description: "Next.js, Supabase and Vercel project starter for New Default apps.",
+  title: "Edge Terminal",
+  description: "Personal event-driven trading research terminal by New Default.",
 };
 
 export default function RootLayout({

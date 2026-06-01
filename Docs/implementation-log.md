@@ -13,6 +13,11 @@
 
 ---
 
+## 2026-05-31 - 11-punten MVP-basis afgerond
+- Wat: Styleguide, functioneel ontwerp, technisch ontwerp, backlog, Supabase schema, app-shell, CRUD-routes, AI-placeholders, paper trading, performance en e2e tests uitgewerkt.
+- Wat: Demo/live datalaag toegevoegd zodat de app zonder Supabase-project werkt en later met Supabase Auth/Postgres kan draaien.
+- Volgende stap: Supabase/Vercel projecten aanmaken en daarna echte provider keys + market-data provider kiezen.
+
 ## 2026-05-31 - Volledige vervolgstappen uitgezet
 - Wat: Route vanaf voorstel-specs naar styleguide, functioneel ontwerp, technisch ontwerp, backlog en bouwstart bepaald.
 - Waarom: De mockups en voorstel-specs zijn nu goed genoeg om richting bouwvoorbereiding te gaan.

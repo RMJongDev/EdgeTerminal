@@ -9,7 +9,7 @@
       "source_file": "next-env.d.ts",
       "source_location": "L1",
       "id": "next_env_d_ts",
-      "community": 15,
+      "community": 16,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "next.config.ts",
       "source_location": "L1",
       "id": "next_config_ts",
-      "community": 16,
+      "community": 17,
       "norm_label": "next.config.ts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "playwright.config.ts",
       "source_location": "L1",
       "id": "playwright_config_ts",
-      "community": 17,
+      "community": 18,
       "norm_label": "playwright.config.ts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "postcss.config.js",
       "source_location": "L1",
       "id": "postcss_config_js",
-      "community": 18,
+      "community": 19,
       "norm_label": "postcss.config.js"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "tailwind.config.ts",
       "source_location": "L1",
       "id": "tailwind_config_ts",
-      "community": 19,
+      "community": 20,
       "norm_label": "tailwind.config.ts"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "src\\proxy.ts",
       "source_location": "L1",
       "id": "src_proxy_ts",
-      "community": 3,
+      "community": 5,
       "norm_label": "proxy.ts"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "src\\proxy.ts",
       "source_location": "L4",
       "id": "proxy_proxy",
-      "community": 3,
+      "community": 5,
       "norm_label": "proxy()"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "src\\app\\layout.tsx",
       "source_location": "L1",
       "id": "src_app_layout_tsx",
-      "community": 5,
+      "community": 9,
       "norm_label": "layout.tsx"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "src\\app\\layout.tsx",
       "source_location": "L9",
       "id": "layout_rootlayout",
-      "community": 5,
+      "community": 9,
       "norm_label": "rootlayout()"
     },
     {
@@ -90,17 +90,8 @@
       "source_file": "src\\app\\page.tsx",
       "source_location": "L1",
       "id": "src_app_page_tsx",
-      "community": 6,
+      "community": 21,
       "norm_label": "page.tsx"
-    },
-    {
-      "label": "HomePage()",
-      "file_type": "code",
-      "source_file": "src\\app\\page.tsx",
-      "source_location": "L17",
-      "id": "page_homepage",
-      "community": 6,
-      "norm_label": "homepage()"
     },
     {
       "label": "layout.tsx",
@@ -108,17 +99,44 @@
       "source_file": "src\\app\\(app)\\layout.tsx",
       "source_location": "L1",
       "id": "src_app_app_layout_tsx",
-      "community": 7,
+      "community": 1,
       "norm_label": "layout.tsx"
     },
     {
       "label": "ProtectedLayout()",
       "file_type": "code",
       "source_file": "src\\app\\(app)\\layout.tsx",
-      "source_location": "L4",
+      "source_location": "L7",
       "id": "layout_protectedlayout",
-      "community": 7,
+      "community": 1,
       "norm_label": "protectedlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_ai_log_page_tsx",
+      "community": 4,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "AiLogPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
+      "source_location": "L7",
+      "id": "page_ailogpage",
+      "community": 4,
+      "norm_label": "ailogpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\briefing\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_briefing_page_tsx",
+      "community": 22,
+      "norm_label": "page.tsx"
     },
     {
       "label": "page.tsx",
@@ -126,17 +144,80 @@
       "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_dashboard_page_tsx",
-      "community": 0,
+      "community": 23,
       "norm_label": "page.tsx"
     },
     {
-      "label": "DashboardPage()",
+      "label": "page.tsx",
       "file_type": "code",
-      "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
-      "source_location": "L10",
-      "id": "page_dashboardpage",
-      "community": 0,
-      "norm_label": "dashboardpage()"
+      "source_file": "src\\app\\(app)\\events\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_events_page_tsx",
+      "community": 24,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\events\\[id]\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_events_id_page_tsx",
+      "community": 25,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\paper-trades\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_paper_trades_page_tsx",
+      "community": 26,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\performance\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_performance_page_tsx",
+      "community": 27,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\risk\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_risk_page_tsx",
+      "community": 3,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "RiskPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\risk\\page.tsx",
+      "source_location": "L12",
+      "id": "page_riskpage",
+      "community": 3,
+      "norm_label": "riskpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\signals\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_signals_page_tsx",
+      "community": 28,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\watchlist\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_watchlist_page_tsx",
+      "community": 29,
+      "norm_label": "page.tsx"
     },
     {
       "label": "actions.ts",
@@ -144,7 +225,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L1",
       "id": "src_app_auth_login_actions_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "actions.ts"
     },
     {
@@ -153,7 +234,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L8",
       "id": "actions_safenext",
-      "community": 0,
+      "community": 1,
       "norm_label": "safenext()"
     },
     {
@@ -162,7 +243,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L18",
       "id": "actions_getcredentials",
-      "community": 0,
+      "community": 1,
       "norm_label": "getcredentials()"
     },
     {
@@ -171,7 +252,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L29",
       "id": "actions_signin",
-      "community": 0,
+      "community": 1,
       "norm_label": "signin()"
     },
     {
@@ -180,7 +261,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L47",
       "id": "actions_signup",
-      "community": 0,
+      "community": 1,
       "norm_label": "signup()"
     },
     {
@@ -189,7 +270,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L69",
       "id": "actions_signout",
-      "community": 0,
+      "community": 1,
       "norm_label": "signout()"
     },
     {
@@ -198,7 +279,7 @@
       "source_file": "src\\app\\(auth)\\login\\page.tsx",
       "source_location": "L1",
       "id": "src_app_auth_login_page_tsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "page.tsx"
     },
     {
@@ -207,7 +288,7 @@
       "source_file": "src\\app\\(auth)\\login\\page.tsx",
       "source_location": "L28",
       "id": "page_loginpage",
-      "community": 0,
+      "community": 1,
       "norm_label": "loginpage()"
     },
     {
@@ -216,7 +297,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L1",
       "id": "src_app_auth_confirm_route_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "route.ts"
     },
     {
@@ -225,7 +306,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L7",
       "id": "route_safenext",
-      "community": 0,
+      "community": 1,
       "norm_label": "safenext()"
     },
     {
@@ -234,7 +315,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L15",
       "id": "route_get",
-      "community": 0,
+      "community": 1,
       "norm_label": "get()"
     },
     {
@@ -243,7 +324,7 @@
       "source_file": "src\\app\\auth\\error\\page.tsx",
       "source_location": "L1",
       "id": "src_app_auth_error_page_tsx",
-      "community": 8,
+      "community": 10,
       "norm_label": "page.tsx"
     },
     {
@@ -252,7 +333,7 @@
       "source_file": "src\\app\\auth\\error\\page.tsx",
       "source_location": "L12",
       "id": "page_autherrorpage",
-      "community": 8,
+      "community": 10,
       "norm_label": "autherrorpage()"
     },
     {
@@ -261,17 +342,62 @@
       "source_file": "src\\components\\app-shell.tsx",
       "source_location": "L1",
       "id": "src_components_app_shell_tsx",
-      "community": 9,
+      "community": 1,
       "norm_label": "app-shell.tsx"
     },
     {
       "label": "AppShell()",
       "file_type": "code",
       "source_file": "src\\components\\app-shell.tsx",
-      "source_location": "L11",
+      "source_location": "L36",
       "id": "app_shell_appshell",
-      "community": 9,
+      "community": 1,
       "norm_label": "appshell()"
+    },
+    {
+      "label": "edge-terminal.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L1",
+      "id": "src_components_edge_terminal_tsx",
+      "community": 8,
+      "norm_label": "edge-terminal.tsx"
+    },
+    {
+      "label": "Badge()",
+      "file_type": "code",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L15",
+      "id": "edge_terminal_badge",
+      "community": 8,
+      "norm_label": "badge()"
+    },
+    {
+      "label": "Panel()",
+      "file_type": "code",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L37",
+      "id": "edge_terminal_panel",
+      "community": 8,
+      "norm_label": "panel()"
+    },
+    {
+      "label": "PanelHeader()",
+      "file_type": "code",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L45",
+      "id": "edge_terminal_panelheader",
+      "community": 8,
+      "norm_label": "panelheader()"
+    },
+    {
+      "label": "PanelBody()",
+      "file_type": "code",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L60",
+      "id": "edge_terminal_panelbody",
+      "community": 8,
+      "norm_label": "panelbody()"
     },
     {
       "label": "status-pill.tsx",
@@ -279,7 +405,7 @@
       "source_file": "src\\components\\status-pill.tsx",
       "source_location": "L1",
       "id": "src_components_status_pill_tsx",
-      "community": 10,
+      "community": 11,
       "norm_label": "status-pill.tsx"
     },
     {
@@ -288,7 +414,7 @@
       "source_file": "src\\components\\status-pill.tsx",
       "source_location": "L9",
       "id": "status_pill_statuspill",
-      "community": 10,
+      "community": 11,
       "norm_label": "statuspill()"
     },
     {
@@ -297,7 +423,7 @@
       "source_file": "src\\components\\ui\\button.tsx",
       "source_location": "L1",
       "id": "src_components_ui_button_tsx",
-      "community": 11,
+      "community": 12,
       "norm_label": "button.tsx"
     },
     {
@@ -306,7 +432,7 @@
       "source_file": "src\\components\\ui\\button.tsx",
       "source_location": "L36",
       "id": "button_button",
-      "community": 11,
+      "community": 12,
       "norm_label": "button()"
     },
     {
@@ -315,7 +441,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L1",
       "id": "src_components_ui_card_tsx",
-      "community": 4,
+      "community": 7,
       "norm_label": "card.tsx"
     },
     {
@@ -324,7 +450,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L4",
       "id": "card_card",
-      "community": 4,
+      "community": 7,
       "norm_label": "card()"
     },
     {
@@ -333,7 +459,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L16",
       "id": "card_cardheader",
-      "community": 4,
+      "community": 7,
       "norm_label": "cardheader()"
     },
     {
@@ -342,7 +468,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L20",
       "id": "card_cardtitle",
-      "community": 4,
+      "community": 7,
       "norm_label": "cardtitle()"
     },
     {
@@ -351,7 +477,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L29",
       "id": "card_carddescription",
-      "community": 4,
+      "community": 7,
       "norm_label": "carddescription()"
     },
     {
@@ -360,7 +486,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L33",
       "id": "card_cardcontent",
-      "community": 4,
+      "community": 7,
       "norm_label": "cardcontent()"
     },
     {
@@ -369,7 +495,7 @@
       "source_file": "src\\components\\ui\\input.tsx",
       "source_location": "L1",
       "id": "src_components_ui_input_tsx",
-      "community": 12,
+      "community": 13,
       "norm_label": "input.tsx"
     },
     {
@@ -378,7 +504,7 @@
       "source_file": "src\\components\\ui\\input.tsx",
       "source_location": "L4",
       "id": "input_input",
-      "community": 12,
+      "community": 13,
       "norm_label": "input()"
     },
     {
@@ -387,7 +513,7 @@
       "source_file": "src\\components\\ui\\label.tsx",
       "source_location": "L1",
       "id": "src_components_ui_label_tsx",
-      "community": 13,
+      "community": 14,
       "norm_label": "label.tsx"
     },
     {
@@ -396,7 +522,7 @@
       "source_file": "src\\components\\ui\\label.tsx",
       "source_location": "L4",
       "id": "label_label",
-      "community": 13,
+      "community": 14,
       "norm_label": "label()"
     },
     {
@@ -405,7 +531,7 @@
       "source_file": "src\\lib\\database.types.ts",
       "source_location": "L1",
       "id": "src_lib_database_types_ts",
-      "community": 20,
+      "community": 30,
       "norm_label": "database.types.ts"
     },
     {
@@ -414,7 +540,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L1",
       "id": "src_lib_env_ts",
-      "community": 3,
+      "community": 5,
       "norm_label": "env.ts"
     },
     {
@@ -423,7 +549,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L1",
       "id": "env_hassupabaseenv",
-      "community": 0,
+      "community": 1,
       "norm_label": "hassupabaseenv()"
     },
     {
@@ -432,7 +558,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L8",
       "id": "env_getsupabaseenv",
-      "community": 3,
+      "community": 5,
       "norm_label": "getsupabaseenv()"
     },
     {
@@ -441,7 +567,7 @@
       "source_file": "src\\lib\\utils.ts",
       "source_location": "L1",
       "id": "src_lib_utils_ts",
-      "community": 14,
+      "community": 15,
       "norm_label": "utils.ts"
     },
     {
@@ -450,8 +576,377 @@
       "source_file": "src\\lib\\utils.ts",
       "source_location": "L4",
       "id": "utils_cn",
-      "community": 14,
+      "community": 15,
       "norm_label": "cn()"
+    },
+    {
+      "label": "actions.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_actions_ts",
+      "community": 2,
+      "norm_label": "actions.ts"
+    },
+    {
+      "label": "asString()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L24",
+      "id": "actions_asstring",
+      "community": 2,
+      "norm_label": "asstring()"
+    },
+    {
+      "label": "asNumber()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L28",
+      "id": "actions_asnumber",
+      "community": 2,
+      "norm_label": "asnumber()"
+    },
+    {
+      "label": "getAuthenticatedSupabase()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L33",
+      "id": "actions_getauthenticatedsupabase",
+      "community": 2,
+      "norm_label": "getauthenticatedsupabase()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L50",
+      "id": "actions_refresh",
+      "community": 2,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "toAiLogRow()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L54",
+      "id": "actions_toailogrow",
+      "community": 2,
+      "norm_label": "toailogrow()"
+    },
+    {
+      "label": "createAsset()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L70",
+      "id": "actions_createasset",
+      "community": 2,
+      "norm_label": "createasset()"
+    },
+    {
+      "label": "createMarketEvent()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L96",
+      "id": "actions_createmarketevent",
+      "community": 2,
+      "norm_label": "createmarketevent()"
+    },
+    {
+      "label": "generateEventAnalysis()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L135",
+      "id": "actions_generateeventanalysis",
+      "community": 2,
+      "norm_label": "generateeventanalysis()"
+    },
+    {
+      "label": "generateSetup()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L201",
+      "id": "actions_generatesetup",
+      "community": 2,
+      "norm_label": "generatesetup()"
+    },
+    {
+      "label": "generateRiskReview()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L241",
+      "id": "actions_generateriskreview",
+      "community": 2,
+      "norm_label": "generateriskreview()"
+    },
+    {
+      "label": "createPaperTrade()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L270",
+      "id": "actions_createpapertrade",
+      "community": 2,
+      "norm_label": "createpapertrade()"
+    },
+    {
+      "label": "closePaperTrade()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L296",
+      "id": "actions_closepapertrade",
+      "community": 2,
+      "norm_label": "closepapertrade()"
+    },
+    {
+      "label": "ai.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_ai_ts",
+      "community": 4,
+      "norm_label": "ai.ts"
+    },
+    {
+      "label": "hasOpenAiEnv()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L3",
+      "id": "ai_hasopenaienv",
+      "community": 4,
+      "norm_label": "hasopenaienv()"
+    },
+    {
+      "label": "hasGeminiEnv()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L7",
+      "id": "ai_hasgeminienv",
+      "community": 4,
+      "norm_label": "hasgeminienv()"
+    },
+    {
+      "label": "getAiRuntimeStatus()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L11",
+      "id": "ai_getairuntimestatus",
+      "community": 4,
+      "norm_label": "getairuntimestatus()"
+    },
+    {
+      "label": "createMockEventAnalysis()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L20",
+      "id": "ai_createmockeventanalysis",
+      "community": 4,
+      "norm_label": "createmockeventanalysis()"
+    },
+    {
+      "label": "createMockSetup()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L47",
+      "id": "ai_createmocksetup",
+      "community": 4,
+      "norm_label": "createmocksetup()"
+    },
+    {
+      "label": "createMockRiskReview()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L78",
+      "id": "ai_createmockriskreview",
+      "community": 4,
+      "norm_label": "createmockriskreview()"
+    },
+    {
+      "label": "createAiLog()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L92",
+      "id": "ai_createailog",
+      "community": 2,
+      "norm_label": "createailog()"
+    },
+    {
+      "label": "data.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_data_ts",
+      "community": 3,
+      "norm_label": "data.ts"
+    },
+    {
+      "label": "toAsset()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L16",
+      "id": "data_toasset",
+      "community": 3,
+      "norm_label": "toasset()"
+    },
+    {
+      "label": "toEvent()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L34",
+      "id": "data_toevent",
+      "community": 3,
+      "norm_label": "toevent()"
+    },
+    {
+      "label": "toAnalysis()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L51",
+      "id": "data_toanalysis",
+      "community": 3,
+      "norm_label": "toanalysis()"
+    },
+    {
+      "label": "toSetup()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L71",
+      "id": "data_tosetup",
+      "community": 3,
+      "norm_label": "tosetup()"
+    },
+    {
+      "label": "toRisk()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L92",
+      "id": "data_torisk",
+      "community": 3,
+      "norm_label": "torisk()"
+    },
+    {
+      "label": "toTrade()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L104",
+      "id": "data_totrade",
+      "community": 3,
+      "norm_label": "totrade()"
+    },
+    {
+      "label": "toLog()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L125",
+      "id": "data_tolog",
+      "community": 3,
+      "norm_label": "tolog()"
+    },
+    {
+      "label": "toBriefing()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L139",
+      "id": "data_tobriefing",
+      "community": 3,
+      "norm_label": "tobriefing()"
+    },
+    {
+      "label": "getTerminalData()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L154",
+      "id": "data_getterminaldata",
+      "community": 3,
+      "norm_label": "getterminaldata()"
+    },
+    {
+      "label": "getEventDetail()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L217",
+      "id": "data_geteventdetail",
+      "community": 3,
+      "norm_label": "geteventdetail()"
+    },
+    {
+      "label": "demo-data.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\demo-data.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_demo_data_ts",
+      "community": 31,
+      "norm_label": "demo-data.ts"
+    },
+    {
+      "label": "metrics.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_metrics_ts",
+      "community": 6,
+      "norm_label": "metrics.ts"
+    },
+    {
+      "label": "formatPercent()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L3",
+      "id": "metrics_formatpercent",
+      "community": 6,
+      "norm_label": "formatpercent()"
+    },
+    {
+      "label": "formatMoney()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L9",
+      "id": "metrics_formatmoney",
+      "community": 6,
+      "norm_label": "formatmoney()"
+    },
+    {
+      "label": "isClosedTrade()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L17",
+      "id": "metrics_isclosedtrade",
+      "community": 6,
+      "norm_label": "isclosedtrade()"
+    },
+    {
+      "label": "getPerformanceSummary()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L21",
+      "id": "metrics_getperformancesummary",
+      "community": 6,
+      "norm_label": "getperformancesummary()"
+    },
+    {
+      "label": "getDirectionPerformance()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L47",
+      "id": "metrics_getdirectionperformance",
+      "community": 6,
+      "norm_label": "getdirectionperformance()"
+    },
+    {
+      "label": "getDashboardMetrics()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L68",
+      "id": "metrics_getdashboardmetrics",
+      "community": 6,
+      "norm_label": "getdashboardmetrics()"
+    },
+    {
+      "label": "types.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\types.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_types_ts",
+      "community": 32,
+      "norm_label": "types.ts"
     },
     {
       "label": "client.ts",
@@ -459,7 +954,7 @@
       "source_file": "src\\lib\\supabase\\client.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_client_ts",
-      "community": 3,
+      "community": 5,
       "norm_label": "client.ts"
     },
     {
@@ -468,7 +963,7 @@
       "source_file": "src\\lib\\supabase\\client.ts",
       "source_location": "L5",
       "id": "client_createclient",
-      "community": 3,
+      "community": 5,
       "norm_label": "createclient()"
     },
     {
@@ -477,7 +972,7 @@
       "source_file": "src\\lib\\supabase\\proxy.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_proxy_ts",
-      "community": 3,
+      "community": 5,
       "norm_label": "proxy.ts"
     },
     {
@@ -486,7 +981,7 @@
       "source_file": "src\\lib\\supabase\\proxy.ts",
       "source_location": "L8",
       "id": "proxy_updatesession",
-      "community": 3,
+      "community": 5,
       "norm_label": "updatesession()"
     },
     {
@@ -495,7 +990,7 @@
       "source_file": "src\\lib\\supabase\\server.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_server_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "server.ts"
     },
     {
@@ -504,7 +999,7 @@
       "source_file": "src\\lib\\supabase\\server.ts",
       "source_location": "L6",
       "id": "server_createclient",
-      "community": 0,
+      "community": 1,
       "norm_label": "createclient()"
     },
     {
@@ -513,7 +1008,7 @@
       "source_file": "tests\\e2e\\smoke.spec.ts",
       "source_location": "L1",
       "id": "tests_e2e_smoke_spec_ts",
-      "community": 21,
+      "community": 33,
       "norm_label": "smoke.spec.ts"
     },
     {
@@ -525,7 +1020,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "project kickstart",
       "id": "claudemd_project_kickstart"
     },
@@ -538,7 +1033,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "project accelerator skill",
       "id": "claudemd_project_accelerator_skill"
     },
@@ -551,7 +1046,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "four-phase kickstart",
       "id": "claudemd_four_phases"
     },
@@ -564,7 +1059,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": ".claude/ configuration",
       "id": "claudemd_claude_dir"
     },
@@ -577,7 +1072,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "docs/ structure",
       "id": "claudemd_docs_dir"
     },
@@ -590,7 +1085,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "skill location convention",
       "id": "claudemd_skill_convention"
     },
@@ -603,7 +1098,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "settings team vs local",
       "id": "claudemd_settings_split"
     },
@@ -616,7 +1111,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "house style (nl docs, en code, ascii, darkmode)",
       "id": "claudemd_house_style"
     },
@@ -629,7 +1124,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "mandatory implementation log",
       "id": "claudemd_implementation_log_rule"
     },
@@ -642,7 +1137,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify integration",
       "id": "claudemd_graphify_integration"
     },
@@ -655,7 +1150,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "implementation log",
       "id": "implog_log"
     },
@@ -668,7 +1163,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "log entry format",
       "id": "implog_entry_format"
     },
@@ -681,7 +1176,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "robin de jong",
       "id": "devctx_robin_de_jong"
     },
@@ -694,7 +1189,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "superp.ai",
       "id": "devctx_superp_ai"
     },
@@ -707,7 +1202,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "new default",
       "id": "devctx_new_default"
     },
@@ -720,7 +1215,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "pauline",
       "id": "devctx_pauline"
     },
@@ -733,7 +1228,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "technical background & stack",
       "id": "devctx_tech_stack"
     },
@@ -746,7 +1241,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "mendix platform",
       "id": "devctx_mendix"
     },
@@ -759,7 +1254,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "pragmatic mvp workstyle",
       "id": "devctx_workstyle"
     },
@@ -772,7 +1267,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "new default services",
       "id": "devctx_services"
     },
@@ -785,7 +1280,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "vastgoedatlas ai",
       "id": "devctx_vastgoedatlas"
     },
@@ -798,7 +1293,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "granokoffie",
       "id": "devctx_granokoffie"
     },
@@ -811,7 +1306,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "twelvelease",
       "id": "devctx_twelvelease"
     },
@@ -824,7 +1319,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "dept-style tone of voice",
       "id": "devctx_tone_of_voice"
     },
@@ -837,7 +1332,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
+      "community": 0,
       "norm_label": "superp vs new default routing",
       "id": "devctx_superp_vs_nd"
     }
@@ -882,32 +1377,8 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src\\app\\page.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_src": "src_app_page_tsx",
-      "_tgt": "page_homepage",
-      "source": "src_app_page_tsx",
-      "target": "page_homepage",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src\\app\\page.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_src": "page_homepage",
-      "_tgt": "env_hassupabaseenv",
-      "source": "page_homepage",
-      "target": "env_hassupabaseenv"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "src\\app\\(app)\\layout.tsx",
-      "source_location": "L4",
+      "source_location": "L7",
       "weight": 1.0,
       "_src": "src_app_app_layout_tsx",
       "_tgt": "layout_protectedlayout",
@@ -916,40 +1387,88 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_src": "src_app_app_dashboard_page_tsx",
-      "_tgt": "page_dashboardpage",
-      "source": "src_app_app_dashboard_page_tsx",
-      "target": "page_dashboardpage",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
-      "source_location": "L11",
+      "source_file": "src\\app\\(app)\\layout.tsx",
+      "source_location": "L8",
       "weight": 1.0,
-      "_src": "page_dashboardpage",
+      "_src": "layout_protectedlayout",
       "_tgt": "env_hassupabaseenv",
-      "source": "page_dashboardpage",
+      "source": "layout_protectedlayout",
       "target": "env_hassupabaseenv"
     },
     {
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
-      "source_location": "L15",
+      "source_file": "src\\app\\(app)\\layout.tsx",
+      "source_location": "L9",
       "weight": 1.0,
-      "_src": "page_dashboardpage",
+      "_src": "layout_protectedlayout",
       "_tgt": "server_createclient",
-      "source": "page_dashboardpage",
+      "source": "layout_protectedlayout",
       "target": "server_createclient"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_app_app_ai_log_page_tsx",
+      "_tgt": "page_ailogpage",
+      "source": "src_app_app_ai_log_page_tsx",
+      "target": "page_ailogpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "page_ailogpage",
+      "_tgt": "data_getterminaldata",
+      "source": "page_ailogpage",
+      "target": "data_getterminaldata"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "page_ailogpage",
+      "_tgt": "ai_getairuntimestatus",
+      "source": "page_ailogpage",
+      "target": "ai_getairuntimestatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\(app)\\risk\\page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "src_app_app_risk_page_tsx",
+      "_tgt": "page_riskpage",
+      "source": "src_app_app_risk_page_tsx",
+      "target": "page_riskpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\(app)\\risk\\page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "page_riskpage",
+      "_tgt": "data_getterminaldata",
+      "source": "page_riskpage",
+      "target": "data_getterminaldata"
     },
     {
       "relation": "contains",
@@ -1264,6 +1783,30 @@
       "target": "server_createclient"
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "actions_asstring",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "actions_asstring"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "actions_asnumber",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "actions_asnumber"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\app\\auth\\error\\page.tsx",
@@ -1279,12 +1822,72 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\components\\app-shell.tsx",
-      "source_location": "L11",
+      "source_location": "L36",
       "weight": 1.0,
       "_src": "src_components_app_shell_tsx",
       "_tgt": "app_shell_appshell",
       "source": "src_components_app_shell_tsx",
       "target": "app_shell_appshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\components\\app-shell.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "app_shell_appshell",
+      "_tgt": "env_hassupabaseenv",
+      "source": "app_shell_appshell",
+      "target": "env_hassupabaseenv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "src_components_edge_terminal_tsx",
+      "_tgt": "edge_terminal_badge",
+      "source": "src_components_edge_terminal_tsx",
+      "target": "edge_terminal_badge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "src_components_edge_terminal_tsx",
+      "_tgt": "edge_terminal_panel",
+      "source": "src_components_edge_terminal_tsx",
+      "target": "edge_terminal_panel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "src_components_edge_terminal_tsx",
+      "_tgt": "edge_terminal_panelheader",
+      "source": "src_components_edge_terminal_tsx",
+      "target": "edge_terminal_panelheader",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\edge-terminal.tsx",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "src_components_edge_terminal_tsx",
+      "_tgt": "edge_terminal_panelbody",
+      "source": "src_components_edge_terminal_tsx",
+      "target": "edge_terminal_panelbody",
       "confidence_score": 1.0
     },
     {
@@ -1423,6 +2026,30 @@
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "actions_getauthenticatedsupabase",
+      "_tgt": "env_hassupabaseenv",
+      "source": "env_hassupabaseenv",
+      "target": "actions_getauthenticatedsupabase"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L155",
+      "weight": 1.0,
+      "_src": "data_getterminaldata",
+      "_tgt": "env_hassupabaseenv",
+      "source": "env_hassupabaseenv",
+      "target": "data_getterminaldata"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "src\\lib\\supabase\\proxy.ts",
       "source_location": "L11",
       "weight": 1.0,
@@ -1477,6 +2104,930 @@
       "_tgt": "utils_cn",
       "source": "src_lib_utils_ts",
       "target": "utils_cn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_asstring",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_asstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_asnumber",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_asnumber",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_getauthenticatedsupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_refresh",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_refresh",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_toailogrow",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_toailogrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_createasset",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_createasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_createmarketevent",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_createmarketevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L135",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_generateeventanalysis",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_generateeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L201",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_generatesetup",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_generatesetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L241",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_generateriskreview",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_generateriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L270",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_createpapertrade",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_createpapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L296",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_closepapertrade",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_closepapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "actions_createasset",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_createasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_src": "actions_createmarketevent",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_createmarketevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_generateeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L202",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_generatesetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L242",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_generateriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L280",
+      "weight": 1.0,
+      "_src": "actions_createpapertrade",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_createpapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L298",
+      "weight": 1.0,
+      "_src": "actions_closepapertrade",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_closepapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_src": "actions_createasset",
+      "_tgt": "actions_asnumber",
+      "source": "actions_asnumber",
+      "target": "actions_createasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_src": "actions_createmarketevent",
+      "_tgt": "actions_asnumber",
+      "source": "actions_asnumber",
+      "target": "actions_createmarketevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L284",
+      "weight": 1.0,
+      "_src": "actions_createpapertrade",
+      "_tgt": "actions_asnumber",
+      "source": "actions_asnumber",
+      "target": "actions_createpapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L305",
+      "weight": 1.0,
+      "_src": "actions_closepapertrade",
+      "_tgt": "actions_asnumber",
+      "source": "actions_asnumber",
+      "target": "actions_closepapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "actions_createasset",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_createasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_src": "actions_createmarketevent",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_createmarketevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_generateeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L205",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_generatesetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L243",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_generateriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L271",
+      "weight": 1.0,
+      "_src": "actions_createpapertrade",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_createpapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L297",
+      "weight": 1.0,
+      "_src": "actions_closepapertrade",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_closepapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "actions_getauthenticatedsupabase",
+      "_tgt": "server_createclient",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "server_createclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "actions_createasset",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_createasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_src": "actions_createmarketevent",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_createmarketevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L197",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_generateeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L237",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_generatesetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L266",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_generateriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_src": "actions_createpapertrade",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_createpapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L327",
+      "weight": 1.0,
+      "_src": "actions_closepapertrade",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_closepapertrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "actions_toailogrow",
+      "source": "actions_toailogrow",
+      "target": "actions_generateeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L235",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "actions_toailogrow",
+      "source": "actions_toailogrow",
+      "target": "actions_generatesetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L264",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "actions_toailogrow",
+      "source": "actions_toailogrow",
+      "target": "actions_generateriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "ai_createmockeventanalysis",
+      "source": "actions_generateeventanalysis",
+      "target": "ai_createmockeventanalysis"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_src": "actions_generateeventanalysis",
+      "_tgt": "ai_createailog",
+      "source": "actions_generateeventanalysis",
+      "target": "ai_createailog"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L213",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "ai_createmocksetup",
+      "source": "actions_generatesetup",
+      "target": "ai_createmocksetup"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L235",
+      "weight": 1.0,
+      "_src": "actions_generatesetup",
+      "_tgt": "ai_createailog",
+      "source": "actions_generatesetup",
+      "target": "ai_createailog"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L251",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "ai_createmockriskreview",
+      "source": "actions_generateriskreview",
+      "target": "ai_createmockriskreview"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L264",
+      "weight": 1.0,
+      "_src": "actions_generateriskreview",
+      "_tgt": "ai_createailog",
+      "source": "actions_generateriskreview",
+      "target": "ai_createailog"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_hasopenaienv",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_hasopenaienv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_hasgeminienv",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_hasgeminienv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_getairuntimestatus",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_getairuntimestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_createmockeventanalysis",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_createmockeventanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_createmocksetup",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_createmocksetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_createmockriskreview",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_createmockriskreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_ai_ts",
+      "_tgt": "ai_createailog",
+      "source": "src_lib_edge_terminal_ai_ts",
+      "target": "ai_createailog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "ai_getairuntimestatus",
+      "_tgt": "ai_hasopenaienv",
+      "source": "ai_hasopenaienv",
+      "target": "ai_getairuntimestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "ai_getairuntimestatus",
+      "_tgt": "ai_hasgeminienv",
+      "source": "ai_hasgeminienv",
+      "target": "ai_getairuntimestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\ai.ts",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_src": "ai_createailog",
+      "_tgt": "ai_getairuntimestatus",
+      "source": "ai_getairuntimestatus",
+      "target": "ai_createailog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_toasset",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_toasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_toevent",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_toevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_toanalysis",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_toanalysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_tosetup",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_tosetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_torisk",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_torisk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_totrade",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_totrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_tolog",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_tolog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L139",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_tobriefing",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_tobriefing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L154",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_getterminaldata",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_getterminaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L217",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_geteventdetail",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_geteventdetail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L212",
+      "weight": 1.0,
+      "_src": "data_getterminaldata",
+      "_tgt": "data_tobriefing",
+      "source": "data_tobriefing",
+      "target": "data_getterminaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L218",
+      "weight": 1.0,
+      "_src": "data_geteventdetail",
+      "_tgt": "data_getterminaldata",
+      "source": "data_getterminaldata",
+      "target": "data_geteventdetail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_src": "data_getterminaldata",
+      "_tgt": "server_createclient",
+      "source": "data_getterminaldata",
+      "target": "server_createclient"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_formatpercent",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_formatpercent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_formatmoney",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_formatmoney",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_isclosedtrade",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_isclosedtrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_getperformancesummary",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_getperformancesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_getdirectionperformance",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_getdirectionperformance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_metrics_ts",
+      "_tgt": "metrics_getdashboardmetrics",
+      "source": "src_lib_edge_terminal_metrics_ts",
+      "target": "metrics_getdashboardmetrics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\metrics.ts",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "metrics_getdashboardmetrics",
+      "_tgt": "metrics_getperformancesummary",
+      "source": "metrics_getperformancesummary",
+      "target": "metrics_getdashboardmetrics",
       "confidence_score": 1.0
     },
     {

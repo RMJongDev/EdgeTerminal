@@ -1,1 +1,4 @@
--- Add project-specific seed data here once the MVP schema is known.
+-- Edge Terminal seed note:
+-- Demo data is available in src/lib/edge-terminal/demo-data.ts so the app can run
+-- before Robin creates the real Supabase project. After creating Supabase, add a user
+-- through Auth first, then insert rows with that user's id into the MVP tables.

@@ -54,10 +54,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <KeyRound className="h-5 w-5 text-primary" />
-              Login
+              Edge Terminal login
             </CardTitle>
             <CardDescription>
-              Supabase email/password auth staat klaar voor elk nieuw project.
+              Single-user Supabase auth voor Robin. Zonder env blijft de cockpit in demo mode zichtbaar.
             </CardDescription>
           </CardHeader>
           <CardContent>
