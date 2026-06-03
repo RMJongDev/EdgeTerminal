@@ -76,28 +76,39 @@
   - [x] Metrics, perception movers, risk alerts, briefing en performance snapshot zichtbaar.
 - **Status:** done
 
-## EPIC-05 - Watchlist en Events CRUD
-**Doel:** assets en market events kunnen beheren.  
-**Status:** done
+## EPIC-05 - Broad Event Discovery en Events
+**Doel:** Edge Terminal vindt zelf breed relevante markt-events, toont elke ochtend een top 10 en laat Robin candidates triagen zonder zelf nieuws te verzamelen.  
+**Status:** planned
 
 ### STORY-09 - Watchlist CRUD
-- **Als** gebruiker, **wil ik** assets beheren, **zodat** events gekoppeld kunnen worden.
+- **Als** gebruiker, **wil ik** assets/holdings/voorkeuren beheren, **zodat** discovery-ranking context heeft zonder de marktdekking te beperken.
 - **Acceptatiecriteria:**
   - [x] Asset toevoegen via server action in live Supabase mode.
   - [x] Assets tonen met demo/live datalaag.
   - [x] Active/inactive status zichtbaar.
 - **Status:** done
 
-### STORY-10 - Market Events CRUD
-- **Als** gebruiker, **wil ik** events vastleggen, **zodat** analyses en setups altijd een aanleiding hebben.
+### STORY-10 - Broad discovery candidates
+- **Als** gebruiker, **wil ik** dat AI breed nieuws, filings, macro-items, sectorontwikkelingen en market movers scant, **zodat** ik iedere ochtend niet zelf events hoef te zoeken.
 - **Acceptatiecriteria:**
-  - [x] Event toevoegen via server action in live Supabase mode.
-  - [x] Event koppelen aan asset.
-  - [x] Perception event zichtbaar als volwaardige categorie.
-- **Status:** done
+  - [ ] Discovery gebruikt brede bronnen en is niet beperkt tot de watchlist.
+  - [ ] De app toont een top 10 candidate events met reason_to_watch, score, bron en mogelijke marktimpact.
+  - [ ] Candidates kunnen `new`, `accepted`, `ignored`, `merged` of `analyzed` zijn.
+  - [ ] Dedupe voorkomt dat dezelfde gebeurtenis meerdere keren in de top 10 staat.
+  - [ ] Providerstatus, laatste scanmoment en foutmeldingen zijn zichtbaar.
+- **Status:** planned
+
+### STORY-10B - Candidate naar market event
+- **Als** gebruiker, **wil ik** een candidate kunnen accepteren, negeren of samenvoegen, **zodat** alleen relevante gebeurtenissen de analyseflow in gaan.
+- **Acceptatiecriteria:**
+  - [ ] Candidate accepteren maakt een formeel market event.
+  - [ ] Event kan gekoppeld worden aan asset, sector, ETF of marktregime.
+  - [ ] Handmatig event toevoegen blijft beschikbaar als fallback/correctie, maar is niet de primaire flow.
+  - [ ] Perception event blijft zichtbaar als volwaardige categorie.
+- **Status:** planned
 
 ## EPIC-06 - AI flow
-**Doel:** analyseflow technisch voorbereiden zonder live provider te vereisen.  
+**Doel:** discovery- en analyseflow technisch voorbereiden zonder live provider te vereisen.  
 **Status:** done
 
 ### STORY-11 - OpenAI analyse placeholders
@@ -108,11 +119,13 @@
   - [x] OpenAI env vars gedocumenteerd.
 - **Status:** done
 
-### STORY-12 - Gemini research placeholders
-- **Als** gebruiker, **wil ik** research context voorbereiden, **zodat** actuele websearch later aangesloten kan worden.
+### STORY-12 - Gemini/search discovery placeholders
+- **Als** gebruiker, **wil ik** research en discovery context voorbereiden, **zodat** actuele websearch en brede event-ingestie later aangesloten kunnen worden.
 - **Acceptatiecriteria:**
   - [x] Gemini env vars gedocumenteerd.
   - [x] Research output is voorbereid als AI-log type.
+  - [x] Discovery provider env vars zijn gedocumenteerd.
+  - [x] Promptversies voor candidate discovery en ranking zijn beschreven.
 - **Status:** done
 
 ## EPIC-07 - Paper trading en Performance

@@ -37,6 +37,7 @@
     .swatch { height: 72px; border-radius: 6px; border: 1px solid rgba(255,255,255,.12); margin-bottom: 10px; }
     .mono { font-family: var(--mono); }
     .badge { display: inline-flex; align-items: center; min-height: 24px; border-radius: 999px; padding: 3px 8px; border: 1px solid var(--border); color: var(--muted); font-size: 12px; margin: 3px; }
+    .badge.neutral { color: #CBD5E1; border-color: rgba(148,163,184,.34); background: rgba(148,163,184,.08); }
     .green { color: #9AF5B9; border-color: rgba(34,197,94,.4); background: rgba(34,197,94,.08); }
     .red { color: #FFB3B3; border-color: rgba(239,68,68,.4); background: rgba(239,68,68,.08); }
     .amber { color: #FFD18A; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.08); }
@@ -48,13 +49,17 @@
     button { border: 1px solid var(--border); border-radius: var(--radius); padding: 9px 12px; background: var(--surface-2); color: var(--text); }
     button.primary { border-color: rgba(34,211,238,.5); background: rgba(34,211,238,.12); color: #BAF6FF; }
     .nd { border-color: rgba(0,122,128,.42); background: linear-gradient(90deg, rgba(0,122,128,.12), rgba(211,190,161,.06)); }
+    .note { border-left: 3px solid var(--cyan); padding: 10px 12px; background: rgba(34,211,238,.06); color: var(--muted); }
+    .score-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(130px,1fr)); gap:8px; margin-top:10px; }
+    .score { border:1px solid var(--border); border-radius:6px; padding:10px; background:rgba(255,255,255,.02); }
+    .score strong { display:block; font-family:var(--mono); font-size:18px; color:var(--text); margin-top:3px; }
   </style>
 </head>
 <body>
   <main>
     <header>
       <h1>Edge Terminal Styleguide</h1>
-      <p>Donkere, compacte trading-terminal stijl met subtiele NewDefault co-branding. De UI is ontworpen voor dagelijks scannen, hypotheses beoordelen en risico's expliciet maken.</p>
+      <p>Donkere, compacte trading-terminal stijl met subtiele NewDefault co-branding. De UI is ontworpen voor broad-market discovery, candidate quality, hypotheses beoordelen en risico's expliciet maken.</p>
     </header>
 
     <section>
@@ -83,6 +88,11 @@
     <section>
       <h2>Status badges</h2>
       <div class="panel">
+        <span class="badge cyan">New candidate</span>
+        <span class="badge green">Accepted</span>
+        <span class="badge amber">Needs source check</span>
+        <span class="badge blue">Merged</span>
+        <span class="badge neutral">Ignored</span>
         <span class="badge green">Bullish</span>
         <span class="badge red">Bearish</span>
         <span class="badge amber">Mixed</span>
@@ -93,13 +103,28 @@
     </section>
 
     <section>
+      <h2>Candidate quality cards</h2>
+      <div class="panel">
+        <strong>Top 10 candidate event</strong>
+        <p>Elke candidate-card moet in een oogopslag uitleggen waarom hij in de top 10 staat. De score is rankinghulp, geen koop- of verkoopadvies.</p>
+        <div class="score-grid">
+          <div class="score">Relevance<strong>86</strong></div>
+          <div class="score">Source quality<strong>78</strong></div>
+          <div class="score">Recency<strong>94</strong></div>
+          <div class="score">Dedupe<strong>1 cluster</strong></div>
+        </div>
+        <p class="note">Gebruik always-on microcopy bij discovery: "waarom relevant", "wat is onzeker", "welke bron draagt dit", en "wat moet Robin ermee doen".</p>
+      </div>
+    </section>
+
+    <section>
       <h2>Panelen en tabellen</h2>
       <div class="panel">
         <table>
-          <thead><tr><th>Asset</th><th>Event</th><th>Impact</th><th>Move</th><th>Status</th></tr></thead>
+          <thead><tr><th>Candidate</th><th>Reason</th><th>Quality</th><th>Dedupe</th><th>Status</th></tr></thead>
           <tbody>
-            <tr><td class="mono">RACE</td><td>Launch receives negative public reaction</td><td><span class="badge red">High</span></td><td class="mono">-6.8%</td><td><span class="badge cyan">Analyzed</span></td></tr>
-            <tr><td class="mono">ASML</td><td>Supplier commentary improves demand narrative</td><td><span class="badge amber">Medium</span></td><td class="mono">+1.9%</td><td><span class="badge amber">Needs setup</span></td></tr>
+            <tr><td class="mono">RACE</td><td>Perception event with immediate price reaction</td><td><span class="badge amber">SQ 78</span></td><td class="mono">1 cluster</td><td><span class="badge cyan">Analyzed</span></td></tr>
+            <tr><td class="mono">ASML</td><td>Sector demand narrative improving</td><td><span class="badge green">SQ 86</span></td><td class="mono">unique</td><td><span class="badge amber">Needs source check</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -109,6 +134,9 @@
       <h2>Knoppen</h2>
       <div class="panel">
         <button class="primary">Generate analysis</button>
+        <button>Accept candidate</button>
+        <button>Merge duplicate</button>
+        <button>Ignore as noise</button>
         <button>Create paper trade</button>
         <button>Mark no trade</button>
       </div>
@@ -117,7 +145,7 @@
     <section>
       <h2>Contentregels</h2>
       <div class="panel">
-        <p>Gebruik woorden als possible setup, hypothesis, uncertainty, risk review, no clear edge en paper trade. Vermijd taal die zekerheid of financieel advies suggereert.</p>
+        <p>Gebruik woorden als candidate, reason to watch, source quality, recency, dedupe, possible setup, hypothesis, uncertainty, risk review, no clear edge en paper trade. Vermijd taal die zekerheid of financieel advies suggereert.</p>
       </div>
     </section>
   </main>

@@ -1,12 +1,12 @@
-# Graph Report - .  (2026-05-31)
+# Graph Report - .  (2026-06-02)
 
 ## Corpus Check
-- 43 files · ~30,345 words
+- 44 files · ~30,885 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 137 nodes · 172 edges · 34 communities detected
-- Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 40 edges (avg confidence: 0.8)
+- 139 nodes · 172 edges · 36 communities detected
+- Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 39 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -44,6 +44,8 @@
 - [[_COMMUNITY_Community 31|Community 31]]
 - [[_COMMUNITY_Community 32|Community 32]]
 - [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `hasSupabaseEnv()` - 11 edges
@@ -84,8 +86,8 @@ Cohesion: 0.47
 Nodes (13): asNumber(), asString(), closePaperTrade(), createAsset(), createMarketEvent(), createPaperTrade(), generateEventAnalysis(), generateRiskReview() (+5 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.18
-Nodes (4): getEventDetail(), getTerminalData(), toBriefing(), RiskPage()
+Cohesion: 0.22
+Nodes (3): getEventDetail(), getTerminalData(), toBriefing()
 
 ### Community 4 - "Community 4"
 Cohesion: 0.28
@@ -207,36 +209,44 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0): 
 
+### Community 34 - "Community 34"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 35 - "Community 35"
+Cohesion: 1.0
+Nodes (0): 
+
 ## Knowledge Gaps
 - **12 isolated node(s):** `Four-Phase Kickstart`, `Docs/ Structure`, `Skill Location Convention`, `Settings Team vs Local`, `Graphify Integration` (+7 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **Thin community `Community 9`** (2 nodes): `RootLayout()`, `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 10`** (2 nodes): `AuthErrorPage()`, `page.tsx`
+- **Thin community `Community 10`** (2 nodes): `RiskRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 11`** (2 nodes): `status-pill.tsx`, `StatusPill()`
+- **Thin community `Community 11`** (2 nodes): `SignalsRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 12`** (2 nodes): `Button()`, `button.tsx`
+- **Thin community `Community 12`** (2 nodes): `AuthErrorPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 13`** (2 nodes): `Input()`, `input.tsx`
+- **Thin community `Community 13`** (2 nodes): `status-pill.tsx`, `StatusPill()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (2 nodes): `Label()`, `label.tsx`
+- **Thin community `Community 14`** (2 nodes): `Button()`, `button.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (2 nodes): `utils.ts`, `cn()`
+- **Thin community `Community 15`** (2 nodes): `Input()`, `input.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 16`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 16`** (2 nodes): `Label()`, `label.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 17`** (1 nodes): `next.config.ts`
+- **Thin community `Community 17`** (2 nodes): `utils.ts`, `cn()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (1 nodes): `playwright.config.ts`
+- **Thin community `Community 18`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 19`** (1 nodes): `postcss.config.js`
+- **Thin community `Community 19`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (1 nodes): `tailwind.config.ts`
+- **Thin community `Community 20`** (1 nodes): `playwright.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (1 nodes): `page.tsx`
+- **Thin community `Community 21`** (1 nodes): `postcss.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (1 nodes): `page.tsx`
+- **Thin community `Community 22`** (1 nodes): `tailwind.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 23`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -252,24 +262,28 @@ Nodes (0):
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 29`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 30`** (1 nodes): `database.types.ts`
+- **Thin community `Community 30`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (1 nodes): `demo-data.ts`
+- **Thin community `Community 31`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (1 nodes): `types.ts`
+- **Thin community `Community 32`** (1 nodes): `database.types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 33`** (1 nodes): `smoke.spec.ts`
+- **Thin community `Community 33`** (1 nodes): `demo-data.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 34`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 35`** (1 nodes): `smoke.spec.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getTerminalData()` connect `Community 3` to `Community 1`, `Community 4`?**
-  _High betweenness centrality (0.081) - this node is a cross-community bridge._
 - **Why does `hasSupabaseEnv()` connect `Community 1` to `Community 2`, `Community 3`, `Community 5`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `getTerminalData()` connect `Community 3` to `Community 1`, `Community 4`?**
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
 - **Why does `createClient()` connect `Community 1` to `Community 2`, `Community 3`, `Community 5`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
 - **Are the 10 inferred relationships involving `hasSupabaseEnv()` (e.g. with `ProtectedLayout()` and `signIn()`) actually correct?**
   _`hasSupabaseEnv()` has 10 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 2 inferred relationships involving `getAuthenticatedSupabase()` (e.g. with `hasSupabaseEnv()` and `createClient()`) actually correct?**

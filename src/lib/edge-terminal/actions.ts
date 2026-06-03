@@ -205,7 +205,7 @@ export async function generateSetup(formData: FormData) {
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
-    redirect("/signals?notice=Demo%20mode%3A%20mock%20setup");
+    redirect("/setups?notice=Demo%20mode%3A%20mock%20setup");
   }
 
   const { supabase, user } = auth;
@@ -234,8 +234,8 @@ export async function generateSetup(formData: FormData) {
     .from("ai_analysis_logs")
     .insert(toAiLogRow(user.id, createAiLog("setup_generation", `Generated setup hypothesis for ${assetTicker}.`)));
 
-  refresh(["/signals", `/events/${eventId}`, "/dashboard", "/ai-log"]);
-  redirect("/signals?notice=Setup%20generated");
+  refresh(["/setups", "/signals", `/events/${eventId}`, "/dashboard", "/ai-log"]);
+  redirect("/setups?notice=Setup%20generated");
 }
 
 export async function generateRiskReview(formData: FormData) {
@@ -243,7 +243,7 @@ export async function generateRiskReview(formData: FormData) {
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
-    redirect("/risk?notice=Demo%20mode%3A%20mock%20risk%20review");
+    redirect("/setups?notice=Demo%20mode%3A%20mock%20risk%20review");
   }
 
   const { supabase, user } = auth;
@@ -263,8 +263,8 @@ export async function generateRiskReview(formData: FormData) {
     .from("ai_analysis_logs")
     .insert(toAiLogRow(user.id, createAiLog("risk_review", `Generated risk review for ${setup.title}.`)));
 
-  refresh(["/risk", "/signals", "/dashboard", "/ai-log"]);
-  redirect("/risk?notice=Risk%20review%20generated");
+  refresh(["/setups", "/risk", "/signals", "/dashboard", "/ai-log"]);
+  redirect("/setups?notice=Risk%20review%20generated");
 }
 
 export async function createPaperTrade(formData: FormData) {

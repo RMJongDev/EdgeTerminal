@@ -10,7 +10,6 @@ import {
   Radar,
   ShieldAlert,
   Sparkles,
-  TrendingUp,
 } from "lucide-react";
 import { signOut } from "@/app/(auth)/login/actions";
 import { Badge } from "@/components/edge-terminal";
@@ -25,8 +24,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Gauge },
   { href: "/watchlist", label: "Watchlist", icon: ListChecks },
   { href: "/events", label: "Event Radar", icon: Radar },
-  { href: "/signals", label: "Signal Desk", icon: TrendingUp },
-  { href: "/risk", label: "Risk Review", icon: ShieldAlert },
+  { href: "/setups", label: "Setups & Risk", icon: ShieldAlert },
   { href: "/paper-trades", label: "Paper Trades", icon: CalendarDays },
   { href: "/performance", label: "Performance Lab", icon: BarChart3 },
   { href: "/briefing", label: "Daily Briefing", icon: Sparkles },

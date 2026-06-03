@@ -172,6 +172,13 @@ Skills die niet in `.claude/skills/` van dit repo zitten maar wel verwacht worde
 - **Bron**: `.env.example` in project root is leidend.
 - **Onderhoud**: bij elke nieuwe env var → toevoegen aan `.env.example` met dummy/placeholder, en kort beschrijven waarvoor.
 
+Verwachte discovery keys:
+- `NEWS_DISCOVERY_API_KEY` / `NEWS_DISCOVERY_BASE_URL` voor brede nieuws-, search-, filing- of feed-ingestie.
+- `DISCOVERY_SCAN_CRON_SECRET` voor server-side scheduled discovery scans.
+- `MARKET_DATA_API_KEY` / `MARKET_DATA_BASE_URL` voor koersreactie, movers en delayed market context.
+
+Providerkeuze staat nog open. Criteria: brede dekking buiten de watchlist, bron-URL's/timestamps voor auditability, duidelijke gebruiksrechten voor API-ingestie of scraping, betaalbaar persoonlijk gebruik en rate limits die een dagelijkse ochtendscan ondersteunen.
+
 ---
 
 ## Onderhoud
