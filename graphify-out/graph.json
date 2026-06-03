@@ -9,7 +9,7 @@
       "source_file": "next-env.d.ts",
       "source_location": "L1",
       "id": "next_env_d_ts",
-      "community": 18,
+      "community": 21,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "next.config.ts",
       "source_location": "L1",
       "id": "next_config_ts",
-      "community": 19,
+      "community": 22,
       "norm_label": "next.config.ts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "playwright.config.ts",
       "source_location": "L1",
       "id": "playwright_config_ts",
-      "community": 20,
+      "community": 23,
       "norm_label": "playwright.config.ts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "postcss.config.js",
       "source_location": "L1",
       "id": "postcss_config_js",
-      "community": 21,
+      "community": 24,
       "norm_label": "postcss.config.js"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "tailwind.config.ts",
       "source_location": "L1",
       "id": "tailwind_config_ts",
-      "community": 22,
+      "community": 25,
       "norm_label": "tailwind.config.ts"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "src\\proxy.ts",
       "source_location": "L1",
       "id": "src_proxy_ts",
-      "community": 5,
+      "community": 0,
       "norm_label": "proxy.ts"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "src\\proxy.ts",
       "source_location": "L4",
       "id": "proxy_proxy",
-      "community": 5,
+      "community": 0,
       "norm_label": "proxy()"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "src\\app\\layout.tsx",
       "source_location": "L1",
       "id": "src_app_layout_tsx",
-      "community": 9,
+      "community": 11,
       "norm_label": "layout.tsx"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "src\\app\\layout.tsx",
       "source_location": "L9",
       "id": "layout_rootlayout",
-      "community": 9,
+      "community": 11,
       "norm_label": "rootlayout()"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "src\\app\\page.tsx",
       "source_location": "L1",
       "id": "src_app_page_tsx",
-      "community": 23,
+      "community": 26,
       "norm_label": "page.tsx"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "src\\app\\(app)\\layout.tsx",
       "source_location": "L1",
       "id": "src_app_app_layout_tsx",
-      "community": 1,
+      "community": 0,
       "norm_label": "layout.tsx"
     },
     {
@@ -108,7 +108,7 @@
       "source_file": "src\\app\\(app)\\layout.tsx",
       "source_location": "L7",
       "id": "layout_protectedlayout",
-      "community": 1,
+      "community": 0,
       "norm_label": "protectedlayout()"
     },
     {
@@ -117,7 +117,7 @@
       "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_ai_log_page_tsx",
-      "community": 4,
+      "community": 5,
       "norm_label": "page.tsx"
     },
     {
@@ -126,7 +126,7 @@
       "source_file": "src\\app\\(app)\\ai-log\\page.tsx",
       "source_location": "L7",
       "id": "page_ailogpage",
-      "community": 4,
+      "community": 5,
       "norm_label": "ailogpage()"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "src\\app\\(app)\\briefing\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_briefing_page_tsx",
-      "community": 24,
+      "community": 27,
       "norm_label": "page.tsx"
     },
     {
@@ -144,8 +144,17 @@
       "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_dashboard_page_tsx",
-      "community": 25,
+      "community": 10,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "impactTone()",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\events\\page.tsx",
+      "source_location": "L37",
+      "id": "page_impacttone",
+      "community": 10,
+      "norm_label": "impacttone()"
     },
     {
       "label": "page.tsx",
@@ -153,7 +162,7 @@
       "source_file": "src\\app\\(app)\\events\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_events_page_tsx",
-      "community": 26,
+      "community": 10,
       "norm_label": "page.tsx"
     },
     {
@@ -162,7 +171,7 @@
       "source_file": "src\\app\\(app)\\events\\[id]\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_events_id_page_tsx",
-      "community": 27,
+      "community": 28,
       "norm_label": "page.tsx"
     },
     {
@@ -171,7 +180,7 @@
       "source_file": "src\\app\\(app)\\paper-trades\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_paper_trades_page_tsx",
-      "community": 28,
+      "community": 29,
       "norm_label": "page.tsx"
     },
     {
@@ -180,7 +189,16 @@
       "source_file": "src\\app\\(app)\\performance\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_performance_page_tsx",
-      "community": 29,
+      "community": 30,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\(app)\\process\\page.tsx",
+      "source_location": "L1",
+      "id": "src_app_app_process_page_tsx",
+      "community": 31,
       "norm_label": "page.tsx"
     },
     {
@@ -189,7 +207,7 @@
       "source_file": "src\\app\\(app)\\risk\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_risk_page_tsx",
-      "community": 10,
+      "community": 12,
       "norm_label": "page.tsx"
     },
     {
@@ -198,7 +216,7 @@
       "source_file": "src\\app\\(app)\\risk\\page.tsx",
       "source_location": "L3",
       "id": "page_riskredirectpage",
-      "community": 10,
+      "community": 12,
       "norm_label": "riskredirectpage()"
     },
     {
@@ -207,7 +225,7 @@
       "source_file": "src\\app\\(app)\\setups\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_setups_page_tsx",
-      "community": 30,
+      "community": 32,
       "norm_label": "page.tsx"
     },
     {
@@ -216,7 +234,7 @@
       "source_file": "src\\app\\(app)\\signals\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_signals_page_tsx",
-      "community": 11,
+      "community": 13,
       "norm_label": "page.tsx"
     },
     {
@@ -225,7 +243,7 @@
       "source_file": "src\\app\\(app)\\signals\\page.tsx",
       "source_location": "L3",
       "id": "page_signalsredirectpage",
-      "community": 11,
+      "community": 13,
       "norm_label": "signalsredirectpage()"
     },
     {
@@ -234,7 +252,7 @@
       "source_file": "src\\app\\(app)\\watchlist\\page.tsx",
       "source_location": "L1",
       "id": "src_app_app_watchlist_page_tsx",
-      "community": 31,
+      "community": 33,
       "norm_label": "page.tsx"
     },
     {
@@ -243,7 +261,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L1",
       "id": "src_app_auth_login_actions_ts",
-      "community": 1,
+      "community": 0,
       "norm_label": "actions.ts"
     },
     {
@@ -252,7 +270,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L8",
       "id": "actions_safenext",
-      "community": 1,
+      "community": 0,
       "norm_label": "safenext()"
     },
     {
@@ -261,7 +279,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L18",
       "id": "actions_getcredentials",
-      "community": 1,
+      "community": 0,
       "norm_label": "getcredentials()"
     },
     {
@@ -270,7 +288,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L29",
       "id": "actions_signin",
-      "community": 1,
+      "community": 0,
       "norm_label": "signin()"
     },
     {
@@ -279,7 +297,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L47",
       "id": "actions_signup",
-      "community": 1,
+      "community": 0,
       "norm_label": "signup()"
     },
     {
@@ -288,7 +306,7 @@
       "source_file": "src\\app\\(auth)\\login\\actions.ts",
       "source_location": "L69",
       "id": "actions_signout",
-      "community": 1,
+      "community": 0,
       "norm_label": "signout()"
     },
     {
@@ -297,7 +315,7 @@
       "source_file": "src\\app\\(auth)\\login\\page.tsx",
       "source_location": "L1",
       "id": "src_app_auth_login_page_tsx",
-      "community": 1,
+      "community": 0,
       "norm_label": "page.tsx"
     },
     {
@@ -306,7 +324,7 @@
       "source_file": "src\\app\\(auth)\\login\\page.tsx",
       "source_location": "L28",
       "id": "page_loginpage",
-      "community": 1,
+      "community": 0,
       "norm_label": "loginpage()"
     },
     {
@@ -315,7 +333,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L1",
       "id": "src_app_auth_confirm_route_ts",
-      "community": 1,
+      "community": 0,
       "norm_label": "route.ts"
     },
     {
@@ -324,7 +342,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L7",
       "id": "route_safenext",
-      "community": 1,
+      "community": 0,
       "norm_label": "safenext()"
     },
     {
@@ -333,7 +351,7 @@
       "source_file": "src\\app\\auth\\confirm\\route.ts",
       "source_location": "L15",
       "id": "route_get",
-      "community": 1,
+      "community": 0,
       "norm_label": "get()"
     },
     {
@@ -342,7 +360,7 @@
       "source_file": "src\\app\\auth\\error\\page.tsx",
       "source_location": "L1",
       "id": "src_app_auth_error_page_tsx",
-      "community": 12,
+      "community": 14,
       "norm_label": "page.tsx"
     },
     {
@@ -351,7 +369,7 @@
       "source_file": "src\\app\\auth\\error\\page.tsx",
       "source_location": "L12",
       "id": "page_autherrorpage",
-      "community": 12,
+      "community": 14,
       "norm_label": "autherrorpage()"
     },
     {
@@ -360,16 +378,16 @@
       "source_file": "src\\components\\app-shell.tsx",
       "source_location": "L1",
       "id": "src_components_app_shell_tsx",
-      "community": 1,
+      "community": 0,
       "norm_label": "app-shell.tsx"
     },
     {
       "label": "AppShell()",
       "file_type": "code",
       "source_file": "src\\components\\app-shell.tsx",
-      "source_location": "L34",
+      "source_location": "L36",
       "id": "app_shell_appshell",
-      "community": 1,
+      "community": 0,
       "norm_label": "appshell()"
     },
     {
@@ -378,7 +396,7 @@
       "source_file": "src\\components\\edge-terminal.tsx",
       "source_location": "L1",
       "id": "src_components_edge_terminal_tsx",
-      "community": 8,
+      "community": 9,
       "norm_label": "edge-terminal.tsx"
     },
     {
@@ -387,7 +405,7 @@
       "source_file": "src\\components\\edge-terminal.tsx",
       "source_location": "L15",
       "id": "edge_terminal_badge",
-      "community": 8,
+      "community": 9,
       "norm_label": "badge()"
     },
     {
@@ -396,25 +414,25 @@
       "source_file": "src\\components\\edge-terminal.tsx",
       "source_location": "L37",
       "id": "edge_terminal_panel",
-      "community": 8,
+      "community": 9,
       "norm_label": "panel()"
     },
     {
       "label": "PanelHeader()",
       "file_type": "code",
       "source_file": "src\\components\\edge-terminal.tsx",
-      "source_location": "L45",
+      "source_location": "L53",
       "id": "edge_terminal_panelheader",
-      "community": 8,
+      "community": 9,
       "norm_label": "panelheader()"
     },
     {
       "label": "PanelBody()",
       "file_type": "code",
       "source_file": "src\\components\\edge-terminal.tsx",
-      "source_location": "L60",
+      "source_location": "L68",
       "id": "edge_terminal_panelbody",
-      "community": 8,
+      "community": 9,
       "norm_label": "panelbody()"
     },
     {
@@ -423,7 +441,7 @@
       "source_file": "src\\components\\status-pill.tsx",
       "source_location": "L1",
       "id": "src_components_status_pill_tsx",
-      "community": 13,
+      "community": 15,
       "norm_label": "status-pill.tsx"
     },
     {
@@ -432,7 +450,7 @@
       "source_file": "src\\components\\status-pill.tsx",
       "source_location": "L9",
       "id": "status_pill_statuspill",
-      "community": 13,
+      "community": 15,
       "norm_label": "statuspill()"
     },
     {
@@ -441,7 +459,7 @@
       "source_file": "src\\components\\ui\\button.tsx",
       "source_location": "L1",
       "id": "src_components_ui_button_tsx",
-      "community": 14,
+      "community": 16,
       "norm_label": "button.tsx"
     },
     {
@@ -450,7 +468,7 @@
       "source_file": "src\\components\\ui\\button.tsx",
       "source_location": "L36",
       "id": "button_button",
-      "community": 14,
+      "community": 16,
       "norm_label": "button()"
     },
     {
@@ -459,7 +477,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L1",
       "id": "src_components_ui_card_tsx",
-      "community": 7,
+      "community": 8,
       "norm_label": "card.tsx"
     },
     {
@@ -468,7 +486,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L4",
       "id": "card_card",
-      "community": 7,
+      "community": 8,
       "norm_label": "card()"
     },
     {
@@ -477,7 +495,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L16",
       "id": "card_cardheader",
-      "community": 7,
+      "community": 8,
       "norm_label": "cardheader()"
     },
     {
@@ -486,7 +504,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L20",
       "id": "card_cardtitle",
-      "community": 7,
+      "community": 8,
       "norm_label": "cardtitle()"
     },
     {
@@ -495,7 +513,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L29",
       "id": "card_carddescription",
-      "community": 7,
+      "community": 8,
       "norm_label": "carddescription()"
     },
     {
@@ -504,7 +522,7 @@
       "source_file": "src\\components\\ui\\card.tsx",
       "source_location": "L33",
       "id": "card_cardcontent",
-      "community": 7,
+      "community": 8,
       "norm_label": "cardcontent()"
     },
     {
@@ -513,7 +531,7 @@
       "source_file": "src\\components\\ui\\input.tsx",
       "source_location": "L1",
       "id": "src_components_ui_input_tsx",
-      "community": 15,
+      "community": 17,
       "norm_label": "input.tsx"
     },
     {
@@ -522,7 +540,7 @@
       "source_file": "src\\components\\ui\\input.tsx",
       "source_location": "L4",
       "id": "input_input",
-      "community": 15,
+      "community": 17,
       "norm_label": "input()"
     },
     {
@@ -531,7 +549,7 @@
       "source_file": "src\\components\\ui\\label.tsx",
       "source_location": "L1",
       "id": "src_components_ui_label_tsx",
-      "community": 16,
+      "community": 18,
       "norm_label": "label.tsx"
     },
     {
@@ -540,7 +558,7 @@
       "source_file": "src\\components\\ui\\label.tsx",
       "source_location": "L4",
       "id": "label_label",
-      "community": 16,
+      "community": 18,
       "norm_label": "label()"
     },
     {
@@ -549,7 +567,7 @@
       "source_file": "src\\lib\\database.types.ts",
       "source_location": "L1",
       "id": "src_lib_database_types_ts",
-      "community": 32,
+      "community": 34,
       "norm_label": "database.types.ts"
     },
     {
@@ -558,7 +576,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L1",
       "id": "src_lib_env_ts",
-      "community": 5,
+      "community": 0,
       "norm_label": "env.ts"
     },
     {
@@ -567,7 +585,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L1",
       "id": "env_hassupabaseenv",
-      "community": 1,
+      "community": 0,
       "norm_label": "hassupabaseenv()"
     },
     {
@@ -576,7 +594,7 @@
       "source_file": "src\\lib\\env.ts",
       "source_location": "L8",
       "id": "env_getsupabaseenv",
-      "community": 5,
+      "community": 0,
       "norm_label": "getsupabaseenv()"
     },
     {
@@ -585,7 +603,7 @@
       "source_file": "src\\lib\\utils.ts",
       "source_location": "L1",
       "id": "src_lib_utils_ts",
-      "community": 17,
+      "community": 19,
       "norm_label": "utils.ts"
     },
     {
@@ -594,7 +612,7 @@
       "source_file": "src\\lib\\utils.ts",
       "source_location": "L4",
       "id": "utils_cn",
-      "community": 17,
+      "community": 19,
       "norm_label": "cn()"
     },
     {
@@ -610,7 +628,7 @@
       "label": "asString()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L24",
+      "source_location": "L28",
       "id": "actions_asstring",
       "community": 2,
       "norm_label": "asstring()"
@@ -619,16 +637,43 @@
       "label": "asNumber()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L28",
+      "source_location": "L32",
       "id": "actions_asnumber",
       "community": 2,
       "norm_label": "asnumber()"
     },
     {
+      "label": "asRecord()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L37",
+      "id": "actions_asrecord",
+      "community": 2,
+      "norm_label": "asrecord()"
+    },
+    {
+      "label": "asJson()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L41",
+      "id": "actions_asjson",
+      "community": 2,
+      "norm_label": "asjson()"
+    },
+    {
+      "label": "asScanHintMode()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L45",
+      "id": "actions_asscanhintmode",
+      "community": 2,
+      "norm_label": "asscanhintmode()"
+    },
+    {
       "label": "getAuthenticatedSupabase()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L33",
+      "source_location": "L55",
       "id": "actions_getauthenticatedsupabase",
       "community": 2,
       "norm_label": "getauthenticatedsupabase()"
@@ -637,7 +682,7 @@
       "label": "refresh()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L50",
+      "source_location": "L72",
       "id": "actions_refresh",
       "community": 2,
       "norm_label": "refresh()"
@@ -646,16 +691,34 @@
       "label": "toAiLogRow()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L54",
+      "source_location": "L76",
       "id": "actions_toailogrow",
       "community": 2,
       "norm_label": "toailogrow()"
     },
     {
+      "label": "createMarketEventFromCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L94",
+      "id": "actions_createmarketeventfromcandidate",
+      "community": 2,
+      "norm_label": "createmarketeventfromcandidate()"
+    },
+    {
+      "label": "startDailyScan()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L170",
+      "id": "actions_startdailyscan",
+      "community": 2,
+      "norm_label": "startdailyscan()"
+    },
+    {
       "label": "createAsset()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L70",
+      "source_location": "L290",
       "id": "actions_createasset",
       "community": 2,
       "norm_label": "createasset()"
@@ -664,16 +727,52 @@
       "label": "createMarketEvent()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L96",
+      "source_location": "L316",
       "id": "actions_createmarketevent",
       "community": 2,
       "norm_label": "createmarketevent()"
     },
     {
+      "label": "acceptCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L355",
+      "id": "actions_acceptcandidate",
+      "community": 2,
+      "norm_label": "acceptcandidate()"
+    },
+    {
+      "label": "ignoreCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L381",
+      "id": "actions_ignorecandidate",
+      "community": 2,
+      "norm_label": "ignorecandidate()"
+    },
+    {
+      "label": "mergeCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L404",
+      "id": "actions_mergecandidate",
+      "community": 2,
+      "norm_label": "mergecandidate()"
+    },
+    {
+      "label": "analyzeCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L429",
+      "id": "actions_analyzecandidate",
+      "community": 2,
+      "norm_label": "analyzecandidate()"
+    },
+    {
       "label": "generateEventAnalysis()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L135",
+      "source_location": "L464",
       "id": "actions_generateeventanalysis",
       "community": 2,
       "norm_label": "generateeventanalysis()"
@@ -682,7 +781,7 @@
       "label": "generateSetup()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L201",
+      "source_location": "L530",
       "id": "actions_generatesetup",
       "community": 2,
       "norm_label": "generatesetup()"
@@ -691,7 +790,7 @@
       "label": "generateRiskReview()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L241",
+      "source_location": "L570",
       "id": "actions_generateriskreview",
       "community": 2,
       "norm_label": "generateriskreview()"
@@ -700,7 +799,7 @@
       "label": "createPaperTrade()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L270",
+      "source_location": "L599",
       "id": "actions_createpapertrade",
       "community": 2,
       "norm_label": "createpapertrade()"
@@ -709,7 +808,7 @@
       "label": "closePaperTrade()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L296",
+      "source_location": "L625",
       "id": "actions_closepapertrade",
       "community": 2,
       "norm_label": "closepapertrade()"
@@ -720,7 +819,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L1",
       "id": "src_lib_edge_terminal_ai_ts",
-      "community": 4,
+      "community": 5,
       "norm_label": "ai.ts"
     },
     {
@@ -729,7 +828,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L3",
       "id": "ai_hasopenaienv",
-      "community": 4,
+      "community": 5,
       "norm_label": "hasopenaienv()"
     },
     {
@@ -738,7 +837,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L7",
       "id": "ai_hasgeminienv",
-      "community": 4,
+      "community": 5,
       "norm_label": "hasgeminienv()"
     },
     {
@@ -747,7 +846,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L11",
       "id": "ai_getairuntimestatus",
-      "community": 4,
+      "community": 5,
       "norm_label": "getairuntimestatus()"
     },
     {
@@ -756,7 +855,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L20",
       "id": "ai_createmockeventanalysis",
-      "community": 4,
+      "community": 5,
       "norm_label": "createmockeventanalysis()"
     },
     {
@@ -765,7 +864,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L47",
       "id": "ai_createmocksetup",
-      "community": 4,
+      "community": 5,
       "norm_label": "createmocksetup()"
     },
     {
@@ -774,7 +873,7 @@
       "source_file": "src\\lib\\edge-terminal\\ai.ts",
       "source_location": "L78",
       "id": "ai_createmockriskreview",
-      "community": 4,
+      "community": 5,
       "norm_label": "createmockriskreview()"
     },
     {
@@ -796,10 +895,46 @@
       "norm_label": "data.ts"
     },
     {
+      "label": "asRecord()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L21",
+      "id": "data_asrecord",
+      "community": 3,
+      "norm_label": "asrecord()"
+    },
+    {
+      "label": "asStringArray()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L25",
+      "id": "data_asstringarray",
+      "community": 3,
+      "norm_label": "asstringarray()"
+    },
+    {
+      "label": "asScoreBreakdown()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L29",
+      "id": "data_asscorebreakdown",
+      "community": 3,
+      "norm_label": "asscorebreakdown()"
+    },
+    {
+      "label": "asContextHints()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L44",
+      "id": "data_ascontexthints",
+      "community": 3,
+      "norm_label": "ascontexthints()"
+    },
+    {
       "label": "toAsset()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L16",
+      "source_location": "L65",
       "id": "data_toasset",
       "community": 3,
       "norm_label": "toasset()"
@@ -808,7 +943,7 @@
       "label": "toEvent()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L34",
+      "source_location": "L83",
       "id": "data_toevent",
       "community": 3,
       "norm_label": "toevent()"
@@ -817,7 +952,7 @@
       "label": "toAnalysis()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L51",
+      "source_location": "L100",
       "id": "data_toanalysis",
       "community": 3,
       "norm_label": "toanalysis()"
@@ -826,7 +961,7 @@
       "label": "toSetup()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L71",
+      "source_location": "L120",
       "id": "data_tosetup",
       "community": 3,
       "norm_label": "tosetup()"
@@ -835,7 +970,7 @@
       "label": "toRisk()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L92",
+      "source_location": "L141",
       "id": "data_torisk",
       "community": 3,
       "norm_label": "torisk()"
@@ -844,7 +979,7 @@
       "label": "toTrade()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L104",
+      "source_location": "L153",
       "id": "data_totrade",
       "community": 3,
       "norm_label": "totrade()"
@@ -853,16 +988,43 @@
       "label": "toLog()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L125",
+      "source_location": "L174",
       "id": "data_tolog",
       "community": 3,
       "norm_label": "tolog()"
     },
     {
+      "label": "toDiscoveryRun()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L190",
+      "id": "data_todiscoveryrun",
+      "community": 3,
+      "norm_label": "todiscoveryrun()"
+    },
+    {
+      "label": "toEventSource()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L206",
+      "id": "data_toeventsource",
+      "community": 3,
+      "norm_label": "toeventsource()"
+    },
+    {
+      "label": "toEventCandidate()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L226",
+      "id": "data_toeventcandidate",
+      "community": 3,
+      "norm_label": "toeventcandidate()"
+    },
+    {
       "label": "toBriefing()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L139",
+      "source_location": "L258",
       "id": "data_tobriefing",
       "community": 3,
       "norm_label": "tobriefing()"
@@ -871,7 +1033,7 @@
       "label": "getTerminalData()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L154",
+      "source_location": "L273",
       "id": "data_getterminaldata",
       "community": 3,
       "norm_label": "getterminaldata()"
@@ -880,7 +1042,7 @@
       "label": "getEventDetail()",
       "file_type": "code",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L217",
+      "source_location": "L350",
       "id": "data_geteventdetail",
       "community": 3,
       "norm_label": "geteventdetail()"
@@ -891,8 +1053,188 @@
       "source_file": "src\\lib\\edge-terminal\\demo-data.ts",
       "source_location": "L1",
       "id": "src_lib_edge_terminal_demo_data_ts",
-      "community": 33,
+      "community": 20,
       "norm_label": "demo-data.ts"
+    },
+    {
+      "label": "scoreBreakdown()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\demo-data.ts",
+      "source_location": "L17",
+      "id": "demo_data_scorebreakdown",
+      "community": 20,
+      "norm_label": "scorebreakdown()"
+    },
+    {
+      "label": "discovery-providers.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_discovery_providers_ts",
+      "community": 6,
+      "norm_label": "discovery-providers.ts"
+    },
+    {
+      "label": "cloneSources()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L4",
+      "id": "discovery_providers_clonesources",
+      "community": 6,
+      "norm_label": "clonesources()"
+    },
+    {
+      "label": "fetchBroadNewsSources()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L10",
+      "id": "discovery_providers_fetchbroadnewssources",
+      "community": 6,
+      "norm_label": "fetchbroadnewssources()"
+    },
+    {
+      "label": "fetchFinancialNewsSources()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L14",
+      "id": "discovery_providers_fetchfinancialnewssources",
+      "community": 6,
+      "norm_label": "fetchfinancialnewssources()"
+    },
+    {
+      "label": "fetchPrimarySourceItems()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L18",
+      "id": "discovery_providers_fetchprimarysourceitems",
+      "community": 6,
+      "norm_label": "fetchprimarysourceitems()"
+    },
+    {
+      "label": "fetchMarketContext()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L25",
+      "id": "discovery_providers_fetchmarketcontext",
+      "community": 6,
+      "norm_label": "fetchmarketcontext()"
+    },
+    {
+      "label": "fetchMockDiscoverySources()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L29",
+      "id": "discovery_providers_fetchmockdiscoverysources",
+      "community": 6,
+      "norm_label": "fetchmockdiscoverysources()"
+    },
+    {
+      "label": "discovery-scoring.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_discovery_scoring_ts",
+      "community": 4,
+      "norm_label": "discovery-scoring.ts"
+    },
+    {
+      "label": "clampScore()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L3",
+      "id": "discovery_scoring_clampscore",
+      "community": 4,
+      "norm_label": "clampscore()"
+    },
+    {
+      "label": "calculateCandidateQualityScore()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L7",
+      "id": "discovery_scoring_calculatecandidatequalityscore",
+      "community": 4,
+      "norm_label": "calculatecandidatequalityscore()"
+    },
+    {
+      "label": "tokenize()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L20",
+      "id": "discovery_scoring_tokenize",
+      "community": 4,
+      "norm_label": "tokenize()"
+    },
+    {
+      "label": "getScanHintFit()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L27",
+      "id": "discovery_scoring_getscanhintfit",
+      "community": 4,
+      "norm_label": "getscanhintfit()"
+    },
+    {
+      "label": "applyScanHint()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L57",
+      "id": "discovery_scoring_applyscanhint",
+      "community": 4,
+      "norm_label": "applyscanhint()"
+    },
+    {
+      "label": "rankTopCandidates()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L71",
+      "id": "discovery_scoring_ranktopcandidates",
+      "community": 4,
+      "norm_label": "ranktopcandidates()"
+    },
+    {
+      "label": "discovery.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L1",
+      "id": "src_lib_edge_terminal_discovery_ts",
+      "community": 4,
+      "norm_label": "discovery.ts"
+    },
+    {
+      "label": "extractSymbols()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L6",
+      "id": "discovery_extractsymbols",
+      "community": 4,
+      "norm_label": "extractsymbols()"
+    },
+    {
+      "label": "extractTopics()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L11",
+      "id": "discovery_extracttopics",
+      "community": 4,
+      "norm_label": "extracttopics()"
+    },
+    {
+      "label": "createScanContextHints()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L19",
+      "id": "discovery_createscancontexthints",
+      "community": 4,
+      "norm_label": "createscancontexthints()"
+    },
+    {
+      "label": "buildMockDiscoveryResult()",
+      "file_type": "code",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L39",
+      "id": "discovery_buildmockdiscoveryresult",
+      "community": 4,
+      "norm_label": "buildmockdiscoveryresult()"
     },
     {
       "label": "metrics.ts",
@@ -900,7 +1242,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L1",
       "id": "src_lib_edge_terminal_metrics_ts",
-      "community": 6,
+      "community": 7,
       "norm_label": "metrics.ts"
     },
     {
@@ -909,7 +1251,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L3",
       "id": "metrics_formatpercent",
-      "community": 6,
+      "community": 7,
       "norm_label": "formatpercent()"
     },
     {
@@ -918,7 +1260,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L9",
       "id": "metrics_formatmoney",
-      "community": 6,
+      "community": 7,
       "norm_label": "formatmoney()"
     },
     {
@@ -927,7 +1269,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L17",
       "id": "metrics_isclosedtrade",
-      "community": 6,
+      "community": 7,
       "norm_label": "isclosedtrade()"
     },
     {
@@ -936,7 +1278,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L21",
       "id": "metrics_getperformancesummary",
-      "community": 6,
+      "community": 7,
       "norm_label": "getperformancesummary()"
     },
     {
@@ -945,7 +1287,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L47",
       "id": "metrics_getdirectionperformance",
-      "community": 6,
+      "community": 7,
       "norm_label": "getdirectionperformance()"
     },
     {
@@ -954,7 +1296,7 @@
       "source_file": "src\\lib\\edge-terminal\\metrics.ts",
       "source_location": "L68",
       "id": "metrics_getdashboardmetrics",
-      "community": 6,
+      "community": 7,
       "norm_label": "getdashboardmetrics()"
     },
     {
@@ -963,7 +1305,7 @@
       "source_file": "src\\lib\\edge-terminal\\types.ts",
       "source_location": "L1",
       "id": "src_lib_edge_terminal_types_ts",
-      "community": 34,
+      "community": 35,
       "norm_label": "types.ts"
     },
     {
@@ -972,7 +1314,7 @@
       "source_file": "src\\lib\\supabase\\client.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_client_ts",
-      "community": 5,
+      "community": 0,
       "norm_label": "client.ts"
     },
     {
@@ -981,7 +1323,7 @@
       "source_file": "src\\lib\\supabase\\client.ts",
       "source_location": "L5",
       "id": "client_createclient",
-      "community": 5,
+      "community": 0,
       "norm_label": "createclient()"
     },
     {
@@ -990,7 +1332,7 @@
       "source_file": "src\\lib\\supabase\\proxy.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_proxy_ts",
-      "community": 5,
+      "community": 0,
       "norm_label": "proxy.ts"
     },
     {
@@ -999,7 +1341,7 @@
       "source_file": "src\\lib\\supabase\\proxy.ts",
       "source_location": "L8",
       "id": "proxy_updatesession",
-      "community": 5,
+      "community": 0,
       "norm_label": "updatesession()"
     },
     {
@@ -1008,7 +1350,7 @@
       "source_file": "src\\lib\\supabase\\server.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_server_ts",
-      "community": 1,
+      "community": 0,
       "norm_label": "server.ts"
     },
     {
@@ -1017,7 +1359,7 @@
       "source_file": "src\\lib\\supabase\\server.ts",
       "source_location": "L6",
       "id": "server_createclient",
-      "community": 1,
+      "community": 0,
       "norm_label": "createclient()"
     },
     {
@@ -1026,7 +1368,7 @@
       "source_file": "tests\\e2e\\smoke.spec.ts",
       "source_location": "L1",
       "id": "tests_e2e_smoke_spec_ts",
-      "community": 35,
+      "community": 36,
       "norm_label": "smoke.spec.ts"
     },
     {
@@ -1038,7 +1380,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "project kickstart",
       "id": "claudemd_project_kickstart"
     },
@@ -1051,7 +1393,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "project accelerator skill",
       "id": "claudemd_project_accelerator_skill"
     },
@@ -1064,7 +1406,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "four-phase kickstart",
       "id": "claudemd_four_phases"
     },
@@ -1077,7 +1419,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": ".claude/ configuration",
       "id": "claudemd_claude_dir"
     },
@@ -1090,7 +1432,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "docs/ structure",
       "id": "claudemd_docs_dir"
     },
@@ -1103,7 +1445,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "skill location convention",
       "id": "claudemd_skill_convention"
     },
@@ -1116,7 +1458,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "settings team vs local",
       "id": "claudemd_settings_split"
     },
@@ -1129,7 +1471,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "house style (nl docs, en code, ascii, darkmode)",
       "id": "claudemd_house_style"
     },
@@ -1142,7 +1484,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "mandatory implementation log",
       "id": "claudemd_implementation_log_rule"
     },
@@ -1155,7 +1497,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "graphify integration",
       "id": "claudemd_graphify_integration"
     },
@@ -1168,7 +1510,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "implementation log",
       "id": "implog_log"
     },
@@ -1181,7 +1523,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "log entry format",
       "id": "implog_entry_format"
     },
@@ -1194,7 +1536,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "robin de jong",
       "id": "devctx_robin_de_jong"
     },
@@ -1207,7 +1549,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "superp.ai",
       "id": "devctx_superp_ai"
     },
@@ -1220,7 +1562,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "new default",
       "id": "devctx_new_default"
     },
@@ -1233,7 +1575,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "pauline",
       "id": "devctx_pauline"
     },
@@ -1246,7 +1588,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "technical background & stack",
       "id": "devctx_tech_stack"
     },
@@ -1259,7 +1601,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "mendix platform",
       "id": "devctx_mendix"
     },
@@ -1272,7 +1614,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "pragmatic mvp workstyle",
       "id": "devctx_workstyle"
     },
@@ -1285,7 +1627,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "new default services",
       "id": "devctx_services"
     },
@@ -1298,7 +1640,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "vastgoedatlas ai",
       "id": "devctx_vastgoedatlas"
     },
@@ -1311,7 +1653,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "granokoffie",
       "id": "devctx_granokoffie"
     },
@@ -1324,7 +1666,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "twelvelease",
       "id": "devctx_twelvelease"
     },
@@ -1337,7 +1679,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "dept-style tone of voice",
       "id": "devctx_tone_of_voice"
     },
@@ -1350,7 +1692,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
+      "community": 1,
       "norm_label": "superp vs new default routing",
       "id": "devctx_superp_vs_nd"
     }
@@ -1463,6 +1805,30 @@
       "_tgt": "ai_getairuntimestatus",
       "source": "page_ailogpage",
       "target": "ai_getairuntimestatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\(app)\\dashboard\\page.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "src_app_app_dashboard_page_tsx",
+      "_tgt": "page_impacttone",
+      "source": "src_app_app_dashboard_page_tsx",
+      "target": "page_impacttone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\(app)\\events\\page.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "src_app_app_events_page_tsx",
+      "_tgt": "page_impacttone",
+      "source": "page_impacttone",
+      "target": "src_app_app_events_page_tsx",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -1825,6 +2191,18 @@
       "target": "actions_asnumber"
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "route_get",
+      "_tgt": "discovery_scoring_ranktopcandidates",
+      "source": "route_get",
+      "target": "discovery_scoring_ranktopcandidates"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\app\\auth\\error\\page.tsx",
@@ -1840,7 +2218,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\components\\app-shell.tsx",
-      "source_location": "L34",
+      "source_location": "L36",
       "weight": 1.0,
       "_src": "src_components_app_shell_tsx",
       "_tgt": "app_shell_appshell",
@@ -1888,7 +2266,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\components\\edge-terminal.tsx",
-      "source_location": "L45",
+      "source_location": "L53",
       "weight": 1.0,
       "_src": "src_components_edge_terminal_tsx",
       "_tgt": "edge_terminal_panelheader",
@@ -1900,7 +2278,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\components\\edge-terminal.tsx",
-      "source_location": "L60",
+      "source_location": "L68",
       "weight": 1.0,
       "_src": "src_components_edge_terminal_tsx",
       "_tgt": "edge_terminal_panelbody",
@@ -2128,7 +2506,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L24",
+      "source_location": "L28",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_asstring",
@@ -2140,7 +2518,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_asnumber",
@@ -2152,7 +2530,43 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L33",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_asrecord",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_asrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_asjson",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_asjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_asscanhintmode",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_asscanhintmode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2164,7 +2578,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L50",
+      "source_location": "L72",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_refresh",
@@ -2176,7 +2590,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L54",
+      "source_location": "L76",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_toailogrow",
@@ -2188,7 +2602,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L70",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_createmarketeventfromcandidate",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_createmarketeventfromcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L170",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_startdailyscan",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L290",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_createasset",
@@ -2200,7 +2638,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L96",
+      "source_location": "L316",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_createmarketevent",
@@ -2212,7 +2650,55 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L135",
+      "source_location": "L355",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_acceptcandidate",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_acceptcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L381",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_ignorecandidate",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_ignorecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L404",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_mergecandidate",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_mergecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L429",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_actions_ts",
+      "_tgt": "actions_analyzecandidate",
+      "source": "src_lib_edge_terminal_actions_ts",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L464",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_generateeventanalysis",
@@ -2224,7 +2710,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L201",
+      "source_location": "L530",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_generatesetup",
@@ -2236,7 +2722,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L241",
+      "source_location": "L570",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_generateriskreview",
@@ -2248,7 +2734,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L270",
+      "source_location": "L599",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_createpapertrade",
@@ -2260,7 +2746,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L296",
+      "source_location": "L625",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_actions_ts",
       "_tgt": "actions_closepapertrade",
@@ -2272,7 +2758,31 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L80",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "actions_asscanhintmode",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_asscanhintmode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L171",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L300",
       "weight": 1.0,
       "_src": "actions_createasset",
       "_tgt": "actions_asstring",
@@ -2284,7 +2794,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L108",
+      "source_location": "L328",
       "weight": 1.0,
       "_src": "actions_createmarketevent",
       "_tgt": "actions_asstring",
@@ -2296,7 +2806,55 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L136",
+      "source_location": "L356",
+      "weight": 1.0,
+      "_src": "actions_acceptcandidate",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_acceptcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L382",
+      "weight": 1.0,
+      "_src": "actions_ignorecandidate",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_ignorecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L405",
+      "weight": 1.0,
+      "_src": "actions_mergecandidate",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_mergecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L430",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_asstring",
+      "source": "actions_asstring",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L465",
       "weight": 1.0,
       "_src": "actions_generateeventanalysis",
       "_tgt": "actions_asstring",
@@ -2308,7 +2866,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L202",
+      "source_location": "L531",
       "weight": 1.0,
       "_src": "actions_generatesetup",
       "_tgt": "actions_asstring",
@@ -2320,7 +2878,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L242",
+      "source_location": "L571",
       "weight": 1.0,
       "_src": "actions_generateriskreview",
       "_tgt": "actions_asstring",
@@ -2332,7 +2890,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L280",
+      "source_location": "L609",
       "weight": 1.0,
       "_src": "actions_createpapertrade",
       "_tgt": "actions_asstring",
@@ -2344,7 +2902,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L298",
+      "source_location": "L627",
       "weight": 1.0,
       "_src": "actions_closepapertrade",
       "_tgt": "actions_asstring",
@@ -2356,7 +2914,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L87",
+      "source_location": "L307",
       "weight": 1.0,
       "_src": "actions_createasset",
       "_tgt": "actions_asnumber",
@@ -2368,7 +2926,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L115",
+      "source_location": "L335",
       "weight": 1.0,
       "_src": "actions_createmarketevent",
       "_tgt": "actions_asnumber",
@@ -2380,7 +2938,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L284",
+      "source_location": "L613",
       "weight": 1.0,
       "_src": "actions_createpapertrade",
       "_tgt": "actions_asnumber",
@@ -2392,7 +2950,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L305",
+      "source_location": "L634",
       "weight": 1.0,
       "_src": "actions_closepapertrade",
       "_tgt": "actions_asnumber",
@@ -2404,7 +2962,55 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L71",
+      "source_location": "L456",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_asrecord",
+      "source": "actions_asrecord",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "actions_toailogrow",
+      "_tgt": "actions_asjson",
+      "source": "actions_asjson",
+      "target": "actions_toailogrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L171",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "actions_asscanhintmode",
+      "source": "actions_asscanhintmode",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L173",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L291",
       "weight": 1.0,
       "_src": "actions_createasset",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2416,7 +3022,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L97",
+      "source_location": "L317",
       "weight": 1.0,
       "_src": "actions_createmarketevent",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2428,7 +3034,55 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L137",
+      "source_location": "L357",
+      "weight": 1.0,
+      "_src": "actions_acceptcandidate",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_acceptcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L384",
+      "weight": 1.0,
+      "_src": "actions_ignorecandidate",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_ignorecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L408",
+      "weight": 1.0,
+      "_src": "actions_mergecandidate",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_mergecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L431",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_getauthenticatedsupabase",
+      "source": "actions_getauthenticatedsupabase",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L466",
       "weight": 1.0,
       "_src": "actions_generateeventanalysis",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2440,7 +3094,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L205",
+      "source_location": "L534",
       "weight": 1.0,
       "_src": "actions_generatesetup",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2452,7 +3106,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L243",
+      "source_location": "L572",
       "weight": 1.0,
       "_src": "actions_generateriskreview",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2464,7 +3118,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L271",
+      "source_location": "L600",
       "weight": 1.0,
       "_src": "actions_createpapertrade",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2476,7 +3130,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L297",
+      "source_location": "L626",
       "weight": 1.0,
       "_src": "actions_closepapertrade",
       "_tgt": "actions_getauthenticatedsupabase",
@@ -2500,7 +3154,19 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L92",
+      "source_location": "L286",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L312",
       "weight": 1.0,
       "_src": "actions_createasset",
       "_tgt": "actions_refresh",
@@ -2512,7 +3178,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L131",
+      "source_location": "L351",
       "weight": 1.0,
       "_src": "actions_createmarketevent",
       "_tgt": "actions_refresh",
@@ -2524,7 +3190,55 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L197",
+      "source_location": "L377",
+      "weight": 1.0,
+      "_src": "actions_acceptcandidate",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_acceptcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L400",
+      "weight": 1.0,
+      "_src": "actions_ignorecandidate",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_ignorecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L425",
+      "weight": 1.0,
+      "_src": "actions_mergecandidate",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_mergecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L460",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_refresh",
+      "source": "actions_refresh",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L526",
       "weight": 1.0,
       "_src": "actions_generateeventanalysis",
       "_tgt": "actions_refresh",
@@ -2536,7 +3250,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L237",
+      "source_location": "L566",
       "weight": 1.0,
       "_src": "actions_generatesetup",
       "_tgt": "actions_refresh",
@@ -2548,7 +3262,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L266",
+      "source_location": "L595",
       "weight": 1.0,
       "_src": "actions_generateriskreview",
       "_tgt": "actions_refresh",
@@ -2560,7 +3274,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L292",
+      "source_location": "L621",
       "weight": 1.0,
       "_src": "actions_createpapertrade",
       "_tgt": "actions_refresh",
@@ -2572,7 +3286,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L327",
+      "source_location": "L656",
       "weight": 1.0,
       "_src": "actions_closepapertrade",
       "_tgt": "actions_refresh",
@@ -2584,7 +3298,31 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L195",
+      "source_location": "L273",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "actions_toailogrow",
+      "source": "actions_toailogrow",
+      "target": "actions_startdailyscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L451",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_toailogrow",
+      "source": "actions_toailogrow",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L524",
       "weight": 1.0,
       "_src": "actions_generateeventanalysis",
       "_tgt": "actions_toailogrow",
@@ -2596,7 +3334,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L235",
+      "source_location": "L564",
       "weight": 1.0,
       "_src": "actions_generatesetup",
       "_tgt": "actions_toailogrow",
@@ -2608,13 +3346,85 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\actions.ts",
-      "source_location": "L264",
+      "source_location": "L593",
       "weight": 1.0,
       "_src": "actions_generateriskreview",
       "_tgt": "actions_toailogrow",
       "source": "actions_toailogrow",
       "target": "actions_generateriskreview",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L375",
+      "weight": 1.0,
+      "_src": "actions_acceptcandidate",
+      "_tgt": "actions_createmarketeventfromcandidate",
+      "source": "actions_createmarketeventfromcandidate",
+      "target": "actions_acceptcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L449",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "actions_createmarketeventfromcandidate",
+      "source": "actions_createmarketeventfromcandidate",
+      "target": "actions_analyzecandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L171",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "discovery_createscancontexthints",
+      "source": "actions_startdailyscan",
+      "target": "discovery_createscancontexthints"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "discovery_buildmockdiscoveryresult",
+      "source": "actions_startdailyscan",
+      "target": "discovery_buildmockdiscoveryresult"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L274",
+      "weight": 1.0,
+      "_src": "actions_startdailyscan",
+      "_tgt": "ai_createailog",
+      "source": "actions_startdailyscan",
+      "target": "ai_createailog"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\actions.ts",
+      "source_location": "L450",
+      "weight": 1.0,
+      "_src": "actions_analyzecandidate",
+      "_tgt": "ai_createailog",
+      "source": "actions_analyzecandidate",
+      "target": "ai_createailog"
     },
     {
       "relation": "calls",
@@ -2812,7 +3622,55 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L16",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_asrecord",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_asrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_asstringarray",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_asstringarray",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_asscorebreakdown",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_asscorebreakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_ascontexthints",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_ascontexthints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L65",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_toasset",
@@ -2824,7 +3682,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L34",
+      "source_location": "L83",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_toevent",
@@ -2836,7 +3694,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L51",
+      "source_location": "L100",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_toanalysis",
@@ -2848,7 +3706,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L71",
+      "source_location": "L120",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_tosetup",
@@ -2860,7 +3718,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L92",
+      "source_location": "L141",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_torisk",
@@ -2872,7 +3730,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L104",
+      "source_location": "L153",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_totrade",
@@ -2884,7 +3742,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L125",
+      "source_location": "L174",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_tolog",
@@ -2896,7 +3754,43 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L139",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_todiscoveryrun",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_todiscoveryrun",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_toeventsource",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_toeventsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L226",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_data_ts",
+      "_tgt": "data_toeventcandidate",
+      "source": "src_lib_edge_terminal_data_ts",
+      "target": "data_toeventcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L258",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_tobriefing",
@@ -2908,7 +3802,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L154",
+      "source_location": "L273",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_getterminaldata",
@@ -2920,7 +3814,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L217",
+      "source_location": "L350",
       "weight": 1.0,
       "_src": "src_lib_edge_terminal_data_ts",
       "_tgt": "data_geteventdetail",
@@ -2932,7 +3826,115 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L212",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "data_asscorebreakdown",
+      "_tgt": "data_asrecord",
+      "source": "data_asrecord",
+      "target": "data_asscorebreakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "data_ascontexthints",
+      "_tgt": "data_asrecord",
+      "source": "data_asrecord",
+      "target": "data_ascontexthints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L185",
+      "weight": 1.0,
+      "_src": "data_tolog",
+      "_tgt": "data_asrecord",
+      "source": "data_asrecord",
+      "target": "data_tolog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "data_ascontexthints",
+      "_tgt": "data_asstringarray",
+      "source": "data_asstringarray",
+      "target": "data_ascontexthints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L184",
+      "weight": 1.0,
+      "_src": "data_tolog",
+      "_tgt": "data_asstringarray",
+      "source": "data_asstringarray",
+      "target": "data_tolog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L220",
+      "weight": 1.0,
+      "_src": "data_toeventsource",
+      "_tgt": "data_asstringarray",
+      "source": "data_asstringarray",
+      "target": "data_toeventsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_src": "data_toeventcandidate",
+      "_tgt": "data_asstringarray",
+      "source": "data_asstringarray",
+      "target": "data_toeventcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L251",
+      "weight": 1.0,
+      "_src": "data_toeventcandidate",
+      "_tgt": "data_asscorebreakdown",
+      "source": "data_asscorebreakdown",
+      "target": "data_toeventcandidate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L196",
+      "weight": 1.0,
+      "_src": "data_todiscoveryrun",
+      "_tgt": "data_ascontexthints",
+      "source": "data_ascontexthints",
+      "target": "data_todiscoveryrun",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\data.ts",
+      "source_location": "L345",
       "weight": 1.0,
       "_src": "data_getterminaldata",
       "_tgt": "data_tobriefing",
@@ -2944,7 +3946,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src\\lib\\edge-terminal\\data.ts",
-      "source_location": "L218",
+      "source_location": "L351",
       "weight": 1.0,
       "_src": "data_geteventdetail",
       "_tgt": "data_getterminaldata",
@@ -2963,6 +3965,414 @@
       "_tgt": "server_createclient",
       "source": "data_getterminaldata",
       "target": "server_createclient"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\demo-data.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_demo_data_ts",
+      "_tgt": "demo_data_scorebreakdown",
+      "source": "src_lib_edge_terminal_demo_data_ts",
+      "target": "demo_data_scorebreakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_clonesources",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_clonesources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_fetchbroadnewssources",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_fetchbroadnewssources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_fetchfinancialnewssources",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_fetchfinancialnewssources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_fetchprimarysourceitems",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_fetchprimarysourceitems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_fetchmarketcontext",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_fetchmarketcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_providers_ts",
+      "_tgt": "discovery_providers_fetchmockdiscoverysources",
+      "source": "src_lib_edge_terminal_discovery_providers_ts",
+      "target": "discovery_providers_fetchmockdiscoverysources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchbroadnewssources",
+      "_tgt": "discovery_providers_clonesources",
+      "source": "discovery_providers_clonesources",
+      "target": "discovery_providers_fetchbroadnewssources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchfinancialnewssources",
+      "_tgt": "discovery_providers_clonesources",
+      "source": "discovery_providers_clonesources",
+      "target": "discovery_providers_fetchfinancialnewssources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchprimarysourceitems",
+      "_tgt": "discovery_providers_clonesources",
+      "source": "discovery_providers_clonesources",
+      "target": "discovery_providers_fetchprimarysourceitems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmarketcontext",
+      "_tgt": "discovery_providers_clonesources",
+      "source": "discovery_providers_clonesources",
+      "target": "discovery_providers_fetchmarketcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmockdiscoverysources",
+      "_tgt": "discovery_providers_fetchbroadnewssources",
+      "source": "discovery_providers_fetchbroadnewssources",
+      "target": "discovery_providers_fetchmockdiscoverysources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmockdiscoverysources",
+      "_tgt": "discovery_providers_fetchfinancialnewssources",
+      "source": "discovery_providers_fetchfinancialnewssources",
+      "target": "discovery_providers_fetchmockdiscoverysources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmockdiscoverysources",
+      "_tgt": "discovery_providers_fetchprimarysourceitems",
+      "source": "discovery_providers_fetchprimarysourceitems",
+      "target": "discovery_providers_fetchmockdiscoverysources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-providers.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmockdiscoverysources",
+      "_tgt": "discovery_providers_fetchmarketcontext",
+      "source": "discovery_providers_fetchmarketcontext",
+      "target": "discovery_providers_fetchmockdiscoverysources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "discovery_providers_fetchmockdiscoverysources",
+      "_tgt": "discovery_buildmockdiscoveryresult",
+      "source": "discovery_providers_fetchmockdiscoverysources",
+      "target": "discovery_buildmockdiscoveryresult"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_clampscore",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_clampscore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_calculatecandidatequalityscore",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_calculatecandidatequalityscore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_tokenize",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_tokenize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_getscanhintfit",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_getscanhintfit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_applyscanhint",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_applyscanhint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_scoring_ts",
+      "_tgt": "discovery_scoring_ranktopcandidates",
+      "source": "src_lib_edge_terminal_discovery_scoring_ts",
+      "target": "discovery_scoring_ranktopcandidates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "discovery_scoring_calculatecandidatequalityscore",
+      "_tgt": "discovery_scoring_clampscore",
+      "source": "discovery_scoring_clampscore",
+      "target": "discovery_scoring_calculatecandidatequalityscore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "discovery_scoring_getscanhintfit",
+      "_tgt": "discovery_scoring_clampscore",
+      "source": "discovery_scoring_clampscore",
+      "target": "discovery_scoring_getscanhintfit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_src": "discovery_scoring_applyscanhint",
+      "_tgt": "discovery_scoring_calculatecandidatequalityscore",
+      "source": "discovery_scoring_calculatecandidatequalityscore",
+      "target": "discovery_scoring_applyscanhint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "discovery_scoring_getscanhintfit",
+      "_tgt": "discovery_scoring_tokenize",
+      "source": "discovery_scoring_tokenize",
+      "target": "discovery_scoring_getscanhintfit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery-scoring.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_src": "discovery_scoring_applyscanhint",
+      "_tgt": "discovery_scoring_getscanhintfit",
+      "source": "discovery_scoring_getscanhintfit",
+      "target": "discovery_scoring_applyscanhint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "discovery_scoring_ranktopcandidates",
+      "_tgt": "discovery_buildmockdiscoveryresult",
+      "source": "discovery_scoring_ranktopcandidates",
+      "target": "discovery_buildmockdiscoveryresult"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_ts",
+      "_tgt": "discovery_extractsymbols",
+      "source": "src_lib_edge_terminal_discovery_ts",
+      "target": "discovery_extractsymbols",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_ts",
+      "_tgt": "discovery_extracttopics",
+      "source": "src_lib_edge_terminal_discovery_ts",
+      "target": "discovery_extracttopics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_ts",
+      "_tgt": "discovery_createscancontexthints",
+      "source": "src_lib_edge_terminal_discovery_ts",
+      "target": "discovery_createscancontexthints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "src_lib_edge_terminal_discovery_ts",
+      "_tgt": "discovery_buildmockdiscoveryresult",
+      "source": "src_lib_edge_terminal_discovery_ts",
+      "target": "discovery_buildmockdiscoveryresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "discovery_createscancontexthints",
+      "_tgt": "discovery_extractsymbols",
+      "source": "discovery_extractsymbols",
+      "target": "discovery_createscancontexthints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\edge-terminal\\discovery.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "discovery_createscancontexthints",
+      "_tgt": "discovery_extracttopics",
+      "source": "discovery_extracttopics",
+      "target": "discovery_createscancontexthints",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",

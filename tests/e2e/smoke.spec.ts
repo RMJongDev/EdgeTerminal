@@ -19,17 +19,18 @@ test("login page is reachable", async ({ page }) => {
 test("dashboard shows the demo cockpit without a Supabase project", async ({ page }) => {
   await page.goto("/dashboard");
 
-  await expect(page.getByRole("heading", { name: "Daily Market Command" })).toBeVisible();
-  await expect(page.getByText("Narrative & Sentiment Movers")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Candidate Quality Command" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start daily scan" })).toBeVisible();
+  await expect(page.getByText("Top 10 Candidate Events")).toBeVisible();
   await expect(page.getByText("Ferrari launch receives negative public reaction")).toBeVisible();
 });
 
 test("core MVP screens are reachable", async ({ page }) => {
   const screens = [
+    ["/process", "Process A-Z"],
     ["/watchlist", "Watchlist"],
     ["/events", "Event Radar"],
-    ["/signals", "Signal Desk"],
-    ["/risk", "Risk Review"],
+    ["/setups", "Setups & Risk"],
     ["/paper-trades", "Paper Trades"],
     ["/performance", "Performance Lab"],
     ["/briefing", "Daily Market Briefing"],

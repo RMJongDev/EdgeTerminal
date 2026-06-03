@@ -13,6 +13,17 @@
 
 ---
 
+## 2026-06-03 - Discovery MVP completion audit
+- Wat: Top-10 ranking aangescherpt zodat dedupe clusters maar een keer meetellen en merged/ignored candidates uit de actieve dashboardranking vallen.
+- Wat: Dashboard toont discovery-run foutmeldingen en de backlog staat op done voor Discovery Candidate Quality MVP.
+- Wat: `pnpm typecheck`, `pnpm lint`, `pnpm test:e2e`, `pnpm build` en `graphify update .` groen gedraaid.
+
+## 2026-06-03 - Discovery Candidate MVP gebouwd
+- Wat: Discovery datamodel, demo source funnel, candidate scoring, daily scan action en Event Radar triage-flow toegevoegd.
+- Wat: Dashboard vernieuwd naar Candidate Quality Command en nieuwe Process A-Z app-route plus navigatie toegevoegd.
+- Wat: Backlog, styleguide, Playwright-config en smoke tests bijgewerkt; typecheck, lint, e2e en graphify update gedraaid.
+- Volgende stap: Echte discovery-provider kiezen en aansluiten op dezelfde source/candidate-adapters.
+
 ## 2026-06-03 - Bouw-readiness beoordeeld
 - Wat: Backlog, specs, migraties, app-shell, dashboard, actions, demo-data, env en tests gecontroleerd op aansluiting met de nieuwe discovery-candidate MVP.
 - Waarom: Voor de bouw moet duidelijk zijn welke gaten nog zitten tussen mockups/specs en de bestaande appbasis.

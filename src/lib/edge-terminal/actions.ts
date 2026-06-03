@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import type { Json } from "@/lib/database.types";
 import { hasSupabaseEnv } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -10,14 +11,17 @@ import {
   createMockRiskReview,
   createMockSetup,
 } from "./ai";
+import { buildMockDiscoveryResult, createScanContextHints } from "./discovery";
 import { demoEvents, demoSetups } from "./demo-data";
 import type {
   AIAnalysisLog,
   AssetType,
+  CandidateStatus,
   CloseReason,
   EventType,
   ImpactDirection,
   ImpactLevel,
+  ScanHintMode,
   SetupDirection,
 } from "./types";
 
@@ -28,6 +32,24 @@ function asString(formData: FormData, key: string, fallback = "") {
 function asNumber(formData: FormData, key: string, fallback = 0) {
   const value = Number(formData.get(key));
   return Number.isFinite(value) ? value : fallback;
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
+}
+
+function asJson(value: unknown): Json {
+  return JSON.parse(JSON.stringify(value ?? {})) as Json;
+}
+
+function asScanHintMode(formData: FormData): ScanHintMode {
+  const mode = asString(formData, "scan_hint_mode", "ranking_boost");
+
+  if (mode === "extra_source_query" || mode === "watch_only_note") {
+    return mode;
+  }
+
+  return "ranking_boost";
 }
 
 async function getAuthenticatedSupabase() {
@@ -64,7 +86,205 @@ function toAiLogRow(userId: string, log: Omit<AIAnalysisLog, "id" | "createdAt">
     usefulness_rating: log.usefulnessRating,
     summary: log.summary,
     error_message: null,
+    source_payload_refs: log.sourcePayloadRefs,
+    score_inputs: asJson(log.scoreInputs),
   };
+}
+
+async function createMarketEventFromCandidate(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  candidate: Record<string, unknown>,
+  status: CandidateStatus,
+) {
+  const rawPayloadRefs = Array.isArray(candidate.raw_payload_refs)
+    ? candidate.raw_payload_refs.map((item) => String(item))
+    : [];
+  const sourceIds = Array.isArray(candidate.source_ids)
+    ? candidate.source_ids.map((item) => String(item))
+    : [];
+  const { data: sources } = sourceIds.length > 0
+    ? await supabase
+        .from("event_sources")
+        .select("id, source_url, source_name")
+        .in("id", sourceIds)
+        .eq("user_id", userId)
+    : { data: [] };
+  const sourceText = sources?.[0]?.source_url
+    ? String(sources[0].source_url)
+    : rawPayloadRefs[0] ?? "Discovery candidate";
+
+  const { data: event } = await supabase
+    .from("market_events")
+    .insert({
+      user_id: userId,
+      title: String(candidate.title ?? ""),
+      summary: String(candidate.summary ?? ""),
+      source: sourceText,
+      occurred_at: new Date().toISOString(),
+      event_type: String(candidate.event_type_guess ?? "other") as EventType,
+      impact_direction: String(candidate.impact_direction_guess ?? "mixed") as ImpactDirection,
+      impact_level: String(candidate.impact_level_guess ?? "medium") as ImpactLevel,
+      analysis_status: status === "analyzed" ? "needs_review" : "pending",
+      price_move_percent: null,
+    })
+    .select("id")
+    .single();
+
+  const symbols = Array.isArray(candidate.affected_symbols)
+    ? candidate.affected_symbols.map((item) => String(item).toUpperCase())
+    : [];
+
+  if (event?.id && symbols.length > 0) {
+    const { data: assets } = await supabase
+      .from("assets")
+      .select("id, ticker")
+      .eq("user_id", userId)
+      .in("ticker", symbols);
+
+    if (assets && assets.length > 0) {
+      await supabase.from("event_assets").insert(
+        assets.map((asset) => ({
+          user_id: userId,
+          event_id: event.id,
+          asset_id: asset.id,
+        })),
+      );
+    }
+  }
+
+  if (event?.id) {
+    await supabase
+      .from("event_candidates")
+      .update({
+        candidate_status: status,
+        accepted_market_event_id: event.id,
+      })
+      .eq("id", String(candidate.id))
+      .eq("user_id", userId);
+  }
+
+  return event?.id ? String(event.id) : null;
+}
+
+export async function startDailyScan(formData: FormData) {
+  const contextHints = createScanContextHints(asString(formData, "scan_hint"), asScanHintMode(formData));
+  const discovery = buildMockDiscoveryResult(contextHints);
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/dashboard?notice=Demo%20mode%3A%20mock%20daily%20scan%20ready");
+  }
+
+  const { supabase, user } = auth;
+  const { data: run } = await supabase
+    .from("discovery_runs")
+    .insert({
+      user_id: user.id,
+      status: "running",
+      trigger: "manual",
+      provider: "mock",
+      context_hints: contextHints ?? {},
+      source_count: 0,
+      candidate_count: 0,
+      top_candidate_count: 0,
+      metadata: { mode: "deterministic_mock" },
+    })
+    .select("id")
+    .single();
+
+  if (!run?.id) {
+    redirect("/dashboard?notice=Discovery%20run%20kon%20niet%20starten");
+  }
+
+  const runId = String(run.id);
+  const { data: insertedSources } = await supabase
+    .from("event_sources")
+    .insert(
+      discovery.sources.map((source) => ({
+        user_id: user.id,
+        discovery_run_id: runId,
+        provider: source.provider,
+        source_category: source.sourceCategory,
+        provider_item_id: source.providerItemId,
+        source_name: source.sourceName,
+        source_url: source.sourceUrl,
+        published_at: source.publishedAt,
+        fetched_at: source.fetchedAt,
+        raw_payload_ref: source.rawPayloadRef,
+        title: source.title,
+        snippet: source.snippet,
+        symbols: source.symbols,
+        topics: source.topics,
+        source_quality_score: source.sourceQualityScore,
+        metadata: { mock_source_id: source.id },
+      })),
+    )
+    .select("id, raw_payload_ref");
+
+  const sourceIdByRef = new Map(
+    (insertedSources ?? []).map((source) => [String(source.raw_payload_ref ?? ""), String(source.id)]),
+  );
+
+  await supabase.from("event_candidates").insert(
+    discovery.candidates.map((candidate) => ({
+      user_id: user.id,
+      discovery_run_id: runId,
+      title: candidate.title,
+      summary: candidate.summary,
+      reason_to_watch: candidate.reasonToWatch,
+      affected_symbols: candidate.affectedSymbols,
+      affected_markets: candidate.affectedMarkets,
+      event_type_guess: candidate.eventTypeGuess,
+      impact_direction_guess: candidate.impactDirectionGuess,
+      impact_level_guess: candidate.impactLevelGuess,
+      relevance_score: candidate.relevanceScore,
+      confidence_score: candidate.confidenceScore,
+      source_quality_score: candidate.sourceQualityScore,
+      recency_score: candidate.recencyScore,
+      candidate_quality_score: candidate.candidateQualityScore,
+      dedupe_key: candidate.dedupeKey,
+      merge_hint: candidate.mergeHint,
+      candidate_status: candidate.candidateStatus,
+      ignore_reason: candidate.ignoreReason,
+      source_ids: candidate.rawPayloadRefs
+        .map((ref) => sourceIdByRef.get(ref))
+        .filter((sourceId): sourceId is string => Boolean(sourceId)),
+      raw_payload_refs: candidate.rawPayloadRefs,
+      score_breakdown: candidate.scoreBreakdown,
+      uncertainty_notes: candidate.uncertaintyNotes,
+      metadata: { mock_candidate_id: candidate.id },
+    })),
+  );
+
+  await supabase
+    .from("discovery_runs")
+    .update({
+      status: "completed",
+      completed_at: new Date().toISOString(),
+      source_count: discovery.sources.length,
+      candidate_count: discovery.candidates.length,
+      top_candidate_count: discovery.candidates.length,
+    })
+    .eq("id", runId)
+    .eq("user_id", user.id);
+
+  await supabase.from("ai_analysis_logs").insert(
+    toAiLogRow(user.id, {
+      ...createAiLog("candidate_ranking", `Ranked ${discovery.candidates.length} candidate events from ${discovery.sources.length} sources.`),
+      sourcePayloadRefs: discovery.sources
+        .map((source) => source.rawPayloadRef)
+        .filter((ref): ref is string => Boolean(ref)),
+      scoreInputs: {
+        contextHints,
+        sourceCount: discovery.sources.length,
+        candidateCount: discovery.candidates.length,
+      },
+    }),
+  );
+
+  refresh(["/dashboard", "/events", "/briefing", "/ai-log"]);
+  redirect("/dashboard?notice=Daily%20scan%20complete%3A%20top%2010%20ready");
 }
 
 export async function createAsset(formData: FormData) {
@@ -130,6 +350,115 @@ export async function createMarketEvent(formData: FormData) {
 
   refresh(["/events", "/dashboard"]);
   redirect(event?.id ? `/events/${event.id}` : "/events");
+}
+
+export async function acceptCandidate(formData: FormData) {
+  const candidateId = asString(formData, "candidate_id");
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/events?notice=Demo%20mode%3A%20candidate%20acceptance%20preview");
+  }
+
+  const { supabase, user } = auth;
+  const { data: candidate } = await supabase
+    .from("event_candidates")
+    .select("*")
+    .eq("id", candidateId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (!candidate) {
+    redirect("/events?notice=Candidate%20niet%20gevonden");
+  }
+
+  const eventId = await createMarketEventFromCandidate(supabase, user.id, candidate, "accepted");
+
+  refresh(["/events", "/dashboard", eventId ? `/events/${eventId}` : "/events"]);
+  redirect(eventId ? `/events/${eventId}?notice=Candidate%20accepted` : "/events?notice=Candidate%20accepted");
+}
+
+export async function ignoreCandidate(formData: FormData) {
+  const candidateId = asString(formData, "candidate_id");
+  const ignoreReason = asString(formData, "ignore_reason", "Not enough edge or source proof");
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/events?notice=Demo%20mode%3A%20candidate%20ignore%20preview");
+  }
+
+  const { supabase, user } = auth;
+  await supabase
+    .from("event_candidates")
+    .update({
+      candidate_status: "ignored",
+      ignore_reason: ignoreReason,
+    })
+    .eq("id", candidateId)
+    .eq("user_id", user.id);
+
+  refresh(["/events", "/dashboard"]);
+  redirect("/events?notice=Candidate%20ignored");
+}
+
+export async function mergeCandidate(formData: FormData) {
+  const candidateId = asString(formData, "candidate_id");
+  const mergeHint = asString(formData, "merge_hint", "Merged with canonical candidate or repeated headline cluster");
+  const canonicalCandidateId = asString(formData, "canonical_candidate_id") || null;
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/events?notice=Demo%20mode%3A%20candidate%20merge%20preview");
+  }
+
+  const { supabase, user } = auth;
+  await supabase
+    .from("event_candidates")
+    .update({
+      candidate_status: "merged",
+      merge_hint: mergeHint,
+      canonical_candidate_id: canonicalCandidateId,
+    })
+    .eq("id", candidateId)
+    .eq("user_id", user.id);
+
+  refresh(["/events", "/dashboard"]);
+  redirect("/events?notice=Candidate%20merged");
+}
+
+export async function analyzeCandidate(formData: FormData) {
+  const candidateId = asString(formData, "candidate_id");
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/events/event-race-launch?notice=Demo%20mode%3A%20candidate%20analysis%20preview");
+  }
+
+  const { supabase, user } = auth;
+  const { data: candidate } = await supabase
+    .from("event_candidates")
+    .select("*")
+    .eq("id", candidateId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (!candidate) {
+    redirect("/events?notice=Candidate%20niet%20gevonden");
+  }
+
+  const eventId = await createMarketEventFromCandidate(supabase, user.id, candidate, "analyzed");
+  await supabase.from("ai_analysis_logs").insert(
+    toAiLogRow(user.id, {
+      ...createAiLog("event_analysis", `Prepared candidate analysis input for ${String(candidate.title ?? "candidate")}.`),
+      sourcePayloadRefs: Array.isArray(candidate.raw_payload_refs)
+        ? candidate.raw_payload_refs.map((item) => String(item))
+        : [],
+      scoreInputs: asRecord(candidate.score_breakdown),
+    }),
+  );
+
+  refresh(["/events", "/dashboard", "/ai-log", eventId ? `/events/${eventId}` : "/events"]);
+  redirect(eventId ? `/events/${eventId}?notice=Candidate%20ready%20for%20analysis` : "/events?notice=Candidate%20analyzed");
 }
 
 export async function generateEventAnalysis(formData: FormData) {

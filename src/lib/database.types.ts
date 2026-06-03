@@ -35,13 +35,28 @@ type CloseReason =
   | "hypothesis_invalidated"
   | "expired"
   | "cancelled";
-type AIProvider = "openai" | "gemini" | "mock";
+type AIProvider = "openai" | "gemini" | "news_search" | "market_data" | "mock";
 type AIAnalysisType =
   | "event_analysis"
   | "setup_generation"
   | "risk_review"
   | "daily_briefing"
-  | "web_research";
+  | "web_research"
+  | "discovery_run"
+  | "candidate_dedupe"
+  | "candidate_ranking"
+  | "source_quality";
+type DiscoveryStatus = "running" | "completed" | "failed";
+type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron";
+type DiscoveryProvider = "mock" | "news_search" | "market_data" | "mixed";
+type SourceCategory =
+  | "broad_news"
+  | "financial_feed"
+  | "primary_source"
+  | "macro_calendar"
+  | "market_context"
+  | "manual";
+type CandidateStatus = "new" | "accepted" | "ignored" | "merged" | "analyzed";
 
 type TableDefinition<Row, Insert = Partial<Row>, Update = Partial<Row>> = {
   Row: Row;
@@ -93,6 +108,72 @@ export type Database = {
             status: AssetStatus;
             notes: string | null;
             last_move_percent: number | null;
+          }
+      >;
+      discovery_runs: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            status: DiscoveryStatus;
+            trigger: DiscoveryTrigger;
+            provider: DiscoveryProvider;
+            context_hints: Json;
+            started_at: string;
+            completed_at: string | null;
+            source_count: number;
+            candidate_count: number;
+            top_candidate_count: number;
+            error_message: string | null;
+            metadata: Json;
+          }
+      >;
+      event_sources: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            discovery_run_id: string;
+            provider: string;
+            source_category: SourceCategory;
+            provider_item_id: string | null;
+            source_name: string;
+            source_url: string | null;
+            published_at: string | null;
+            fetched_at: string;
+            raw_payload_ref: string | null;
+            title: string;
+            snippet: string | null;
+            symbols: string[];
+            topics: string[];
+            source_quality_score: number;
+            metadata: Json;
+          }
+      >;
+      event_candidates: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            discovery_run_id: string;
+            title: string;
+            summary: string | null;
+            reason_to_watch: string | null;
+            affected_symbols: string[];
+            affected_markets: string[];
+            event_type_guess: EventType;
+            impact_direction_guess: ImpactDirection;
+            impact_level_guess: ImpactLevel;
+            relevance_score: number;
+            confidence_score: number;
+            source_quality_score: number;
+            recency_score: number;
+            candidate_quality_score: number;
+            dedupe_key: string | null;
+            merge_hint: string | null;
+            candidate_status: CandidateStatus;
+            ignore_reason: string | null;
+            accepted_market_event_id: string | null;
+            canonical_candidate_id: string | null;
+            source_ids: string[];
+            raw_payload_refs: string[];
+            score_breakdown: Json;
+            uncertainty_notes: string | null;
+            metadata: Json;
           }
       >;
       market_events: TableDefinition<
@@ -209,6 +290,8 @@ export type Database = {
           usefulness_rating: number | null;
           summary: string | null;
           error_message: string | null;
+          source_payload_refs: string[];
+          score_inputs: Json;
           created_at: string;
         }
       >;

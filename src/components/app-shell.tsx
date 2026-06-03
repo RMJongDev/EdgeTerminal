@@ -5,6 +5,7 @@ import {
   Bot,
   CalendarDays,
   Gauge,
+  GitBranch,
   ListChecks,
   LogOut,
   Radar,
@@ -22,6 +23,7 @@ type AppShellProps = {
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Gauge },
+  { href: "/process", label: "Process", icon: GitBranch },
   { href: "/watchlist", label: "Watchlist", icon: ListChecks },
   { href: "/events", label: "Event Radar", icon: Radar },
   { href: "/setups", label: "Setups & Risk", icon: ShieldAlert },

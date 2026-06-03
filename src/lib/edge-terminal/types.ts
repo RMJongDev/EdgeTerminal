@@ -32,13 +32,48 @@ export type CloseReason =
   | "hypothesis_invalidated"
   | "expired"
   | "cancelled";
-export type AIProvider = "openai" | "gemini" | "mock";
+export type AIProvider = "openai" | "gemini" | "news_search" | "market_data" | "mock";
 export type AIAnalysisType =
   | "event_analysis"
   | "setup_generation"
   | "risk_review"
   | "daily_briefing"
-  | "web_research";
+  | "web_research"
+  | "discovery_run"
+  | "candidate_dedupe"
+  | "candidate_ranking"
+  | "source_quality";
+export type DiscoveryStatus = "running" | "completed" | "failed";
+export type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron";
+export type DiscoveryProvider = "mock" | "news_search" | "market_data" | "mixed";
+export type SourceCategory =
+  | "broad_news"
+  | "financial_feed"
+  | "primary_source"
+  | "macro_calendar"
+  | "market_context"
+  | "manual";
+export type CandidateStatus = "new" | "accepted" | "ignored" | "merged" | "analyzed";
+
+export type ScanHintMode = "ranking_boost" | "extra_source_query" | "watch_only_note";
+
+export type ScanContextHints = {
+  text: string;
+  mode: ScanHintMode;
+  symbols: string[];
+  topics: string[];
+};
+
+export type CandidateScoreBreakdown = {
+  relevance: number;
+  sourceQuality: number;
+  recency: number;
+  dedupeConfidence: number;
+  marketContext: number;
+  watchlistPreference: number;
+  scanHintFit: number;
+  uncertaintyPenalty: number;
+};
 
 export type Asset = {
   id: string;
@@ -146,7 +181,71 @@ export type AIAnalysisLog = {
   status: "success" | "failed";
   usefulnessRating: number | null;
   summary: string;
+  sourcePayloadRefs: string[];
+  scoreInputs: Record<string, unknown>;
   createdAt: string;
+};
+
+export type DiscoveryRun = {
+  id: string;
+  status: DiscoveryStatus;
+  trigger: DiscoveryTrigger;
+  provider: DiscoveryProvider;
+  contextHints: ScanContextHints | null;
+  startedAt: string;
+  completedAt: string | null;
+  sourceCount: number;
+  candidateCount: number;
+  topCandidateCount: number;
+  errorMessage: string | null;
+};
+
+export type EventSource = {
+  id: string;
+  discoveryRunId: string;
+  provider: string;
+  sourceCategory: SourceCategory;
+  providerItemId: string | null;
+  sourceName: string;
+  sourceUrl: string | null;
+  publishedAt: string | null;
+  fetchedAt: string;
+  rawPayloadRef: string | null;
+  title: string;
+  snippet: string | null;
+  symbols: string[];
+  topics: string[];
+  sourceQualityScore: number;
+};
+
+export type EventCandidate = {
+  id: string;
+  discoveryRunId: string;
+  title: string;
+  summary: string;
+  reasonToWatch: string;
+  affectedSymbols: string[];
+  affectedMarkets: string[];
+  eventTypeGuess: EventType;
+  impactDirectionGuess: ImpactDirection;
+  impactLevelGuess: ImpactLevel;
+  relevanceScore: number;
+  confidenceScore: number;
+  sourceQualityScore: number;
+  recencyScore: number;
+  candidateQualityScore: number;
+  dedupeKey: string;
+  mergeHint: string | null;
+  candidateStatus: CandidateStatus;
+  ignoreReason: string | null;
+  acceptedMarketEventId: string | null;
+  canonicalCandidateId: string | null;
+  sourceIds: string[];
+  rawPayloadRefs: string[];
+  scoreBreakdown: CandidateScoreBreakdown;
+  uncertaintyNotes: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DailyBriefing = {
@@ -163,6 +262,10 @@ export type DailyBriefing = {
 };
 
 export type TerminalData = {
+  discoveryRuns: DiscoveryRun[];
+  eventSources: EventSource[];
+  eventCandidates: EventCandidate[];
+  latestDiscoveryRun: DiscoveryRun | null;
   assets: Asset[];
   events: MarketEvent[];
   analyses: EventAnalysis[];

@@ -109,5 +109,7 @@ export function createAiLog(
     status: "success",
     usefulnessRating: null,
     summary,
+    sourcePayloadRefs: [],
+    scoreInputs: {},
   };
 }

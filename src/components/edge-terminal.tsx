@@ -34,9 +34,17 @@ export function Badge({
   );
 }
 
-export function Panel({ children, className }: { children: ReactNode; className?: string }) {
+export function Panel({
+  children,
+  className,
+  id,
+}: {
+  children: ReactNode;
+  className?: string;
+  id?: string;
+}) {
   return (
-    <section className={cn("overflow-hidden rounded-lg border border-border bg-card", className)}>
+    <section id={id} className={cn("overflow-hidden rounded-lg border border-border bg-card", className)}>
       {children}
     </section>
   );
