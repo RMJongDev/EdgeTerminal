@@ -77,6 +77,11 @@ startRun(profile: "eu_open" | "us_open", trigger: "manual" | "cron")
   -> completeRun()                                 discovery_runs (status, counts, kosten, fouten)
 ```
 
+Step persistence:
+- elke stap krijgt een rij in `pipeline_step_runs` met `step_name`, `status`, `attempt`, optionele `candidate_id`/`advice_id`, input/output payloads, `source_payload_refs`, kosten en foutmelding;
+- `discovery_runs.cost_summary` bevat de run-totalen; `pipeline_step_runs.cost_summary` bevat het detail per poging;
+- bronpayloads worden beperkt en reproduceerbaar opgeslagen via `source_payload_snapshots.raw_payload_ref` (metadata/snippet/API-response waar toegestaan), niet als volledige artikelkopie.
+
 Regels:
 - elke bronlaag-failure is non-fatal: run draait door met de overige lagen en logt wat er miste;
 - de mover sweep maakt nooit direct een candidate: een beweging zonder gevonden bronitem blijft context ("unexplained move" op het dashboard); de regel "geen candidate zonder bron" blijft altijd gelden;
@@ -102,14 +107,16 @@ Profiel wordt opgeslagen op `discovery_runs.run_profile` en meegegeven aan adapt
 
 | Laag | Start | Vervangbaar door |
 |---|---|---|
-| Broad news | GDELT (gratis) + RSS-lijst (persbureaus, company IR) | NewsAPI-achtige provider |
+| Broad news | GDELT (gratis) + RSS-lijst (persbureaus, company IR, official feeds) | NewsAPI-achtige provider |
 | Financiele feed | Finnhub of Alpha Vantage News & Sentiment, gratis tier | Benzinga/Finnhub betaald |
-| Primair | SEC EDGAR (gratis), earnings calendar via feed | - |
+| Primair | SEC EDGAR, company IR, EU regulated news/RNS-route, earnings calendar via feed | - |
+| Market-structure triggers | Nasdaq/NYSE trading halts, mover sweep | Betaalde market-moving feed |
+| Sector/regulator feeds | FDA/EMA voor healthcare/pharma/biotech, BLS/Eurostat/ECB/Fed voor macrocontext | Betaalde sectorfeed |
 | Marktdata | Finnhub/EODHD/Twelve Data delayed; EU-dekking is selectiecriterium | EODHD all-world bij EU-gat |
 | LLM filter | OpenAI goedkoop model (env: `OPENAI_FILTER_MODEL`) | - |
 | LLM analyse | OpenAI sterk model (env: `OPENAI_ANALYSIS_MODEL`) | - |
 
-Definitieve keuze per laag wordt in week 1 van slice 1 bevestigd door de gratis tiers te testen op EU-dekking; de adapter-interface verandert daar niet door. Concrete endpoints, limieten, RSS-startlijst en het ophaalpatroon per bron: `news-sources.md`. Licentieregels: geen betaalde content integraal herpubliceren; robots/licenties respecteren; alleen officiele API's en open feeds.
+Definitieve keuze per laag wordt in week 1 van slice 1 bevestigd door de gratis tiers te testen op EU-dekking; de adapter-interface verandert daar niet door. Gratis primary/official bronnen (IR, regulated news, halts, regulatorfeeds) gaan voor extra algemene news APIs. Concrete endpoints, limieten, RSS-startlijst en het ophaalpatroon per bron: `news-sources.md`. Licentieregels: geen betaalde content integraal herpubliceren; robots/licenties respecteren; alleen officiele API's en open feeds.
 
 ## Env vars
 
@@ -150,10 +157,26 @@ Wijzigingen voor de adviesmachine:
 - `cost_summary jsonb`: tokens/kosten per stap;
 - bestaande velden (status, trigger, counts, error_message) blijven.
 
+### `source_payload_snapshots` - nieuw
+
+- `id`, `user_id`, `discovery_run_id`, optioneel `event_source_id`;
+- `raw_payload_ref`, `provider`, `payload_kind` (`metadata`/`snippet`/`api_response`);
+- `payload jsonb`, `payload_hash`, `retention_note`;
+- doel: audit/replay zonder volledige artikelen te herpubliceren.
+
+### `pipeline_step_runs` - nieuw
+
+- `id`, `user_id`, `discovery_run_id`;
+- optioneel `candidate_id` en `advice_id`;
+- `step_name`, `status` (`pending`/`running`/`completed`/`failed`/`skipped`), `attempt`;
+- `prompt_version`, `model`, `input_payload`, `output_payload`, `source_payload_refs`, `cost_summary`, `error_message`;
+- `started_at`, `completed_at`, `created_at`, `updated_at`.
+
 ### `advices` - nieuw (kernentiteit)
 
 - `id`, `user_id`, `discovery_run_id`;
 - `candidate_id`, `analysis_id`, `setup_id`, `risk_review_id` (de keten);
+- optioneel `asset_id`; `ticker` blijft verplicht zodat movers buiten de watchlist adviesbaar zijn;
 - `ticker`, `direction` (`long`/`short`), `market` (`us`/`eu`);
 - `entry_zone_low`, `entry_zone_high`, `stop_loss`, `target`;
 - `horizon_days int`, `size_suggestion_eur numeric`;
@@ -182,7 +205,7 @@ Tracking-update draait bij elke run en bij handmatige refresh: haalt delayed quo
 
 Worden vervangen door `advices` + `advice_tracking`. Bestaande migratiebestanden blijven (historie), een nieuwe migratie voegt de nieuwe tabellen toe; de oude tabellen worden niet meer door de app gebruikt en kunnen in een latere opruimmigratie vervallen.
 
-Alle nieuwe tabellen: `user_id` + RLS (`auth.uid() = user_id`) + `updated_at`-trigger, conform bestaande conventie.
+Alle nieuwe tabellen: `user_id` + RLS (`auth.uid() = user_id`) + `updated_at`-trigger, conform bestaande conventie. `trade_setups.asset_id` is nullable vanaf de adviesmachine-migratie; watchlist-assets blijven rankingcontext, geen harde zoekgrens.
 
 ## LLM-keten en promptversies
 
@@ -206,7 +229,7 @@ Prompt-invariants (in elke prompt):
 - pas de kostenhorde toe: verwachte round-trip kosten <= 1/3 van de verwachte beweging, anders no-trade of rank-penalty (drempels: `risk-framework.md`);
 - output in het vastgelegde JSON-schema, geen vrije tekst erbuiten.
 
-Elke call logt naar `ai_analysis_logs`: prompt_version, model, input_payload, output_payload, tokens/kosten, status. Promptversies zijn daardoor achteraf vergelijkbaar op advies-uitkomst (Performance Lab per prompt_version is een slice 3-inzicht).
+Elke call logt naar `ai_analysis_logs`: prompt_version, model, input_payload, output_payload, tokens/kosten, status en optioneel de gekoppelde `pipeline_step_run_id`. Promptversies zijn daardoor achteraf vergelijkbaar op advies-uitkomst (Performance Lab per prompt_version is een slice 3-inzicht).
 
 ## Routes
 

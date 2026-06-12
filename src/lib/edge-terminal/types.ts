@@ -15,9 +15,9 @@ export type EventType =
 export type ImpactDirection = "positive" | "negative" | "neutral" | "mixed";
 export type ImpactLevel = "low" | "medium" | "high";
 export type AnalysisStatus = "pending" | "analyzed" | "needs_review" | "failed";
-export type SetupDirection = "long" | "short" | "no_trade";
+export type SetupDirection = "long" | "short" | "no_trade" | "none";
 export type SetupStatus = "draft" | "approved" | "rejected" | "watching" | "paper_trade";
-export type RiskVerdict = "paper_trade_ok" | "wait" | "skip";
+export type RiskVerdict = "paper_trade_ok" | "wait" | "skip" | "ok";
 export type PaperTradeStatus =
   | "open"
   | "closed"
@@ -44,8 +44,9 @@ export type AIAnalysisType =
   | "candidate_ranking"
   | "source_quality";
 export type DiscoveryStatus = "running" | "completed" | "failed";
-export type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron";
+export type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron" | "cron";
 export type DiscoveryProvider = "mock" | "news_search" | "market_data" | "mixed";
+export type RunProfile = "eu_open" | "us_open" | "mock";
 export type SourceCategory =
   | "broad_news"
   | "financial_feed"
@@ -191,12 +192,14 @@ export type DiscoveryRun = {
   status: DiscoveryStatus;
   trigger: DiscoveryTrigger;
   provider: DiscoveryProvider;
+  runProfile: RunProfile;
   contextHints: ScanContextHints | null;
   startedAt: string;
   completedAt: string | null;
   sourceCount: number;
   candidateCount: number;
   topCandidateCount: number;
+  costSummary: Record<string, unknown>;
   errorMessage: string | null;
 };
 

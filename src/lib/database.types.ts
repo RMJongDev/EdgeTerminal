@@ -24,9 +24,9 @@ type EventType =
 type ImpactDirection = "positive" | "negative" | "neutral" | "mixed";
 type ImpactLevel = "low" | "medium" | "high";
 type AnalysisStatus = "pending" | "analyzed" | "needs_review" | "failed";
-type SetupDirection = "long" | "short" | "no_trade";
+type SetupDirection = "long" | "short" | "no_trade" | "none";
 type SetupStatus = "draft" | "approved" | "rejected" | "watching" | "paper_trade";
-type RiskVerdict = "paper_trade_ok" | "wait" | "skip";
+type RiskVerdict = "paper_trade_ok" | "wait" | "skip" | "ok";
 type PaperTradeStatus = "open" | "closed" | "stop_loss_hit" | "target_hit" | "expired" | "cancelled";
 type CloseReason =
   | "target_hit"
@@ -45,10 +45,18 @@ type AIAnalysisType =
   | "discovery_run"
   | "candidate_dedupe"
   | "candidate_ranking"
-  | "source_quality";
+  | "source_quality"
+  | "advice_filter"
+  | "advice_analysis"
+  | "advice_setup"
+  | "advice_risk"
+  | "advice_assembly"
+  | "advice_briefing"
+  | "pipeline_step";
 type DiscoveryStatus = "running" | "completed" | "failed";
-type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron";
+type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron" | "cron";
 type DiscoveryProvider = "mock" | "news_search" | "market_data" | "mixed";
+type RunProfile = "eu_open" | "us_open" | "mock";
 type SourceCategory =
   | "broad_news"
   | "financial_feed"
@@ -57,6 +65,16 @@ type SourceCategory =
   | "market_context"
   | "manual";
 type CandidateStatus = "new" | "accepted" | "ignored" | "merged" | "analyzed";
+type AdviceDirection = "long" | "short";
+type AdviceMarket = "us" | "eu";
+type AdviceStatus = "active" | "expired" | "invalidated" | "rejected_by_user";
+type AdviceTrackingOutcome =
+  | "target"
+  | "stop"
+  | "expired_positive"
+  | "expired_negative"
+  | "invalidated";
+type PipelineStepStatus = "pending" | "running" | "completed" | "failed" | "skipped";
 
 type TableDefinition<Row, Insert = Partial<Row>, Update = Partial<Row>> = {
   Row: Row;
@@ -116,12 +134,14 @@ export type Database = {
             status: DiscoveryStatus;
             trigger: DiscoveryTrigger;
             provider: DiscoveryProvider;
+            run_profile: RunProfile;
             context_hints: Json;
             started_at: string;
             completed_at: string | null;
             source_count: number;
             candidate_count: number;
             top_candidate_count: number;
+            cost_summary: Json;
             error_message: string | null;
             metadata: Json;
           }
@@ -144,6 +164,19 @@ export type Database = {
             topics: string[];
             source_quality_score: number;
             metadata: Json;
+          }
+      >;
+      source_payload_snapshots: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            discovery_run_id: string | null;
+            event_source_id: string | null;
+            raw_payload_ref: string;
+            provider: string;
+            payload_kind: "metadata" | "snippet" | "api_response";
+            payload: Json;
+            payload_hash: string | null;
+            retention_note: string | null;
           }
       >;
       event_candidates: TableDefinition<
@@ -222,7 +255,7 @@ export type Database = {
         UserOwned &
           Timestamps & {
             event_id: string;
-            asset_id: string;
+            asset_id: string | null;
             asset_ticker: string | null;
             title: string;
             direction: SetupDirection;
@@ -247,6 +280,86 @@ export type Database = {
             reason_to_skip: string | null;
             risk_score: number;
             final_verdict: RiskVerdict;
+          }
+      >;
+      advices: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            discovery_run_id: string | null;
+            candidate_id: string | null;
+            analysis_id: string | null;
+            setup_id: string | null;
+            risk_review_id: string | null;
+            asset_id: string | null;
+            ticker: string;
+            direction: AdviceDirection;
+            market: AdviceMarket;
+            entry_zone_low: number;
+            entry_zone_high: number;
+            stop_loss: number;
+            target: number;
+            horizon_days: number;
+            size_suggestion_eur: number;
+            confidence: number;
+            rank: number | null;
+            event_type: EventType;
+            run_profile: RunProfile;
+            reasoning: string;
+            counterargument: string;
+            invalidation: string;
+            source_refs: Json;
+            executability_note: string | null;
+            expected_move_pct: number | null;
+            cost_estimate_pct: number | null;
+            cost_hurdle_ratio: number | null;
+            correlation_warning: string | null;
+            gap_risk_note: string | null;
+            squeeze_risk_note: string | null;
+            status: AdviceStatus;
+            taken_by_user: boolean;
+            user_entry_price: number | null;
+            user_exit_price: number | null;
+            user_note: string | null;
+            rejected_reason: string | null;
+            metadata: Json;
+          }
+      >;
+      advice_tracking: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            advice_id: string;
+            reference_entry: number;
+            d1_return: number | null;
+            d3_return: number | null;
+            d5_return: number | null;
+            stop_hit_at: string | null;
+            target_hit_at: string | null;
+            expired_at: string | null;
+            final_return: number | null;
+            outcome: AdviceTrackingOutcome | null;
+            last_checked_at: string | null;
+            last_price: number | null;
+            metadata: Json;
+          }
+      >;
+      pipeline_step_runs: TableDefinition<
+        UserOwned &
+          Timestamps & {
+            discovery_run_id: string;
+            candidate_id: string | null;
+            advice_id: string | null;
+            step_name: string;
+            status: PipelineStepStatus;
+            attempt: number;
+            prompt_version: string | null;
+            model: string | null;
+            input_payload: Json;
+            output_payload: Json;
+            cost_summary: Json;
+            source_payload_refs: string[];
+            error_message: string | null;
+            started_at: string | null;
+            completed_at: string | null;
           }
       >;
       paper_trades: TableDefinition<
@@ -284,6 +397,10 @@ export type Database = {
           provider: AIProvider;
           model: string | null;
           prompt_version: string;
+          discovery_run_id: string | null;
+          candidate_id: string | null;
+          advice_id: string | null;
+          pipeline_step_run_id: string | null;
           input_payload: Json;
           output_payload: Json;
           status: "success" | "failed";
@@ -292,6 +409,9 @@ export type Database = {
           error_message: string | null;
           source_payload_refs: string[];
           score_inputs: Json;
+          input_tokens: number | null;
+          output_tokens: number | null;
+          cost_eur: number | null;
           created_at: string;
         }
       >;
@@ -326,6 +446,11 @@ export type Database = {
       close_reason: CloseReason;
       ai_provider: AIProvider;
       ai_analysis_type: AIAnalysisType;
+      advice_direction: AdviceDirection;
+      advice_market: AdviceMarket;
+      advice_status: AdviceStatus;
+      advice_tracking_outcome: AdviceTrackingOutcome;
+      pipeline_step_status: PipelineStepStatus;
     };
     CompositeTypes: Record<string, never>;
   };

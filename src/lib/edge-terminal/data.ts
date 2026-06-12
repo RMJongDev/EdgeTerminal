@@ -188,17 +188,23 @@ function toLog(row: Record<string, unknown>): AIAnalysisLog {
 }
 
 function toDiscoveryRun(row: Record<string, unknown>): DiscoveryRun {
+  const runProfile = row.run_profile === "eu_open" || row.run_profile === "us_open"
+    ? row.run_profile
+    : "mock";
+
   return {
     id: String(row.id),
     status: row.status as DiscoveryRun["status"],
     trigger: row.trigger as DiscoveryRun["trigger"],
     provider: row.provider as DiscoveryRun["provider"],
+    runProfile,
     contextHints: asContextHints(row.context_hints),
     startedAt: String(row.started_at),
     completedAt: row.completed_at ? String(row.completed_at) : null,
     sourceCount: Number(row.source_count ?? 0),
     candidateCount: Number(row.candidate_count ?? 0),
     topCandidateCount: Number(row.top_candidate_count ?? 0),
+    costSummary: asRecord(row.cost_summary),
     errorMessage: row.error_message ? String(row.error_message) : null,
   };
 }

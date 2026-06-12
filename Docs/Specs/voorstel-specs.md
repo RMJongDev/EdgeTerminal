@@ -108,13 +108,15 @@ De pipeline zoekt niet "het hele internet" af en laat geen taalmodel vrij nieuws
 
 | Laag | Startkeuze | Indicatie/mnd |
 |---|---|---|
-| Broad news/search | GDELT (gratis) + RSS van persbureaus en company-IR-pagina's | EUR 0 |
+| Broad news/search | GDELT (gratis) + RSS van persbureaus, company-IR en official feeds | EUR 0 |
 | Financiele feed | Finnhub of Alpha Vantage News & Sentiment - gratis tier eerst, betalen bij bewezen waarde | EUR 0-50 |
-| Primaire bronnen | SEC EDGAR (gratis), earnings calendar via feed-provider | EUR 0 |
+| Primaire bronnen | SEC EDGAR, company IR, EU regulated news/RNS-route, earnings calendar via feed-provider | EUR 0 |
+| Market-structure triggers | Nasdaq/NYSE trading halts + mover sweep | EUR 0 |
+| Sector/regulator feeds | FDA/EMA voor healthcare/pharma/biotech; BLS/Eurostat/ECB/Fed voor macrocontext | EUR 0 |
 | Marktdata delayed US+EU | Finnhub/EODHD/Twelve Data - EU-dekking is het selectiecriterium | EUR 20-60 |
 | LLM-keten | Goedkoop model voor filtering/voor-ranking, sterk model alleen voor finale analyses | EUR 30-50 |
 
-Totaal past binnen EUR 150/maand mits de LLM-keten getrapt blijft: goedkoop filteren (~50-100 bronitems per run), duur analyseren (~10 candidates per run). De adapterlaag is vervangbaar ontworpen zodat een betere feed (Benzinga/Finnhub betaald) later ingeschoven kan worden zonder herbouw.
+Totaal past binnen EUR 150/maand mits de LLM-keten getrapt blijft: goedkoop filteren (~50-100 bronitems per run), duur analyseren (~10 candidates per run). De eerste bronuitbreiding blijft gratis-first: liever meer primary/official feeds met duidelijke provenance dan extra algemene nieuwsruis. De adapterlaag is vervangbaar ontworpen zodat een betere feed later ingeschoven kan worden zonder herbouw.
 
 De watchlist blijft bestaan als ranking-context (voorkeuren en holdings krijgen extra gewicht), nooit als zoekgrens. Perception events (slecht ontvangen productlancering, reputatieschade, sentiment-omslag) blijven een volwaardige eventcategorie naast financiele events.
 

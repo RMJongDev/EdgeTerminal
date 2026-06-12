@@ -13,6 +13,17 @@
 
 ---
 
+## 2026-06-12 - Gratis nieuwsbronnen aangescherpt
+- Wat: `news-sources.md` uitgebreid met gratis-first bronnen: exchange halts, company IR registry, Business Wire/PR Newswire, BLS/Eurostat en FDA/EMA sectorfeeds.
+- Wat: Backlog S-28/S-30 en specs bijgewerkt zodat deze bronnen als gratis official-source/triggerlaag worden gebouwd zonder extra API-key verplichting.
+- Waarom: De bronfunnel moet sterker worden via primary/official provenance in plaats van meer algemene nieuwsruis.
+
+## 2026-06-12 - Technische preflight bouwstart gefixt
+- Wat: Playwright-baseline hersteld met webpack-devserver; `pnpm test:e2e` is weer groen.
+- Wat: Unit-test runner toegevoegd via Node 24 en pipeline-contracttests toegevoegd voor step order, legacy-normalisatie, payload refs, kosten en structured-output schemas.
+- Wat: Adviesmachine-preflightmigratie toegevoegd voor `advices`, `advice_tracking`, `pipeline_step_runs`, `source_payload_snapshots`, runprofielen/kosten en ticker-only adviezen buiten de watchlist; specs/backlog hierop bijgewerkt.
+- Volgende stap: S-21/S-23 kan starten met live Supabase en migratievalidatie.
+
 ## 2026-06-12 - Herijking naar adviesmachine doorgevoerd
 - Wat: Doel-interview + `Docs/analyse-bouwgereedheid.md`: Edge Terminal wordt een adviesmachine met autonome pipeline (top 5 expliciete adviezen, 2 runs/dag, automatische tracking, EUR 150/mnd).
 - Wat: Voorstel-specs, functional design, technical design, client-briefing en backlog volledig herschreven; oude epics gearchiveerd als demo-skelet; adviesritme vastgelegd (2-3 echte trades/week, plafond 6, max 4-5 open).

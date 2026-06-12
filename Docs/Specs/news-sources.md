@@ -14,10 +14,13 @@
 | 4 | RSS-feeds (GlobeNewswire, EQS, Euronext, PR Newswire) | primair (persberichten EU+US) | EU-dekking goed | gratis | geen | beleefd pollen |
 | 5 | Marketaux | financiele feed (entiteiten+sentiment) | wereldwijd incl. EU | gratis tier | API token (query) | 100 req/dag |
 | 6 | Alpha Vantage NEWS_SENTIMENT | financiele feed (sentiment) | vooral US | gratis tier | API key (query) | 25 req/dag |
-| 7 | Macro: FRED + ECB/Fed RSS | primair (macro) | US + EU | gratis | FRED key | ruim |
+| 7 | Macro: FRED + officiele RSS (ECB/Fed/BLS/Eurostat) | primair (macro) | US + EU | gratis | FRED key optioneel | ruim |
 | 8 | Mover sweep (AV TOP_GAINERS_LOSERS + EU quote-sweep) | trigger: koersbeweging -> nieuws | US gratis endpoint; EU via eigen sweep | gratis | API key | 25 req/dag (AV); sweep via marktdata |
+| 9 | Exchange alerts: Nasdaq/NYSE halts | marktstructuur-trigger | US | gratis | geen | RSS/CSV/pagina; beleefd pollen |
+| 10 | Company IR registry | primair (company-owned) | watchlist + mover-universum | gratis | geen | per site verschillend |
+| 11 | FDA/EMA feeds | sector-regulatorisch | healthcare/biotech/pharma | gratis | geen | RSS; beleefd pollen |
 
-Slice 1-startset: **1 + 2 + 4 + 8** verplicht, **3 of 5** als brede laag erbij. 6 en 7 optioneel/erna. Alles past in EUR 0; het budget blijft beschikbaar voor marktdata en LLM.
+Slice 1-startset: **1 + 2 + 4 + 8 + 9 + 10** verplicht, **3 of 5** als brede laag erbij. 6, 7 en 11 zijn optioneel/erna of alleen actief wanneer het profiel/sector dat rechtvaardigt. Alles past in EUR 0; het budget blijft beschikbaar voor marktdata en LLM.
 
 ## 1. Finnhub - financiele nieuwsfeed en quotes
 
@@ -91,9 +94,9 @@ Aandachtspunten:
 - `timespan` koppelen aan het run-profiel (eu_open: `timespan=16h` sinds US-close; us_open: `timespan=8h`);
 - titels in vreemde talen meenemen: de LLM-filter leest ze prima, `sourcelang:eng` alleen als ruisfilter voor de brede query.
 
-## 4. RSS-feeds - persberichten en EU regulated news
+## 4. RSS-feeds - persberichten, company IR en EU regulated news
 
-Gratis, stabiel, en de beste EU-dekking. EU-bedrijven distribueren regulated news vrijwel altijd via GlobeNewswire, EQS (DE/EU) of Euronext company news. Pollen met een standaard RSS-parser (npm `rss-parser`), GUID/link opslaan voor dedupe.
+Gratis, stabiel, en de beste EU-dekking. EU-bedrijven distribueren regulated news vrijwel altijd via GlobeNewswire, EQS (DE/EU) of Euronext company news. Daarnaast publiceren bedrijven vaak als eerste op hun eigen investor-relations site. Pollen met een standaard RSS-parser (npm `rss-parser`), GUID/link opslaan voor dedupe.
 
 Startlijst (uitbreidbaar, configuratie in code of tabel):
 
@@ -105,14 +108,22 @@ EQS News (Duitse/EU regulated news):
   https://www.eqs-news.com/  (RSS per categorie via site)
 Euronext company news (AEX/Brussel/Parijs/Lissabon):
   https://live.euronext.com/en/products/equities/company-news  (RSS/notification via site)
+London Stock Exchange / RNS (FTSE/UK):
+  https://www.londonstockexchange.com/news  (news explorer; alleen officiele toegankelijke feeds/API's gebruiken)
 PR Newswire:
   https://www.prnewswire.com/rss/  (categorie-feeds, o.a. financial services)
+Business Wire:
+  https://www.businesswire.com/help/feed-options  (RSS-feed opties; categorie/marktfeeds)
+Company IR registry:
+  per watchlist- en mover-universumticker: investor-relations news/press-release/feed/calendar URL vastleggen
 ECB persberichten:        https://www.ecb.europa.eu/rss/press.html
 Federal Reserve:          https://www.federalreserve.gov/feeds/press_all.xml
 ```
 
 Aandachtspunten:
 - exacte RSS-URL's per feed in week 1 vastleggen in de adapter-config (sites herschikken ze soms; daarom hier de vindplaats, niet alleen de URL);
+- company IR-feeds zijn ticker-specifiek: begin met watchlist + top holdings + large-cap mover-universum; onbekende movers krijgen pas een IR-lookup nadat ze door de mover sweep zijn gevonden;
+- RNS/licenties: gebruik alleen publiek toegankelijke pagina's/feeds of een officiele gratis toegangsroute; geen betaalde RNS-feed of scraping achter licentie;
 - poll-moment = run-start; items ouder dan het profiel-tijdvenster overslaan;
 - per item opslaan: titel, link (GUID), pubDate, bron, samenvatting. Geen volledige artikelen herpubliceren.
 
@@ -139,11 +150,15 @@ GET https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=ASML&topic
 
 Inzet: niet als primaire discovery maar als verrijking op candidates die de filter al passeerden (sentimentscore als extra rankinginput). Kan ook later.
 
-## 7. Macro - FRED en centrale-bank-RSS
+## 7. Macro - FRED, centrale-bank-RSS en officiele statistiek
 
-- FRED API (gratis key): macro-reeksen en release-calendar; `https://api.stlouisfed.org/fred/releases/dates?api_key=<KEY>&file_type=json`.
-- ECB/Fed RSS (zie 4) voor rentebesluiten en speeches.
+- FRED API (gratis key, optioneel): macro-reeksen en release-calendar; `https://api.stlouisfed.org/fred/releases/dates?api_key=<KEY>&file_type=json`.
+- ECB/Fed RSS (zie 4) voor rentebesluiten, speeches en persberichten.
+- BLS RSS/news releases: CPI, jobs, wages, productivity; relevant voor US-rates, indexen en rate-sensitive aandelen.
+- Eurostat RSS/news releases: inflatie, productie, werkloosheid, handel; relevant voor EU macro-context.
 - Earnings calendar komt al uit Finnhub (1).
+
+Inzet: macrofeeds zijn meestal run-context en risk-context, niet automatisch een single-name candidate. Alleen bij duidelijke sector-/tickerkoppeling of grote koersreactie mogen ze door naar de filterstap.
 
 ## 8. Mover sweep - koersbeweging als trigger (omgekeerde lookup)
 
@@ -169,6 +184,66 @@ De funnel hierboven stroomt van nieuws naar marktcontext. Voor perception events
 ```
 
 Hiermee is gegarandeerd dat alles wat hard beweegt - watchlist of niet - minstens een gerichte nieuws-zoektocht krijgt. Kosten: 1 endpoint-call + enkele tientallen quote-calls + 2-10 gerichte nieuws-fetches per run; verwaarloosbaar binnen de limieten.
+
+## 9. Exchange alerts - trading halts en marktstructuur
+
+Gratis en belangrijk als trigger: een trading halt is vaak een vroeg signaal dat er nieuws, nieuwsverwachting of extreme marktactiviteit speelt. Dit is geen advies op zichzelf; het triggert gerichte bronfetch en verschijnt als context.
+
+```text
+Nasdaq current halts:
+  https://www.nasdaqtrader.com/trader.aspx?id=tradehalts
+
+Nasdaq halt RSS:
+  https://www.nasdaqtrader.com/Trader.aspx?id=TradeHaltRSS
+
+NYSE trading halts:
+  https://www.nyse.com/trade/trading-halts
+```
+
+Aandachtspunten:
+- halt-codes wegen mee: `T1` (news pending) en `T2` (news released) zijn sterkere event-triggers dan puur LULD-volatiliteit;
+- halts zonder gevonden bron blijven context of unexplained mover, geen candidate;
+- alleen ticker, halt time, code, exchange en link opslaan.
+
+## 10. Company IR registry - ticker-eigen nieuwsbron
+
+Voor watchlist, holdings en large-cap mover-universum wordt een configuratielijst bijgehouden:
+
+```ts
+type CompanyIrSource = {
+  ticker: string;
+  companyName: string;
+  market: "us" | "eu";
+  irNewsUrl: string;
+  irFeedUrl?: string;
+  financialCalendarUrl?: string;
+};
+```
+
+Inzet:
+- altijd pollen voor watchlist/high-priority tickers;
+- alleen gericht pollen voor onbekende movers nadat de mover sweep ze heeft gevonden;
+- bronkwaliteit hoog, want dit is company-owned primary context, maar de LLM moet promotional bias expliciet meewegen.
+
+## 11. Healthcare/pharma regulator feeds - FDA en EMA
+
+Gratis sectorlaag voor biotech, pharma, medtech en consumer-health namen. Alleen actief wanneer de watchlist, mover of candidate-sector healthcare/pharma/biotech is, zodat de ruis beperkt blijft.
+
+```text
+FDA news feeds:
+  https://www.fda.gov/about-fda/contact-fda/subscribe-podcasts-and-news-feeds
+
+FDA recalls / market withdrawals / safety alerts:
+  https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts
+
+EMA RSS feeds:
+  https://www.ema.europa.eu/en/news-events/rss-feeds
+```
+
+Inzet:
+- FDA/EMA approval, safety, recall en shortage-signalen kunnen directe single-name of sectorimpact hebben;
+- zonder duidelijke tickerkoppeling blijven items macro/sector-context;
+- bedrijfspress release + regulator item samen krijgen hogere source-quality dan een losse promotional release.
 
 ## Ophaalpatroon (adapter-implementatie)
 
@@ -207,14 +282,15 @@ Regels voor alle adapters:
 | Finnhub company + general news | 30-60 |
 | EDGAR 8-K/6-K Atom | 20-50 (waarvan enkele relevant) |
 | GDELT of Marketaux | 30-80 |
-| RSS-set (5-10 feeds) | 10-40 |
+| RSS/official set (10-20 feeds incl. IR/halts/regulators) | 20-80 |
 | Mover sweep (gerichte fetches) | 5-20 |
-| **Totaal naar dedupe/filter** | **~100-220, na dedupe ~50-100** |
+| **Totaal naar dedupe/filter** | **~120-280, na dedupe ~60-120** |
 
 Dat matcht de aanname in `technical-design.md` (filter-LLM krijgt ~50-100 items, batch-gewijs, goedkoop model).
 
 ## Beslissing en vervolg
 
-- **Slice 1 bouwt:** Finnhub + EDGAR + RSS-startset + mover sweep, plus GDELT **of** Marketaux als brede laag (keuze in week 1 na de EU-dekkingstest; Marketaux is de makkelijkste start, GDELT de breedste).
-- **Upgradepad:** schiet de EU-dekking of kwaliteit tekort na de validatieperiode, dan is de eerste betaalde stap een professionelere feed (Benzinga/Finnhub betaald of EODHD met nieuws) - de adapter-interface verandert daar niet door.
+- **Slice 1 bouwt:** Finnhub + EDGAR + RSS/official-startset + exchange halts + company IR registry + mover sweep, plus GDELT **of** Marketaux als brede laag (keuze in week 1 na de EU-dekkingstest; Marketaux is de makkelijkste start, GDELT de breedste).
+- **Gratis-first regel:** voeg eerst gratis primary/official bronnen toe (IR, regulated news, halts, regulatorfeeds) voordat een extra algemene news API of betaalde feed wordt overwogen.
+- **Upgradepad:** schiet de EU-dekking of kwaliteit tekort na de validatieperiode, dan pas een betaalde professionelere feed overwegen. De adapter-interface verandert daar niet door.
 - Env vars en de plek van elke laag in de pipeline: zie `technical-design.md`.

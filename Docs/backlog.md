@@ -39,7 +39,7 @@
 - [ ] Supabase-project aanmaken en keys leveren (S-21).
 - [ ] Vercel-project koppelen of toegang leveren (S-22).
 - [ ] OpenAI API-key leveren (S-32).
-- [ ] Finnhub-, Alpha Vantage- en evt. Marketaux-keys leveren (S-26, S-29, S-30).
+- [ ] Finnhub-, Alpha Vantage- en evt. Marketaux-keys leveren (S-26, S-29, S-30); extra official/RSS-bronnen in S-28/S-30 zijn gratis en hebben geen keys nodig.
 - [ ] Trading-kapitaal vaststellen en invullen in `risk-framework.md` sectie 2 (voor S-45).
 - [ ] Brokerkeuze verifieren (kostenimpact eToro vs. alternatief) - staat los van de bouw.
 
@@ -85,12 +85,16 @@ Alle specs, briefing, visualisatie en dit backlog beschrijven de adviesmachine: 
   - `discovery_runs`: voeg `run_profile` (`eu_open`/`us_open`/`mock`) en `cost_summary jsonb` toe;
   - `advices`: alle velden uit technical-design § `advices`, incl. keten-referenties (candidate/analysis/setup/risk_review), entry/stop/target, `expected_move_pct`, `cost_estimate_pct`, `rank`, `status`, `taken_by_user` en user-velden;
   - `advice_tracking`: alle velden uit technical-design § `advice_tracking` (D1/D3/D5-returns, stop/target/expiry, outcome, last_checked);
+  - `pipeline_step_runs`: status/checkpoint per pipelinestap zodat gefaalde runs vanaf de laatste gelukte stap te inspecteren en later te hervatten zijn;
+  - `source_payload_snapshots`: beperkte API-/metadata-snapshots achter `raw_payload_ref`, zodat AI-log en adaptertests reproduceerbaar blijven zonder volledige artikelen te herpubliceren;
+  - `trade_setups.asset_id` nullable maken; adviezen en setups blijven altijd ticker-first, zodat movers buiten de watchlist geen dummy-watchlistasset nodig hebben;
   - RLS-policies (`auth.uid() = user_id`) en `updated_at`-triggers conform de bestaande migratiestijl.
 - Werk `src/lib/database.types.ts` bij (regenereren via Supabase CLI of handmatig consistent).
 - Schrijf de migratie zo dat hij ook zonder live project review-baar is; toepassen zodra S-21 klaar is.
 **Acceptatiecriteria:**
 - [ ] Migratie draait foutloos op het Supabase-project; RLS aantoonbaar actief (query zonder auth geeft niets).
 - [ ] `database.types.ts` dekt de nieuwe tabellen; typecheck groen.
+- [ ] Pipeline-contracttests draaien via `pnpm test:unit`.
 - [ ] `paper_trades`/`trade_evaluations` blijven bestaan (historie) maar worden vanaf EPIC-15 niet meer door de app gebruikt.
 **Afhankelijkheden:** schrijven kan direct; toepassen vereist S-21.
 
@@ -150,11 +154,13 @@ Alle specs, briefing, visualisatie en dit backlog beschrijven de adviesmachine: 
 - [ ] User-Agent aantoonbaar op elke request; fixtures + contract test.
 **Robin-input:** geen (gratis, geen key).
 
-### S-28 - RSS-adapter en startlijst
+### S-28 - Gratis RSS/official-source adapter en startlijst
 **Referenties:** `news-sources.md` § 4.
-**Taken:** RSS-parser (bv. `rss-parser`); feed-configuratielijst in code (GlobeNewswire, EQS, Euronext company news, PR Newswire-categorieen, ECB, Fed); exacte feed-URLs vastleggen en in `news-sources.md` documenteren; GUID-dedupe; items buiten het run-venster droppen.
+**Taken:** RSS-parser (bv. `rss-parser`); feed-configuratielijst in code (GlobeNewswire, EQS, Euronext company news, publiek toegankelijke RNS-route, PR Newswire-categorieen, Business Wire, ECB, Fed, BLS, Eurostat, FDA, EMA); company-IR registry voor watchlist/high-priority tickers en gericht voor movers; exacte feed-URLs vastleggen en in `news-sources.md` documenteren; GUID-dedupe; items buiten het run-venster droppen.
 **Acceptatiecriteria:**
-- [ ] Minimaal 5 feeds live; per item titel/link/pubDate/bron opgeslagen.
+- [ ] Minimaal 10 gratis feeds live, waarvan minimaal 3 primary/official bronnen (regulated news, company IR of regulator/macro); per item titel/link/pubDate/bron opgeslagen.
+- [ ] Company-IR registry is uitbreidbaar per ticker zonder adaptercode te wijzigen.
+- [ ] FDA/EMA feeds zijn sector-gated (alleen healthcare/pharma/biotech context of gerichte mover-fetch), zodat ze de algemene runs niet vervuilen.
 - [ ] Feed-lijst uitbreidbaar zonder codewijziging buiten de configlijst.
 **Robin-input:** geen.
 
@@ -168,9 +174,10 @@ Alle specs, briefing, visualisatie en dit backlog beschrijven de adviesmachine: 
 
 ### S-30 - Mover sweep **[ROBIN]**
 **Referenties:** `news-sources.md` § 8; `technical-design.md` § Pipeline-orchestratie (moverSweep) en regels.
-**Taken:** US-movers via Alpha Vantage `TOP_GAINERS_LOSERS` (1 call per run); EU via quote-sweep over een vaste universumlijst (AEX/DAX/CAC 40/FTSE MIB/IBEX-constituenten als configlijst in code) met drempel |beweging| >= 4% (configureerbaar per profiel); per onverklaarde mover gerichte fetch (Finnhub company-news + brede-laag-query op bedrijfsnaam); geen nieuws gevonden -> "unexplained move" opslaan als context (geen candidate).
+**Taken:** US-movers via Alpha Vantage `TOP_GAINERS_LOSERS` (1 call per run); gratis exchange-alerts ophalen (Nasdaq trade halt RSS/current halts en NYSE halts) als extra triggerlaag; EU via quote-sweep over een vaste universumlijst (AEX/DAX/CAC 40/FTSE MIB/IBEX-constituenten als configlijst in code) met drempel |beweging| >= 4% (configureerbaar per profiel); per onverklaarde mover/halt gerichte fetch (Finnhub company-news + brede-laag-query op bedrijfsnaam + company IR waar bekend); geen nieuws gevonden -> "unexplained move/halt" opslaan als context (geen candidate).
 **Acceptatiecriteria:**
 - [ ] Een mover buiten de watchlist met vindbaar nieuws wordt candidate met koersreactie als bewijs (live variant van de Ferrari-test).
+- [ ] Een `T1`/`T2`-achtige trading halt triggert gerichte nieuws-fetch en wordt als context zichtbaar, maar wordt zonder bron nooit candidate.
 - [ ] Unexplained moves verschijnen als context op het dashboard (S-37/S-38) en worden nooit candidate.
 **Robin-input:** Alpha Vantage key (gratis).
 

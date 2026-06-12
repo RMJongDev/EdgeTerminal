@@ -329,6 +329,7 @@ export const demoDiscoveryRuns: DiscoveryRun[] = [
     status: "completed",
     trigger: "manual",
     provider: "mock",
+    runProfile: "mock",
     contextHints: {
       text: "RACE launch backlash, NVDA exportregels, renteverlaging, olievoorraad, crypto ETF inflows",
       mode: "ranking_boost",
@@ -340,6 +341,7 @@ export const demoDiscoveryRuns: DiscoveryRun[] = [
     sourceCount: 10,
     candidateCount: 10,
     topCandidateCount: 10,
+    costSummary: {},
     errorMessage: null,
   },
 ];
