@@ -1,7 +1,8 @@
 # Technical Design - Edge Terminal
 
-> Status: bouwvoorbereiding. Dit document beschrijft de technische inrichting zonder Vercel- of Supabase-project aan te maken.
-> Laatst aangepast: 2026-06-03 - afgestemd op Discovery Candidate Quality MVP.
+> Status: herijkt naar adviesmachine, bouwvoorbereiding voor slice 1.
+> Laatst aangepast: 2026-06-12 - vervangt de triage-first versie volledig.
+> Functionele eisen: `functional-design.md`. Procesvisualisatie: `process-pipeline.html`. Risicokader en drempels: `risk-framework.md`.
 
 ## Architectuur
 
@@ -9,91 +10,106 @@
 [Browser]
   |
   v
-[Next.js App Router]
-  |-- Server Components for dashboards/lists
-  |-- Server Actions for CRUD and workflow actions
-  |-- Route handlers for discovery scans, AI endpoints and future scheduled jobs
+[Next.js App Router op Vercel]
+  |-- Server Components voor dashboard/advieslijst/tracking
+  |-- Server Actions voor run-start, correcties, taken-markering
+  |-- Route handlers voor pipeline-run en (later) cron
   |
   +--> [Supabase Auth + Postgres + RLS]
   |
-  +--> [Discovery Source Funnel]
-       |-- broad news/search provider
-       |-- financial news/sentiment feed
-       |-- primary sources and calendars
-       |-- market context provider
-  |
-  +--> [Discovery Candidate Quality Layer] normalize / dedupe / rank / triage
-  |
-  +--> [OpenAI]  event analysis / setup / risk review / briefing
-  |
-  +--> [Gemini] web research / candidate enrichment / market context
-  |
-  +--> [Market data provider] movers / delayed quotes / context
+  +--> [Advice Pipeline] (server-side orchestratie, een module)
+        |
+        |-- 1. Source funnel adapters
+        |     |-- broad news/search   (GDELT + RSS/IR feeds)
+        |     |-- financiele feed     (Finnhub of Alpha Vantage News & Sentiment)
+        |     |-- primaire bronnen    (SEC EDGAR, earnings calendar)
+        |     |-- market context      (delayed quotes, movers)
+        |
+        |-- 2. Mover sweep: onverklaarde movers -> gerichte nieuws-fetch (code + marktdata)
+        |-- 3. Normalisatie + dedupe/clustering        (code, geen LLM)
+        |-- 4. Filter + voor-ranking                   (goedkoop LLM-model)
+        |-- 5. Per candidate: analyse -> setup -> risk (sterk LLM-model)
+        |-- 6. Uitvoerbaarheidscheck                   (code + marktdata)
+        |-- 7. Advice assembly + ranking -> top 5      (LLM + code)
+        |-- 8. Tracking update                         (code + delayed quotes)
+        |
+        +--> alle stappen loggen naar ai_analysis_logs (incl. kosten)
 ```
 
 ## Runtime modes
 
-### Demo mode
+### Demo mode (Supabase-env ontbreekt)
 
-Wanneer Supabase-env ontbreekt:
-- app toont demo-data;
-- forms en actions geven een vriendelijke melding of redirect;
-- discovery toont voorbeeld-candidates en providerstatus;
-- discovery gebruikt deterministic mock candidates met source quality, recency, dedupe hints en score breakdown;
-- dashboard en MVP-schermen blijven reviewbaar;
-- Playwright smoke tests kunnen zonder extern project draaien.
+- App toont demo-adviezen en demo-runstatus; UI blijft reviewbaar en Playwright-testbaar zonder extern project.
+- Pipeline draait met deterministische mock-adapters en mock-LLM-stappen.
 
 ### Live mode
 
-Wanneer Supabase-env aanwezig is:
-- protected app vereist Supabase Auth;
-- data komt uit Supabase-tabellen;
-- RLS beperkt data tot `auth.uid()`;
-- AI keys blijven server-only.
-- discovery scans draaien server-side vanuit een authenticated owner action en schrijven candidate events naar Supabase.
-- een echte scheduled cron wordt pas toegevoegd wanneer de server-side schrijfrechten expliciet zijn gekozen en gedocumenteerd.
+- Supabase Auth verplicht; RLS beperkt data tot `auth.uid()`.
+- Pipeline draait server-side vanuit een authenticated owner action; alle keys server-only.
+- Cron (slice 3) via route handler met `DISCOVERY_SCAN_CRON_SECRET` en een expliciet ingerichte server-side write-strategie.
 
-### Discovery execution modes
+## Pipeline-orchestratie
 
-| Mode | Doel | Techniek |
-|---|---|---|
-| Mock discovery | UI en tests zonder provider | Deterministische demo-candidates in `demo-data.ts` of `discovery.ts` |
-| Manual refresh | MVP live flow | Authenticated server action/route handler schrijft op `auth.uid()` |
-| Provider scan | Eerste echte integratie | Discovery source funnel + market context, server-only keys |
-| Future cron | Later ochtendscan zonder klik | Route handler met `DISCOVERY_SCAN_CRON_SECRET` en expliciet gekozen server-side write strategy |
-
-## Discovery source funnel
-
-De technische discovery-laag probeert niet "het hele internet" te crawlen. Elke scan haalt gecontroleerde bronitems op uit adapters, slaat provenance op en laat de Candidate Quality Layer pas daarna normaliseren, dedupliceren en ranken.
+Een run is een keten die zelfstandig doorloopt; elke stap schrijft zijn tussenresultaat weg zodat een gefaalde run herstart kan worden vanaf de laatste gelukte stap.
 
 ```text
-fetchBroadNewsSources()
-  -> fetchFinancialNewsSources()
-  -> fetchPrimarySourceItems()
-  -> fetchMarketContext()
-  -> normalizeSourceItems()
-  -> dedupeCandidates()
-  -> scoreCandidates()
-  -> rankTopCandidates(10)
+startRun(profile: "eu_open" | "us_open", trigger: "manual" | "cron")
+  -> createDiscoveryRun()                          discovery_runs (status: running)
+  -> fetchSources(profile)                         event_sources       [parallel per adapter]
+  -> moverSweep()                                  event_sources       [code + marktdata]
+       top movers/decliners ophalen (US via gainers/losers-endpoint, EU via quote-sweep
+       over een vast large-cap universum); elke flinke beweging zonder verklarend bronitem
+       krijgt een gerichte nieuws-fetch (company news op ticker + brede query op naam);
+       gevonden nieuws wordt een bronitem met de koersreactie als bewijs
+  -> normalizeSources()                            uniforme source items
+  -> dedupeAndCluster()                            dedupe_key + clusters (code: titel/symbool/tijd-similarity)
+  -> filterCandidates()                            event_candidates    [goedkoop LLM, batch]
+       selecteert kansrijke candidates (~10-15) met reason_to_watch en voor-rank
+  -> for each kansrijke candidate (parallel, max N):
+       analyzeEvent()                              event_analyses      [sterk LLM]
+       generateSetup()                             trade_setups        [sterk LLM; long/short/none]
+       reviewRisk()                                risk_reviews        [sterk LLM; tegenargument verplicht]
+       checkExecutability()                        spread/liquiditeit/kosten + kostenhorde (risk-framework)
+  -> assembleAdvices()                             advices             [LLM + code]
+       bundelt setup+risk+uitvoerbaarheid tot adviezen; rankt; cap op 5; mag 0 opleveren
+  -> updateTracking()                              advice_tracking     [code + delayed quotes]
+  -> completeRun()                                 discovery_runs (status, counts, kosten, fouten)
 ```
 
-Bronlagen:
+Regels:
+- elke bronlaag-failure is non-fatal: run draait door met de overige lagen en logt wat er miste;
+- de mover sweep maakt nooit direct een candidate: een beweging zonder gevonden bronitem blijft context ("unexplained move" op het dashboard); de regel "geen candidate zonder bron" blijft altijd gelden;
+- de brede laag draait naast watchlist/sector-query's altijd generieke event-pattern-query's (negatieve tone + marktbewegingstaal), zodat onbekende namen en perception events vindbaar blijven;
+- de filter-stap krijgt nooit meer dan een batchgrootte aan items per LLM-call; kosten per run worden opgeteld en gelogd;
+- setup-richting `none` stopt de keten voor die candidate (geen advies, wel gelogd waarom);
+- een risk review met verdict `skip` blokkeert advies-assembly voor die candidate;
+- de assembly vult nooit op naar vijf; ranking weegt confidence, risk score, bronkwaliteit, recency en uitvoerbaarheid;
+- de assembly past de kostenhorde en een correlatie-check toe: een advies in hetzelfde sector/thema als open posities of hoger gerankte adviezen krijgt een warning en rank-penalty (drempels: `risk-framework.md`);
+- alle prompts gebruiken structured outputs (JSON schema) en worden integraal gelogd met promptversie.
 
-| Laag | MVP-bronnen | Doel |
+## Run-profielen
+
+| Veld | `eu_open` | `us_open` |
 |---|---|---|
-| Broad news/search | GDELT of NewsAPI-achtige provider | Brede actuele nieuwsdekking buiten de watchlist |
-| Financiele nieuwsfeed | Alpha Vantage News/Sentiment als startoptie; Benzinga/Finnhub later | Ticker-, sector-, sentiment- en topicgerichte marktitems |
-| Primaire bronnen | SEC EDGAR, company IR/press releases, earnings calendars, FRED/officiele macro calendars | Verifieerbare filings, bedrijfsfeiten en macro-events |
-| Market context | Delayed quotes, movers, volume, sector/ETF-context | Bepalen of een nieuwsfeit marktimpact lijkt te hebben |
-| Candidate Quality Layer | Eigen code + AI-promptversies | Concrete events maken, dedupen, bronkwaliteit/ranking bepalen |
+| Tijdvenster bronnen | sinds vorige US-close, nadruk overnight/Azie/EU-ochtend | sinds EU-run, nadruk US premarket en dagnieuws |
+| Query-context | EU-tickers/sectoren zwaarder | US-tickers/macro zwaarder |
+| Market context | EU-indices, EU-movers waar beschikbaar | US premarket movers, US-indices |
 
-Adapterregels:
-- elke bronadapter retourneert `provider`, `source_category`, `provider_item_id`, `source_name`, `source_url`, `published_at`, `fetched_at`, `title`, `snippet`, `symbols`, `topics` en `raw_payload_ref` waar beschikbaar;
-- betaalde of gelicentieerde content wordt niet integraal in de UI herpubliceerd;
-- primaire bronnen krijgen hogere `source_quality_score` dan herhaalde headlines of zwakke aggregators;
-- market movers zonder concreet nieuwsfeit worden als context opgeslagen, niet automatisch als candidate;
-- watchlist/asset preferences worden pas in scoring gebruikt en vormen nooit een harde query-grens;
-- optionele scan hints mogen extra query-termen en ranking boost geven, maar mogen de brede bronfunnel niet vervangen.
+Profiel wordt opgeslagen op `discovery_runs.run_profile` en meegegeven aan adapters, filter en ranking.
+
+## Providerstack (startkeuze)
+
+| Laag | Start | Vervangbaar door |
+|---|---|---|
+| Broad news | GDELT (gratis) + RSS-lijst (persbureaus, company IR) | NewsAPI-achtige provider |
+| Financiele feed | Finnhub of Alpha Vantage News & Sentiment, gratis tier | Benzinga/Finnhub betaald |
+| Primair | SEC EDGAR (gratis), earnings calendar via feed | - |
+| Marktdata | Finnhub/EODHD/Twelve Data delayed; EU-dekking is selectiecriterium | EODHD all-world bij EU-gat |
+| LLM filter | OpenAI goedkoop model (env: `OPENAI_FILTER_MODEL`) | - |
+| LLM analyse | OpenAI sterk model (env: `OPENAI_ANALYSIS_MODEL`) | - |
+
+Definitieve keuze per laag wordt in week 1 van slice 1 bevestigd door de gratis tiers te testen op EU-dekking; de adapter-interface verandert daar niet door. Concrete endpoints, limieten, RSS-startlijst en het ophaalpatroon per bron: `news-sources.md`. Licentieregels: geen betaalde content integraal herpubliceren; robots/licenties respecteren; alleen officiele API's en open feeds.
 
 ## Env vars
 
@@ -101,154 +117,96 @@ Adapterregels:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SITE_URL=
+
+# OpenAI - server-only; actuele modelnamen invullen bij bouw
 OPENAI_API_KEY=
+OPENAI_FILTER_MODEL=
 OPENAI_ANALYSIS_MODEL=
-GEMINI_API_KEY=
-GEMINI_RESEARCH_MODEL=
-NEWS_DISCOVERY_API_KEY=
-NEWS_DISCOVERY_BASE_URL=
+
+# Bronnen - server-only
+FINANCIAL_NEWS_API_KEY=      # Finnhub
+FINANCIAL_NEWS_BASE_URL=
+BROAD_NEWS_API_KEY=          # Marketaux (GDELT kan zonder key)
+MOVERS_API_KEY=              # Alpha Vantage TOP_GAINERS_LOSERS (mover sweep)
+EDGAR_USER_AGENT=            # verplicht voor SEC EDGAR: naam + e-mail
 MARKET_DATA_API_KEY=
 MARKET_DATA_BASE_URL=
+
+# Automatisering (slice 3)
 DISCOVERY_SCAN_CRON_SECRET=
 ```
 
+`GEMINI_*` en `NEWS_DISCOVERY_*` vars zijn vervallen. `.env.example` en `Docs/dependencies.md` zijn bijgewerkt op 2026-06-12; de code migreert mee in EPIC-14 van het backlog.
+
 ## Database
 
-Belangrijkste tabellen:
-- `profiles`;
-- `discovery_runs`;
-- `event_sources`;
-- `event_candidates`;
-- `assets`;
-- `market_events`;
-- `event_assets`;
-- `event_analyses`;
-- `trade_setups`;
-- `risk_reviews`;
-- `paper_trades`;
-- `trade_evaluations`;
-- `ai_analysis_logs`;
-- `daily_briefings`.
+Bestaande tabellen blijven: `profiles`, `discovery_runs`, `event_sources`, `event_candidates`, `market_events`, `event_assets`, `assets`, `event_analyses`, `trade_setups`, `risk_reviews`, `ai_analysis_logs`, `daily_briefings`.
 
-### Discovery candidate quality tables
+Wijzigingen voor de adviesmachine:
 
-De eerste technische slice draait om deze drie tabellen:
+### `discovery_runs` - uitbreiden
 
-#### `discovery_runs`
+- `run_profile`: `eu_open` | `us_open` | `mock`;
+- `cost_summary jsonb`: tokens/kosten per stap;
+- bestaande velden (status, trigger, counts, error_message) blijven.
 
-Doel: vastleggen van elke brede scan, ook als de provider faalt of alleen demo-data gebruikt wordt.
+### `advices` - nieuw (kernentiteit)
 
-Minimale velden:
-- `id uuid primary key`;
-- `user_id uuid references auth.users(id)`;
-- `status`: running, completed, failed;
-- `trigger`: manual, morning, mock, future_cron;
-- `provider`: mock, news_search, market_data, mixed;
-- `context_hints jsonb`: optionele user-input zoals tickers, onderwerpen, vragen en hint-mode;
-- `started_at`;
-- `completed_at`;
-- `source_count`;
-- `candidate_count`;
-- `top_candidate_count`;
-- `error_message`;
-- `metadata jsonb`.
+- `id`, `user_id`, `discovery_run_id`;
+- `candidate_id`, `analysis_id`, `setup_id`, `risk_review_id` (de keten);
+- `ticker`, `direction` (`long`/`short`), `market` (`us`/`eu`);
+- `entry_zone_low`, `entry_zone_high`, `stop_loss`, `target`;
+- `horizon_days int`, `size_suggestion_eur numeric`;
+- `confidence numeric`, `rank int` (1-5);
+- `reasoning text`, `counterargument text`, `invalidation text`;
+- `source_refs jsonb` (URL + publicatietijd per bron);
+- `executability_note text`;
+- `expected_move_pct numeric`, `cost_estimate_pct numeric` (input voor de kostenhorde);
+- `status`: `active`, `expired`, `invalidated`, `rejected_by_user`;
+- `taken_by_user boolean`, `user_entry_price`, `user_exit_price`, `user_note`;
+- `created_at`, `updated_at`.
 
-#### `event_sources`
+### `advice_tracking` - nieuw (vervangt handmatige paper trades)
 
-Doel: bronitems en payload-referenties bewaren zonder betaalde content integraal te herpubliceren.
+- `id`, `user_id`, `advice_id`;
+- `reference_entry numeric` (midden entry-zone op adviesmoment);
+- `d1_return`, `d3_return`, `d5_return` (numeric, vs. reference_entry, richtinggecorrigeerd);
+- `stop_hit_at`, `target_hit_at`, `expired_at`;
+- `final_return numeric`, `outcome`: `target`, `stop`, `expired_positive`, `expired_negative`, `invalidated`;
+- `last_checked_at`, `last_price numeric`;
+- `created_at`, `updated_at`.
 
-Minimale velden:
-- `id uuid primary key`;
-- `user_id uuid references auth.users(id)`;
-- `discovery_run_id uuid references discovery_runs(id)`;
-- `provider`;
-- `source_category`: broad_news, financial_feed, primary_source, macro_calendar, market_context, manual;
-- `provider_item_id`;
-- `source_name`;
-- `source_url`;
-- `published_at`;
-- `fetched_at`;
-- `raw_payload_ref`;
-- `title`;
-- `snippet`;
-- `source_quality_score numeric`;
-- `metadata jsonb`.
+Tracking-update draait bij elke run en bij handmatige refresh: haalt delayed quotes op voor alle open adviezen, berekent returns en zet uitkomsten. Geen realtime-eis; D-waarden zijn handelsdagen.
 
-#### `event_candidates`
+### `paper_trades` / `trade_evaluations` - uitfaseren
 
-Doel: gerankte discovery-output voordat Robin iets accepteert, negeert, samenvoegt of analyseert.
+Worden vervangen door `advices` + `advice_tracking`. Bestaande migratiebestanden blijven (historie), een nieuwe migratie voegt de nieuwe tabellen toe; de oude tabellen worden niet meer door de app gebruikt en kunnen in een latere opruimmigratie vervallen.
 
-Minimale velden:
-- `id uuid primary key`;
-- `user_id uuid references auth.users(id)`;
-- `discovery_run_id uuid references discovery_runs(id)`;
-- `title`;
-- `summary`;
-- `reason_to_watch`;
-- `affected_symbols text[]`;
-- `affected_markets text[]`;
-- `event_type_guess`;
-- `impact_direction_guess`;
-- `impact_level_guess`;
-- `relevance_score numeric`;
-- `confidence_score numeric`;
-- `source_quality_score numeric`;
-- `recency_score numeric`;
-- `dedupe_key`;
-- `merge_hint`;
-- `candidate_status`: new, accepted, ignored, merged, analyzed;
-- `ignore_reason`;
-- `accepted_market_event_id uuid references market_events(id)`;
-- `source_ids uuid[]`;
-- `raw_payload_refs text[]`;
-- `score_breakdown jsonb`;
-- `uncertainty_notes text`;
-- `created_at`;
-- `updated_at`.
+Alle nieuwe tabellen: `user_id` + RLS (`auth.uid() = user_id`) + `updated_at`-trigger, conform bestaande conventie.
 
-Candidate lifecycle:
+## LLM-keten en promptversies
 
-```text
-new
-  -> accepted -> market_event
-  -> ignored  -> stored with ignore_reason
-  -> merged   -> linked to canonical candidate/event
-  -> analyzed -> analysis can still result in accept, ignore or no_trade
-```
+Provider: **OpenAI** (besluit 2026-06-12). Goedkoop model voor filter/briefing, sterk model voor analyse/setup/risk/assembly. Concrete modelnamen bij bouwstart kiezen (actueel, prijzen verifieren tegen ~EUR 30-50/mnd bij 2 runs/dag) en vastleggen in env + `Docs/dependencies.md`. Alle calls gebruiken structured outputs. Gegenereerde output (adviezen, briefings) is Engels.
 
-Alle user-owned tabellen krijgen:
-- `id uuid primary key`;
-- `user_id uuid references auth.users(id)`;
-- `created_at`;
-- `updated_at`;
-- RLS policies voor select/insert/update/delete op `auth.uid() = user_id`.
+| Stap | Model | Promptversie | Output (structured) |
+|---|---|---|---|
+| Filter + voor-ranking | goedkoop | `advice-filter-v1` | per item: kansrijk ja/nee, reason_to_watch, voor-rank, affected symbols |
+| Event analysis | sterk | `advice-analysis-v1` | sentiment, impact, horizon, bull/bear case, onzekerheid, perception split |
+| Setup generation | sterk | `advice-setup-v1` | richting (long/short/none), entry-logica, stop, target, aannames |
+| Risk review | sterk | `advice-risk-v1` | tegenargument, thesis killer, zwakke aannames, risk score, verdict (ok/skip) |
+| Advice assembly + ranking | sterk | `advice-assembly-v1` | definitieve adviesvelden, rank, of besluit "geen advies" met reden |
+| Briefing | goedkoop | `advice-briefing-v1` | run-samenvatting in 2 minuten leestijd |
 
-## Server modules
+Prompt-invariants (in elke prompt):
+- adviseer alleen op aantoonbaar event + bron; verzin geen nieuws;
+- `none`/"geen advies" is een goede uitkomst; vul nooit op naar een aantal;
+- weeg in wat al ingeprijsd kan zijn (koersreactie sinds publicatie meegeven);
+- jaag geen beweging na: beoordeel expliciet of de reactie over- of onderdreven is; entry-logica op pullback of bevestiging, niet op chase;
+- benoem gap-risico en bij shorts squeeze-risico; een stop is een intentie, geen garantie - de positiegrootte rekent met slippage;
+- pas de kostenhorde toe: verwachte round-trip kosten <= 1/3 van de verwachte beweging, anders no-trade of rank-penalty (drempels: `risk-framework.md`);
+- output in het vastgelegde JSON-schema, geen vrije tekst erbuiten.
 
-| Module | Doel |
-|---|---|
-| `src/lib/edge-terminal/types.ts` | domeintypes en enumwaarden |
-| `src/lib/edge-terminal/demo-data.ts` | demo/fallback-data |
-| `src/lib/edge-terminal/data.ts` | read helpers met Supabase/live en demo fallback |
-| `src/lib/edge-terminal/actions.ts` | server actions voor CRUD/workflow |
-| `src/lib/edge-terminal/discovery.ts` | orchestratie van bron-ingestie, normalisatie, dedupe, ranking en triage |
-| `src/lib/edge-terminal/discovery-providers.ts` | adapters voor broad news/search, financiele feeds, primaire bronnen en market context |
-| `src/lib/edge-terminal/discovery-scoring.ts` | pure score helpers voor relevance/source quality/recency/dedupe breakdown |
-| `src/lib/edge-terminal/discovery-types.ts` | provider payloads, candidate status, score breakdown en prompt schema's |
-| `src/lib/edge-terminal/ai.ts` | provider-agnostische AI-flow placeholders |
-| `src/lib/edge-terminal/metrics.ts` | performance-statistieken |
-
-Discovery functies:
-
-- `createDiscoveryRun(contextHints?)` maakt een run met status `running` en bewaart optionele scan hints;
-- `fetchDiscoverySources()` orkestreert mock of provider-bronnen vanuit de source funnel;
-- `fetchBroadNewsSources()`, `fetchFinancialNewsSources()`, `fetchPrimarySourceItems()` en `fetchMarketContext()` leveren uniforme source items;
-- `normalizeSourcesToCandidates()` zet ruwe bronitems om naar candidate drafts;
-- `dedupeCandidates()` voegt dubbele headlines of bronitems samen via `dedupe_key` en `merge_hint`;
-- `scoreCandidates()` berekent relevance, source quality, recency, confidence en uncertainty;
-- `rankTopCandidates()` kiest de top 10, zonder watchlist als harde filter;
-- `completeDiscoveryRun()` schrijft aantallen, status en eventuele fouten weg;
-- `acceptCandidate()`, `ignoreCandidate()`, `mergeCandidate()` en `analyzeCandidate()` voeren triage-acties uit.
+Elke call logt naar `ai_analysis_logs`: prompt_version, model, input_payload, output_payload, tokens/kosten, status. Promptversies zijn daardoor achteraf vergelijkbaar op advies-uitkomst (Performance Lab per prompt_version is een slice 3-inzicht).
 
 ## Routes
 
@@ -256,247 +214,47 @@ Discovery functies:
 |---|---|
 | `/` | product-entry |
 | `/login` | Supabase auth |
-| `/dashboard` | daily command dashboard |
-| `/watchlist` | assets CRUD |
-| `/events` | discovery candidates + accepted market events |
-| `/events/[id]` | event detail, analysis, linked setups |
-| `/api/discovery/run` | route handler voor handmatige discovery scan vanuit Dashboard/Event Radar |
-| `/api/discovery/cron` | toekomstige cron-entrypoint, beschermd met `DISCOVERY_SCAN_CRON_SECRET` |
-| `/setups` | setups, counterarguments and risk reviews |
-| `/signals` | redirect naar `/setups` voor oude links |
-| `/risk` | redirect naar `/setups` voor oude links |
-| `/paper-trades` | open/closed paper trades |
-| `/performance` | performance lab |
-| `/briefing` | daily briefing |
-| `/ai-log` | AI analysis audit trail |
+| `/dashboard` | advieslijst + run-start + runstatus |
+| `/advices/[id]` | advies detail met volledige keten |
+| `/events` | Event Radar: candidates, clusters, correcties |
+| `/events/[id]` | event/candidate detail |
+| `/watchlist` | rankingcontext CRUD |
+| `/tracking` | alle adviezen met uitkomsten (vervangt `/paper-trades`, redirect) |
+| `/performance` | Performance Lab |
+| `/briefing` | briefing per run |
+| `/ai-log` | audit trail + kosten |
+| `/process` | procesoverzicht (verwijst naar process-pipeline.html inhoud) |
+| `/api/pipeline/run` | route handler: start run (profile param), authenticated |
+| `/api/pipeline/cron` | slice 3: cron-entrypoint met secret |
 
-## AI-flow
-
-### Broad event discovery
-
-Input:
-- broad news/search source items;
-- financiele nieuws/sentiment source items;
-- primaire bronitems: SEC filings, company IR/press releases, earnings calendars en macro release calendars;
-- market movers, delayed quote context, volume en sector/ETF-context;
-- optionele scan hints: tickers, topics, vrije researchvraag en hint-mode;
-- optionele watchlist/asset preferences als ranking-context, niet als harde filter.
-
-Output:
-- `candidate_title`;
-- `candidate_summary`;
-- `source_refs`;
-- `affected_symbols`, `affected_sectors`, `affected_etfs` or `affected_market_regimes`;
-- `event_type_guess`;
-- `impact_direction_guess`;
-- `impact_level_guess`;
-- `relevance_score`;
-- `confidence_score`;
-- `source_quality_score`;
-- `recency_score`;
-- `dedupe_key`;
-- `merge_hint`;
-- `reason_to_watch`;
-- `score_breakdown`;
-- `uncertainty_notes`.
-
-Rules:
-- geen candidate zonder concrete gebeurtenis of aantoonbare marktcontext;
-- geen candidate zonder bronreferentie, publicatietijd en onzekerheidsnotitie;
-- brede marktdekking gaat voor watchlist-dekking;
-- brede marktdekking gaat ook voor scan-hint-dekking;
-- primaire bronnen en bevestigde bedrijfs/macro-feiten wegen zwaarder dan herhaalde headlines;
-- bronkwaliteit en recency wegen mee in ranking;
-- duplicate headlines mogen niet meerdere top 10 plekken innemen;
-- weak-source candidates mogen zichtbaar zijn, maar moeten als onzeker gemarkeerd worden;
-- `ignore` en `merge` worden als waardevolle uitkomst gelogd;
-- top 10 is compact en actiegericht, maar blijft hypothese;
-- legal/compliance: gebruik toegestane API's/feeds en respecteer robots/licenties als er scraping wordt toegevoegd.
-
-Score breakdown:
-
-```text
-candidate_quality_score =
-  relevance_score
-+ source_quality_score
-+ recency_score
-+ dedupe_confidence
-+ market_context_score
-+ watchlist_preference_fit
-+ scan_hint_fit
-- uncertainty_penalty
-```
-
-De score is rankinghulp, geen advies. De UI toont altijd de onderliggende reden en onzekerheid.
-
-Promptversies:
-- `event-discovery-v1`: normaliseert ruwe bronitems naar candidate events.
-- `candidate-dedupe-v1`: herkent dubbele headlines en mergebare bronnen.
-- `candidate-ranking-v1`: scoort candidates op verwachte marktimpact, recency, bronkwaliteit en onzekerheid.
-- `source-quality-v1`: beoordeelt of bronnen voldoende betrouwbaar en recent zijn voor analyse.
-
-### Event analysis
-
-Input:
-- accepted event of event candidate;
-- linked assets;
-- optional Gemini research context;
-- source quality, recency, dedupe/merge hints;
-- market move / source notes.
-
-Output:
-- sentiment;
-- impact level;
-- time horizon;
-- confidence score;
-- Event Intelligence Score als latere laag bovenop candidate quality;
-- bull case;
-- bear case;
-- no-trade case;
-- key risks;
-- perception split if applicable.
-
-### Setup generation
-
-Input:
-- event;
-- analysis;
-- asset.
-
-Output:
-- direction: long, short, no_trade;
-- strategy;
-- entry logic;
-- stop/target;
-- invalidation;
-- assumptions;
-- confidence.
-
-### Risk review
-
-Input:
-- setup;
-- event;
-- analysis.
-- candidate provenance wanneer beschikbaar.
-
-Output:
-- counterargument;
-- weak assumptions;
-- reason to skip;
-- thesis killer;
-- source/recency/dedupe risk wanneer relevant;
-- risk score;
-- verdict.
-
-## Candidate triage
-
-Triage-acties zijn server-side en werken altijd op `event_candidates`.
-
-| Actie | Technisch effect |
-|---|---|
-| accept | Maakt `market_events` record, koppelt `accepted_market_event_id`, zet `candidate_status=accepted` |
-| ignore | Zet `candidate_status=ignored`, vereist `ignore_reason`, bewaart candidate als leerdata |
-| merge | Zet `candidate_status=merged`, vult `merge_hint` of canonical reference in metadata |
-| analyze | Maakt of hergebruikt event analysis input; status wordt `analyzed` als er nog geen market event ontstaat |
-
-Triage-regels:
-- een accepted candidate mag niet opnieuw als los market event worden geaccepteerd;
-- ignored candidates blijven filterbaar in Event Radar;
-- merged candidates tellen niet mee als aparte top 10 item;
-- analyze mag eindigen in accept, ignore, no_trade of setup generation;
-- alle triage-acties worden in `ai_analysis_logs` of een audit payload vastgelegd wanneer AI-output is gebruikt.
-
-## Market data
-
-MVP gebruikt:
-- delayed market-data provider zodra gekozen;
-- handmatige price fields alleen als correctie/fallback;
-- movers als discovery-signaal voor onverwachte events;
-- market data is context voor candidate ranking, niet de enige bron van waarheid.
-
-Providercriteria:
-- VS equities;
-- EU equities;
-- ETF coverage;
-- betaalbaar;
-- eenvoudige REST API;
-- duidelijke licentie voor persoonlijk gebruik.
-
-## Source discovery strategy
-
-MVP-startkeuze:
-- begin met een generieke broad news/search adapter plus een financiele nieuwsfeed;
-- gebruik primaire bronnen als verificatie- en kwaliteitsboost, niet als enige discovery-ingang;
-- gebruik market data/movers als context om te beoordelen of een feit marktimpact lijkt te hebben;
-- houd de providerlaag vervangbaar zodat GDELT/NewsAPI/Alpha Vantage later door Benzinga/Finnhub of andere feeds aangevuld kan worden.
-
-Providercriteria per laag:
-
-| Laag | Criteria |
-|---|---|
-| Broad news/search | brede dekking buiten Robin's watchlist, query op topics/symbols/sectors, URL's en timestamps beschikbaar |
-| Financiele feed | ticker/topic/sentiment metadata, marktgerichte bronselectie, betaalbaar voor personal research |
-| Primaire bronnen | filings, press releases, earnings/macro calendars, stabiele identifiers en publicatietijden |
-| Market context | delayed quotes, movers, volume, sector/ETF-context, eenvoudige REST API |
-| Alle lagen | duidelijke gebruiksrechten, server-only keys, rate limits voor ochtendscan en handmatige refresh |
-
-Discovery cadence:
-- standaard ochtendscan voor de daily top 10;
-- handmatige refresh vanuit Dashboard/Event Radar;
-- intraday refresh alleen als expliciet gestart in MVP;
-- later optionele alerts of scheduled intraday scans.
-
-Failure modes:
-- als brede news/search faalt, kan de app nog primaire bronnen en market context tonen;
-- als financiele feed ontbreekt, blijft broad news/search + primaire bronnen bruikbaar maar met lagere confidence;
-- als market data faalt, blijft candidate discovery werken maar market_context_score wordt lager of onbekend;
-- providerfouten worden zichtbaar op Dashboard en in `discovery_runs.error_message`.
+Oude routes `/setups`, `/signals`, `/risk`, `/paper-trades` redirecten naar `/dashboard` of `/tracking`.
 
 ## Security
 
-- Supabase service-role key niet gebruiken in client.
-- OpenAI/Gemini keys alleen server-side.
-- News/search/market-data keys alleen server-side.
-- RLS verplicht op user-data tabellen.
-- Geen financieel advies copy in UI.
-- AI-output loggen voor auditability.
-- Discovery bronpayloads loggen zonder betaalde content integraal te herpubliceren in de UI.
-- `raw_payload_ref` verwijst naar opgeslagen metadata of provider-id; lange content wordt samengevat en niet integraal doorgegeven aan client.
-- Cron-routes vereisen secret-check en mogen pas live schrijven wanneer de user/write-strategy expliciet is ingericht.
+- Alle provider- en LLM-keys server-only; nooit in client components.
+- RLS verplicht op alle user-data tabellen.
+- Cron-route vereist secret en expliciete write-strategie voordat hij live schrijft.
+- Bronpayloads opslaan als referentie/samenvatting; betaalde content niet integraal herpubliceren.
+- Adviezen zijn voor Robin alleen; geen publieke endpoints met advies-output.
 
 ## Teststrategie
 
-- Unit-ish coverage via TypeScript helpers voor metrics.
-- Unit-ish coverage voor discovery scoring:
-  - source quality score;
-  - recency score;
-  - dedupe key/merge hints;
-  - top 10 ranking zonder watchlist hard-filter.
-- Playwright smoke:
-  - home toont Edge Terminal;
-  - login bereikbaar;
-  - dashboard toont demo cockpit met top 10 candidate discovery zonder Supabase;
-  - candidate card toont reason_to_watch, source quality, recency en status;
-  - Event Radar toont candidate triage states;
-  - hoofdschermen bereikbaar;
-  - paper-trade/performance flow zichtbaar.
-- Later authenticated e2e met Supabase storage state.
+- Unit tests (code, geen LLM): normalisatie, dedupe/clustering, uitvoerbaarheidscheck, tracking-berekening (D1/D3/D5, stop/target-detectie, richtinggecorrigeerde returns), assembly-capregels.
+- Contract tests per adapter met opgenomen fixtures (geen live calls in CI).
+- Golden scenario-fixture (Ferrari-case): een flinke daler buiten de watchlist met negatief nieuws komt via de mover sweep als candidate boven en doorloopt de keten tot advies of onderbouwde no-trade.
+- LLM-stappen mockbaar via dezelfde interface als demo mode.
+- Playwright golden path: login -> run starten (mock) -> top 5 zichtbaar -> advies detail -> taken markeren -> tracking toont advies.
+- Kosten-assertie: een mock-run logt een cost_summary; live runs tonen kosten op dashboard/AI-log.
 
-## Bouwvolgorde
+## Bouwvolgorde slice 1
 
-1. Styleguide/docs.
-2. Discovery datamodel: `discovery_runs`, `event_sources`, `event_candidates` met candidate quality fields.
-3. Database migratie voor bestaande domain tables en RLS.
-4. Discovery types en uniforme source item schema's.
-5. Deterministische mock source funnel met broad news/search, financiele feed, primaire bronnen en market context.
-6. Scoring helpers voor source quality, recency, dedupe, market context en top 10 ranking.
-7. Dashboard top 10 candidate cards met providerstatus en bronfunnel-status.
-8. Event Radar candidate tabs en triage actions: accept, ignore, merge, analyze.
-9. Candidate naar accepted market event flow.
-10. AI analysis/setup/risk pipelines met candidate provenance.
-11. Paper trades.
-12. Performance Lab.
-13. Echte provideradapter(s) voor broad news/search, financiele feed, primaire bronnen en market-data context.
-14. Tests voor discovery scoring, dashboard, Event Radar en golden path.
-15. Later: Event Intelligence Score, Scenario Library, Historical Reaction Lab en playbooks.
+1. Migratie: `advices`, `advice_tracking`, `discovery_runs.run_profile` + `cost_summary`, RLS.
+2. Supabase-project + Vercel live; auth golden path werkend.
+3. Pipeline-skeleton met mock-adapters en mock-LLM end-to-end (bestaande demo-code ombouwen naar de nieuwe keten).
+4. Echte adapters: financiele feed + EDGAR + delayed quotes + mover sweep (gratis tiers, EU-dekking testen).
+5. Echte LLM-calls: filter-stap, daarna analyse/setup/risk, daarna assembly; per stap structured outputs + logging.
+6. Dashboard-advieslijst + Advies Detail.
+7. Run-profielen eu_open/us_open.
+8. Playwright + unit tests op de nieuwe keten.
+
+Slice 2: tracking-update job, taken-markering, Performance Lab op adviezen. Slice 3: cron, dedupe-verbetering, bronmix, promptversie-vergelijking.

@@ -172,12 +172,16 @@ Skills die niet in `.claude/skills/` van dit repo zitten maar wel verwacht worde
 - **Bron**: `.env.example` in project root is leidend.
 - **Onderhoud**: bij elke nieuwe env var → toevoegen aan `.env.example` met dummy/placeholder, en kort beschrijven waarvoor.
 
-Verwachte discovery keys:
-- `NEWS_DISCOVERY_API_KEY` / `NEWS_DISCOVERY_BASE_URL` voor brede nieuws-, search-, filing- of feed-ingestie.
-- `DISCOVERY_SCAN_CRON_SECRET` voor server-side scheduled discovery scans.
-- `MARKET_DATA_API_KEY` / `MARKET_DATA_BASE_URL` voor koersreactie, movers en delayed market context.
+Verwachte keys (waarden levert Robin op verzoek aan; zie `.env.example` en `Docs/Specs/news-sources.md`):
+- `OPENAI_API_KEY` + `OPENAI_FILTER_MODEL` / `OPENAI_ANALYSIS_MODEL` - LLM-keten: goedkoop filtermodel, sterk analysemodel (providerbesluit 2026-06-12).
+- `FINANCIAL_NEWS_API_KEY` / `FINANCIAL_NEWS_BASE_URL` - Finnhub: company/market news, quotes, earnings calendar.
+- `BROAD_NEWS_API_KEY` - Marketaux als brede laag (GDELT heeft geen key nodig).
+- `MOVERS_API_KEY` - Alpha Vantage `TOP_GAINERS_LOSERS` voor de mover sweep.
+- `EDGAR_USER_AGENT` - verplichte User-Agent (naam + e-mail) voor SEC EDGAR; geen key.
+- `MARKET_DATA_API_KEY` / `MARKET_DATA_BASE_URL` - delayed quotes US+EU voor market context en advice tracking (EODHD/Twelve Data; EU-dekking is het criterium).
+- `DISCOVERY_SCAN_CRON_SECRET` - beveiligt het cron-entrypoint (slice 3).
 
-Providerkeuze staat nog open. Criteria: brede dekking buiten de watchlist, bron-URL's/timestamps voor auditability, duidelijke gebruiksrechten voor API-ingestie of scraping, betaalbaar persoonlijk gebruik en rate limits die een dagelijkse ochtendscan ondersteunen.
+Providerkeuzes per bronlaag zijn op 2026-06-12 vastgelegd in `Docs/Specs/news-sources.md`. Nog open: definitieve keuze brede laag (GDELT vs Marketaux) en quotes-provider, na de EU-dekkingstest in het backlog.
 
 ---
 

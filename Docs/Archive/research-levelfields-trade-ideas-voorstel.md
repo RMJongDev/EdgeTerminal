@@ -1,8 +1,10 @@
 # Onderzoek en voorstel - LevelFields AI, Trade Ideas en Edge Terminal
 
+> **GEARCHIVEERD 2026-06-12.** Dit voorstel beschrijft de oude richting (top 10 candidates, triage, Scenario Library, "geen koop/verkoop-signalen"). Edge Terminal is herijkt naar een adviesmachine; de actuele bron van waarheid is `Docs/Specs/voorstel-specs.md`. De onderzoekslessen (event-denken, historical reactions, scanbaarheid) blijven geldig als achtergrond.
+>
 > Datum: 2026-06-02  
 > Laatst aangepast: 2026-06-03  
-> Status: productonderzoek en implementatievoorstel, afgestemd op de aangepaste MVP/specs  
+> Status: gearchiveerd productonderzoek  
 > Doel: leren van vergelijkbare event- en signal-platformen en vertalen naar een betere Edge Terminal.
 
 ## Samenvatting

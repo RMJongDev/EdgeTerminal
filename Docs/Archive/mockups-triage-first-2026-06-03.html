@@ -1,0 +1,2602 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge Terminal - Mockups</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b0f;
+      --surface: #111820;
+      --surface-2: #17212b;
+      --surface-3: #1d2834;
+      --border: #263241;
+      --border-soft: #1c2631;
+      --text: #e6edf3;
+      --muted: #8b98a7;
+      --faint: #5f6c7a;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --nd-teal: #007A80;
+      --nd-sand: #D3BEA1;
+      --radius: 8px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      background: #0a0f14;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      padding: 4px 6px 14px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--cyan);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .brand-subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nd-lockup {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nd-lockup img {
+      display: block;
+      width: 104px;
+      height: auto;
+      max-height: 21px;
+      object-fit: contain;
+    }
+
+    .nd-lockup.compact img {
+      width: 82px;
+      max-height: 17px;
+    }
+
+    .nd-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(0, 122, 128, 0.42);
+      border-radius: 999px;
+      background: rgba(0, 122, 128, 0.08);
+      color: #b5f3f0;
+      min-height: 26px;
+      padding: 4px 9px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .nd-chip::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--nd-teal);
+      box-shadow: 12px 0 0 var(--nd-sand);
+      margin-right: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 9px 10px;
+      border-radius: 7px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+      background: var(--surface);
+      border-color: var(--border-soft);
+    }
+
+    .nav-count {
+      font-family: var(--mono);
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border-soft);
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 11, 15, 0.94);
+      padding: 10px 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .search {
+      width: min(520px, 52vw);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      color: var(--muted);
+    }
+
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      border-color: rgba(34, 211, 238, 0.55);
+      background: rgba(34, 211, 238, 0.12);
+      color: #baf6ff;
+    }
+
+    .btn:hover {
+      border-color: var(--cyan);
+    }
+
+    .screen {
+      display: none;
+      padding: 18px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .screen.active { display: block; }
+
+    .screen-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 2px 0 16px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: 23px;
+      line-height: 1.1;
+      font-weight: 750;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .screen-kicker {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .status-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      min-height: 24px;
+      padding: 3px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .badge.green { color: #9af5b9; border-color: rgba(34, 197, 94, 0.38); background: rgba(34, 197, 94, 0.08); }
+    .badge.red { color: #ffb3b3; border-color: rgba(239, 68, 68, 0.38); background: rgba(239, 68, 68, 0.08); }
+    .badge.amber { color: #ffd18a; border-color: rgba(245, 158, 11, 0.38); background: rgba(245, 158, 11, 0.08); }
+    .badge.blue { color: #c6ddff; border-color: rgba(96, 165, 250, 0.38); background: rgba(96, 165, 250, 0.08); }
+    .badge.cyan { color: #baf6ff; border-color: rgba(34, 211, 238, 0.42); background: rgba(34, 211, 238, 0.08); }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.main-dashboard { grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr); }
+    .grid.detail { grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr); }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 42px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .panel-body {
+      padding: 12px;
+    }
+
+    .metric {
+      padding: 13px 12px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric-value {
+      margin-top: 7px;
+      font-family: var(--mono);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .metric-foot {
+      margin-top: 4px;
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border-soft);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .table tr:hover td {
+      background: rgba(255,255,255,0.018);
+    }
+
+    .mono {
+      font-family: var(--mono);
+      letter-spacing: 0;
+    }
+
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .green { color: #9af5b9; }
+    .red { color: #ffb3b3; }
+    .amber { color: #ffd18a; }
+    .cyan { color: #baf6ff; }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr) 92px 112px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .event-row:last-child { border-bottom: 0; }
+
+    .event-title {
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-sub {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .split-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .split-line:last-child { border-bottom: 0; }
+
+    .briefing {
+      display: grid;
+      gap: 10px;
+    }
+
+    .maker-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(0, 122, 128, 0.32);
+      background: linear-gradient(90deg, rgba(0, 122, 128, 0.12), rgba(211, 190, 161, 0.06));
+    }
+
+    .brief-item {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .brief-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: #0c1117;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: var(--cyan);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b1117;
+    }
+
+    .step {
+      min-height: 78px;
+      padding: 10px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .step:last-child { border-right: 0; }
+
+    .step-index {
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .step-title {
+      margin-top: 5px;
+      font-weight: 750;
+    }
+
+    .step-status {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .process-map {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .process-node {
+      width: 100%;
+      min-height: 146px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #0b1117;
+      color: var(--text);
+      padding: 12px;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      transition: border-color 0.16s ease, background 0.16s ease, transform 0.16s ease;
+    }
+
+    .process-node:hover {
+      border-color: rgba(34, 211, 238, 0.5);
+      background: rgba(34, 211, 238, 0.055);
+      transform: translateY(-1px);
+    }
+
+    .process-node:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    .node-index {
+      font-family: var(--mono);
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .node-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .node-copy {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .node-output {
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .process-detail-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+      gap: 12px;
+    }
+
+    .process-stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    .process-step-line {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .process-step-line:last-child { border-bottom: 0; }
+
+    .location-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 10px;
+    }
+
+    .copy-block {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .copy-block p {
+      color: var(--muted);
+    }
+
+    .feature-note {
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      border-left: 3px solid var(--cyan);
+      border-radius: var(--radius);
+      background: rgba(34, 211, 238, 0.055);
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .feature-note strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .version-banner {
+      margin: 18px 0 0;
+      border: 1px solid rgba(34, 211, 238, 0.42);
+      border-left: 4px solid var(--cyan);
+      border-radius: var(--radius);
+      background: rgba(34, 211, 238, 0.08);
+      padding: 11px 14px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .version-banner strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .score-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .score-box {
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.02);
+      padding: 8px;
+      min-width: 0;
+    }
+
+    .score-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .score-box strong {
+      display: block;
+      margin-top: 3px;
+      font-family: var(--mono);
+      font-size: 16px;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .setup-ticket {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .setup-ticket:last-child { border-bottom: 0; }
+
+    .ticket-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ticket-title {
+      font-weight: 750;
+    }
+
+    .ticket-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #0c1218;
+      color: var(--text);
+      padding: 9px 10px;
+      outline: 0;
+    }
+
+    .field textarea {
+      min-height: 102px;
+      resize: vertical;
+    }
+
+    .chart {
+      height: 220px;
+      padding: 12px;
+      display: grid;
+      align-items: end;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 8px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .bar {
+      min-height: 20px;
+      border-radius: 5px 5px 0 0;
+      background: rgba(34, 211, 238, 0.42);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+    }
+
+    .bar.redbar {
+      background: rgba(239, 68, 68, 0.34);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .mobile-tabs {
+      display: none;
+      overflow: auto;
+      border-bottom: 1px solid var(--border);
+      background: #0a0f14;
+      padding: 8px;
+      gap: 6px;
+    }
+
+    .mobile-tabs button {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 1120px) {
+      .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.main-dashboard,
+      .grid.detail,
+      .process-detail-layout { grid-template-columns: 1fr; }
+      .process-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: 1fr; }
+      .step { border-right: 0; border-bottom: 1px solid var(--border-soft); }
+      .step:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 780px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .mobile-tabs { display: flex; position: sticky; top: 58px; z-index: 9; }
+      .topbar { align-items: stretch; flex-direction: column; }
+      .search { width: 100%; }
+      .top-actions { justify-content: space-between; }
+      .top-actions .nd-lockup { display: none; }
+      .screen { padding: 12px; }
+      .screen-head { align-items: flex-start; flex-direction: column; }
+      .status-strip { justify-content: flex-start; }
+      .grid.cols-4,
+      .grid.cols-3,
+      .process-map,
+      .score-strip,
+      .form-grid { grid-template-columns: 1fr; }
+      .event-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .table-wrap { overflow-x: auto; }
+      .table { min-width: 740px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title"><span class="mark">ET</span><span>Edge Terminal</span></div>
+        <div class="brand-subtitle">Event-driven research cockpit</div>
+      </div>
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <a href="#dashboard" class="active" data-target="dashboard"><span>Dashboard</span><span class="nav-count">Top 10</span></a>
+        <a href="#process" data-target="process"><span>Process</span><span class="nav-count">A-Z</span></a>
+        <a href="#watchlist" data-target="watchlist"><span>Watchlist</span><span class="nav-count">ctx</span></a>
+        <a href="#events" data-target="events"><span>Event Radar</span><span class="nav-count">28</span></a>
+        <a href="#event-detail" data-target="event-detail"><span>Event Detail</span><span class="nav-count">AI</span></a>
+        <a href="#signals" data-target="signals"><span>Setups & Risk</span><span class="nav-count">7</span></a>
+        <a href="#trades" data-target="trades"><span>Paper Trades</span><span class="nav-count">5</span></a>
+        <a href="#performance" data-target="performance"><span>Performance Lab</span><span class="nav-count">64</span></a>
+        <a href="#briefing" data-target="briefing"><span>Daily Briefing</span><span class="nav-count">AM</span></a>
+        <a href="#ai-log" data-target="ai-log"><span>AI Log</span><span class="nav-count">audit</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="nd-lockup compact">
+          <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+        </div>
+        <div class="mono">Supabase Auth</div>
+        <div>Robin de Jong</div>
+        <div class="faint">Single-user MVP by New Default</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search">
+          <span class="mono">/</span>
+          <input value="Search candidate, ticker, source, setup or paper trade" aria-label="Search" />
+        </div>
+        <div class="top-actions">
+          <div class="nd-lockup">
+            <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+            <span>private product</span>
+          </div>
+          <span class="badge cyan">OpenAI analysis</span>
+          <span class="badge blue">Gemini research</span>
+          <button class="btn">Check providers</button>
+          <button class="btn primary" data-target="dashboard">Start daily scan</button>
+        </div>
+      </header>
+
+      <div class="mobile-tabs" aria-label="Mobiele navigatie">
+        <button class="btn primary" data-target="dashboard">Dashboard</button>
+        <button class="btn" data-target="process">Process</button>
+        <button class="btn" data-target="watchlist">Watchlist</button>
+        <button class="btn" data-target="events">Events</button>
+        <button class="btn" data-target="event-detail">Detail</button>
+        <button class="btn" data-target="signals">Setups</button>
+        <button class="btn" data-target="trades">Trades</button>
+        <button class="btn" data-target="performance">Performance</button>
+        <button class="btn" data-target="briefing">Briefing</button>
+        <button class="btn" data-target="ai-log">AI Log</button>
+      </div>
+
+      <div class="version-banner">
+        <strong>VEROUDERD - richting gewijzigd op 2026-06-12</strong>
+        Deze mockups tonen de oude triage-first researchflow. Edge Terminal is herijkt naar een adviesmachine:
+        autonome pipeline, dashboard als top 5 advieslijst, automatische tracking. Zie Docs/Specs/voorstel-specs.md
+        en process-pipeline.html; het dashboard-mockup wordt tijdens bouwslice 1 bijgewerkt.
+      </div>
+
+      <section class="screen" id="process">
+        <div class="screen-head">
+          <div>
+            <h1>Research Process A-Z</h1>
+            <p class="screen-kicker">Hoogover kaart van de volledige researchcyclus: van dagelijkse bronfunnel tot performance learning.</p>
+          </div>
+          <div class="status-strip">
+            <span class="nd-chip">Process map</span>
+            <span class="badge cyan">8 blocks</span>
+            <span class="badge blue">Clickable detail</span>
+            <button class="btn primary" data-target="dashboard">Start on Dashboard</button>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Process is het overzicht van hoe Edge Terminal denkt. Het proces start handmatig op het Dashboard via Start daily scan. Optioneel kan Robin eerst een scan hint meegeven. Klik op een blok om te zien welke inputs, beslissingen, outputs, schermen en logs bij dat onderdeel horen.
+        </div>
+
+        <div class="grid cols-4">
+          <div class="panel metric">
+            <div class="metric-label">Flow</div>
+            <div class="metric-value">A-Z</div>
+            <div class="metric-foot">van research start tot leren</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Discovery input</div>
+            <div class="metric-value">4</div>
+            <div class="metric-foot">bronlagen + market context</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Core output</div>
+            <div class="metric-value">10</div>
+            <div class="metric-foot">ranked candidates</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Final loop</div>
+            <div class="metric-value">Learn</div>
+            <div class="metric-foot">performance voedt betere keuzes</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px;">
+          <div class="panel-head">
+            <h2>Full Research Process</h2>
+            <span class="badge cyan">Klik op een blok</span>
+          </div>
+          <div class="panel-body">
+            <div class="process-map">
+              <button class="process-node" data-target="process-research">
+                <span class="node-index">01</span>
+                <span class="node-title">Start Research</span>
+                <span class="node-copy">Start de scan handmatig met standaardcontext en optionele scan hint.</span>
+                <span class="node-output">Output: discovery run</span>
+              </button>
+              <button class="process-node" data-target="process-sources">
+                <span class="node-index">02</span>
+                <span class="node-title">Source Funnel</span>
+                <span class="node-copy">Haal gecontroleerde bronitems op uit brede news/search, financiele feeds, primaire bronnen en market context.</span>
+                <span class="node-output">Output: event_sources</span>
+              </button>
+              <button class="process-node" data-target="process-candidates">
+                <span class="node-index">03</span>
+                <span class="node-title">Candidate Quality</span>
+                <span class="node-copy">Normaliseer, dedupe en rank bronitems naar concrete candidate events.</span>
+                <span class="node-output">Output: top 10 candidates</span>
+              </button>
+              <button class="process-node" data-target="process-triage">
+                <span class="node-index">04</span>
+                <span class="node-title">Candidate Triage</span>
+                <span class="node-copy">Beslis per candidate: accept, ignore, merge of analyze.</span>
+                <span class="node-output">Output: accepted event of leerdata</span>
+              </button>
+              <button class="process-node" data-target="process-analysis">
+                <span class="node-index">05</span>
+                <span class="node-title">Event Analysis</span>
+                <span class="node-copy">Laat AI het event duiden met bull case, bear case, no-trade case en onzekerheid.</span>
+                <span class="node-output">Output: event thesis</span>
+              </button>
+              <button class="process-node" data-target="process-setups">
+                <span class="node-index">06</span>
+                <span class="node-title">Setups & Risk</span>
+                <span class="node-copy">Vertaal analyse naar long, short of no-trade hypothese en val die hypothese verplicht aan.</span>
+                <span class="node-output">Output: setup verdict</span>
+              </button>
+              <button class="process-node" data-target="process-trades">
+                <span class="node-index">07</span>
+                <span class="node-title">Paper Trade</span>
+                <span class="node-copy">Leg alleen fictieve trades vast met thesis, invalidatie en exitregels.</span>
+                <span class="node-output">Output: trackable experiment</span>
+              </button>
+              <button class="process-node" data-target="process-performance">
+                <span class="node-index">08</span>
+                <span class="node-title">Performance Learning</span>
+                <span class="node-copy">Meet of hypotheses, no-trades en ignored candidates betere beslissingen opleveren.</span>
+                <span class="node-output">Output: personal edge</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid detail" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head"><h2>A-Z Flow In One Line</h2><span class="badge blue">Abstract</span></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Research start</span><span class="mono">run</span></div>
+              <div class="split-line"><span>Source funnel</span><span class="mono">sources</span></div>
+              <div class="split-line"><span>Candidate quality</span><span class="mono">top 10</span></div>
+              <div class="split-line"><span>Triage</span><span class="mono">accept / ignore / merge / analyze</span></div>
+              <div class="split-line"><span>Analysis</span><span class="mono">thesis</span></div>
+              <div class="split-line"><span>Setup & risk</span><span class="mono">verdict</span></div>
+              <div class="split-line"><span>Paper trade</span><span class="mono">experiment</span></div>
+              <div class="split-line"><span>Performance</span><span class="mono">learning</span></div>
+            </div>
+          </div>
+          <div class="panel">
+              <div class="panel-head"><h2>Cross-cutting Controls</h2><span class="badge cyan">Always on</span></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Manual start</span><button class="btn primary" data-target="dashboard">Start daily scan</button></div>
+              <div class="split-line"><span>Audit trail</span><button class="btn" data-target="ai-log">AI Log</button></div>
+              <div class="split-line"><span>Morning summary</span><button class="btn" data-target="briefing">Daily Briefing</button></div>
+              <div class="split-line"><span>Daily command surface</span><button class="btn" data-target="dashboard">Dashboard</button></div>
+              <div class="split-line"><span>Source/candidate workbench</span><button class="btn" data-target="events">Event Radar</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-research">
+        <div class="screen-head">
+          <div>
+            <h1>01 Start Research</h1>
+            <p class="screen-kicker">De dag begint met een handmatige scan; een scan hint is optioneel.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge cyan">Run context</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Hoe Dit Onderdeel Werkt</h2><span class="badge blue">High level</span></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Startmoment</strong><p class="muted">Robin opent Dashboard en klikt Start daily scan. Leeg starten is de standaard.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Optionele scan hint</strong><p class="muted">Als Robin ergens gevoel bij heeft, kan hij een onderwerp, ticker of vraag toevoegen. Dit boost ranking, maar beperkt de scan niet.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Context ophalen</strong><p class="muted">Open paper trades, watchlist preferences, vorige candidates en laatste providerstatus worden meegenomen als context.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">4</span><div><strong>Run aanmaken</strong><p class="muted">Het systeem maakt een `discovery_runs` record met status, trigger, timestamp en providerconfiguratie.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">5</span><div><strong>Bronfunnel starten</strong><p class="muted">Daarna worden source adapters aangeroepen. De LLM zoekt nog niets; eerst komen gecontroleerde bronitems binnen.</p></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Input / Output / Beslissing</h2></div>
+              <div class="table-wrap">
+                <table class="table">
+                  <tbody>
+                    <tr><th>Input</th><td>Run trigger, datum, optional scan hint, relevance profile, open paper trades, providerstatus.</td></tr>
+                    <tr><th>Beslissing</th><td>Handmatige refresh, ochtendscan bekijken, of laatste bruikbare scan gebruiken als providers falen.</td></tr>
+                    <tr><th>Output</th><td>`discovery_run` met status running/completed/failed en scanmetadata.</td></tr>
+                    <tr><th>Niet doen</th><td>Niet direct een setup maken zonder nieuwe of bestaande candidate-context.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <p class="muted">Je start dit handmatig op het Dashboard met Start daily scan. De scan hint is optioneel; Daily Briefing toont daarna vooral de samenvatting van de laatste run.</p>
+                <div class="location-buttons">
+                  <button class="btn primary" data-target="dashboard">Dashboard startpunt</button>
+                  <button class="btn" data-target="briefing">Daily Briefing</button>
+                  <button class="btn" data-target="watchlist">Watchlist context</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Primary table</span><span class="mono">discovery_runs</span></div>
+                <div class="split-line"><span>Audit view</span><button class="btn" data-target="ai-log">AI Log</button></div>
+                <div class="split-line"><span>Failure state</span><span class="badge red">Provider error</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-sources">
+        <div class="screen-head">
+          <div>
+            <h1>02 Source Funnel</h1>
+            <p class="screen-kicker">Alle dagelijkse feiten komen eerst uit gecontroleerde bronlagen, niet uit vrije AI-invulling.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge cyan">Source proof</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Bronlagen</h2><span class="badge blue">Adapters</span></div>
+              <div class="table-wrap">
+                <table class="table">
+                  <thead><tr><th>Laag</th><th>Voorbeelden</th><th>Doel</th></tr></thead>
+                  <tbody>
+                    <tr><td>Broad news/search</td><td>GDELT, NewsAPI-achtig</td><td>Brede actuele marktgevoelige nieuwsitems vinden.</td></tr>
+                    <tr><td>Financiele feed</td><td>Alpha Vantage, later Benzinga/Finnhub</td><td>Ticker-, sector-, sentiment- en topiccontext ophalen.</td></tr>
+                    <tr><td>Primaire bronnen</td><td>SEC EDGAR, company IR, earnings, FRED/macro calendars</td><td>Bewijs en kwaliteit verhogen met oorspronkelijke feiten.</td></tr>
+                    <tr><td>Market context</td><td>Delayed quotes, movers, volume, ETFs</td><td>Checken of het nieuws ook marktimpact lijkt te hebben.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Adapterregels</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Elke bron krijgt</span><span class="mono">provider_item_id</span></div>
+                <div class="split-line"><span>Elke bron heeft</span><span class="mono">URL + timestamp</span></div>
+                <div class="split-line"><span>Betaalde content</span><span class="badge amber">Ref only</span></div>
+                <div class="split-line"><span>Market mover zonder feit</span><span class="badge blue">Context</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <p class="muted">Bronnen zelf worden zichtbaar in Event Radar, candidate detail en de audit trail.</p>
+                <div class="location-buttons">
+                  <button class="btn" data-target="events">Event Radar</button>
+                  <button class="btn" data-target="event-detail">Event Detail</button>
+                  <button class="btn" data-target="ai-log">AI Log</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Primary table</span><span class="mono">event_sources</span></div>
+                <div class="split-line"><span>Source type</span><span class="mono">source_category</span></div>
+                <div class="split-line"><span>Raw pointer</span><span class="mono">raw_payload_ref</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-candidates">
+        <div class="screen-head">
+          <div>
+            <h1>03 Candidate Quality</h1>
+            <p class="screen-kicker">Van ruwe bronitems naar een compacte, uitlegbare top 10.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge cyan">Top 10</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Quality Pipeline</h2></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Normalize</strong><p class="muted">Maak van headlines, filings, macro-items en market context uniforme candidate drafts.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Concrete-event check</strong><p class="muted">Geen candidate zonder concrete gebeurtenis, bronbewijs en reason_to_watch.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Dedupe</strong><p class="muted">Meerdere headlines over hetzelfde feit worden een cluster met merge hint.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">4</span><div><strong>Rank</strong><p class="muted">Score op relevance, source quality, recency, dedupe confidence, market context en uncertainty.</p></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Score Breakdown</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Relevance</span><span class="mono">impact fit</span></div>
+                <div class="split-line"><span>Source quality</span><span class="mono">proof strength</span></div>
+                <div class="split-line"><span>Recency</span><span class="mono">freshness</span></div>
+                <div class="split-line"><span>Dedupe confidence</span><span class="mono">noise reduced</span></div>
+                <div class="split-line"><span>Uncertainty</span><span class="badge amber">Penalty</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="dashboard">Dashboard Top 10</button>
+                  <button class="btn" data-target="events">Event Radar</button>
+                  <button class="btn" data-target="briefing">Daily Briefing</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Primary table</span><span class="mono">event_candidates</span></div>
+                <div class="split-line"><span>Prompt logs</span><span class="mono">candidate-ranking-v1</span></div>
+                <div class="split-line"><span>Decision state</span><span class="mono">candidate_status</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-triage">
+        <div class="screen-head">
+          <div>
+            <h1>04 Candidate Triage</h1>
+            <p class="screen-kicker">De top 10 wordt niet automatisch een trade; eerst komt triage.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge blue">Decision layer</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Triage Acties</h2></div>
+              <div class="table-wrap">
+                <table class="table">
+                  <thead><tr><th>Actie</th><th>Wanneer</th><th>Effect</th></tr></thead>
+                  <tbody>
+                    <tr><td>Accept</td><td>Concreet event met genoeg bewijs</td><td>Maakt formeel `market_event`.</td></tr>
+                    <tr><td>Ignore</td><td>Ruis, oud nieuws, zwakke bron</td><td>Bewaren als leerdata met ignore_reason.</td></tr>
+                    <tr><td>Merge</td><td>Duplicate of zelfde feit</td><td>Cluster samenvoegen, niet dubbel ranken.</td></tr>
+                    <tr><td>Analyze</td><td>Interessant maar onzeker</td><td>AI-analyse draaien zonder direct te accepteren.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Belangrijk Principe</h2></div>
+              <div class="copy-block">
+                <h3>Ignore is waardevol</h3>
+                <p>Een genegeerde candidate is geen mislukking. Het systeem leert later welke brontypes, topics en scorecombinaties vaak ruis opleveren.</p>
+              </div>
+              <div class="copy-block">
+                <h3>Analyze is geen accept</h3>
+                <p>Analyse mag eindigen in no-trade, ignore of wait. De app forceert geen setup.</p>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="dashboard">Dashboard</button>
+                  <button class="btn" data-target="events">Event Radar</button>
+                  <button class="btn" data-target="event-detail">Event Detail</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Status field</span><span class="mono">candidate_status</span></div>
+                <div class="split-line"><span>Accepted link</span><span class="mono">accepted_market_event_id</span></div>
+                <div class="split-line"><span>Learning field</span><span class="mono">ignore_reason</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-analysis">
+        <div class="screen-head">
+          <div>
+            <h1>05 Event Analysis</h1>
+            <p class="screen-kicker">AI analyseert pas nadat er bronbewijs en candidate provenance is.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge cyan">OpenAI/Gemini</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Analyse-opbouw</h2></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Input samenstellen</strong><p class="muted">Candidate/event, source refs, score breakdown, market context en onzekerheden.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Duiding genereren</strong><p class="muted">Bull case, bear case, no-trade case, tijdshorizon en key risks.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Edge check</strong><p class="muted">Analyse moet expliciet aangeven of er geen duidelijke edge is.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">4</span><div><strong>Loggen</strong><p class="muted">Promptversie, input, output en bruikbaarheid gaan naar AI Log.</p></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Output</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Bull case</span><span class="badge green">Possible upside</span></div>
+                <div class="split-line"><span>Bear case</span><span class="badge red">Downside risk</span></div>
+                <div class="split-line"><span>No-trade case</span><span class="badge amber">Wait/skip</span></div>
+                <div class="split-line"><span>Confidence</span><span class="mono">0-100</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="event-detail">Event Detail</button>
+                  <button class="btn" data-target="ai-log">AI Log</button>
+                  <button class="btn" data-target="briefing">Daily Briefing</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Analysis table</span><span class="mono">event_analyses</span></div>
+                <div class="split-line"><span>Prompt</span><span class="mono">event-analysis-v1</span></div>
+                <div class="split-line"><span>Audit trail</span><span class="mono">ai_analysis_logs</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-setups">
+        <div class="screen-head">
+          <div>
+            <h1>06 Setups & Risk</h1>
+            <p class="screen-kicker">Een setup is een hypothese die eerst aangevallen moet worden.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge amber">Risk first</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Setup Flow</h2></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Setup hypothesis</strong><p class="muted">Long, short of no-trade met thesis, trigger, invalidatie en horizon.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Risk review</strong><p class="muted">Counterargument, thesis killer, priced-in risk, source/recency/dedupe risk.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Verdict</strong><p class="muted">paper_trade_ok, wait of skip. Skip is een geldige uitkomst.</p></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Guardrails</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Geen setup zonder event</span><span class="badge red">Block</span></div>
+                <div class="split-line"><span>Geen paper trade zonder risk review</span><span class="badge red">Block</span></div>
+                <div class="split-line"><span>No-trade is volwaardig</span><span class="badge cyan">Learn</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="signals">Setups & Risk</button>
+                  <button class="btn" data-target="event-detail">Event Detail</button>
+                  <button class="btn" data-target="trades">Paper Trades</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Setup table</span><span class="mono">trade_setups</span></div>
+                <div class="split-line"><span>Risk table</span><span class="mono">risk_reviews</span></div>
+                <div class="split-line"><span>Prompt logs</span><span class="mono">risk-review-v1</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-trades">
+        <div class="screen-head">
+          <div>
+            <h1>07 Paper Trade</h1>
+            <p class="screen-kicker">De MVP doet geen echte executie; een paper trade is een meetbaar experiment.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge cyan">Paper only</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Trade Lifecycle</h2></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Create</strong><p class="muted">Maak paper trade vanuit een setup met thesis, direction, entry, target, stop en size.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Monitor</strong><p class="muted">Nieuwe candidates of market context kunnen de open trade raken.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Close</strong><p class="muted">Sluit met reden: thesis hit, thesis invalidated, timeout, manual close of risk update.</p></div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Wat Wordt Vastgelegd</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Direction</span><span class="mono">long / short</span></div>
+                <div class="split-line"><span>Hypothesis</span><span class="mono">setup thesis</span></div>
+                <div class="split-line"><span>Exit reason</span><span class="mono">learning label</span></div>
+                <div class="split-line"><span>Result</span><span class="mono">P/L proxy</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="trades">Paper Trades</button>
+                  <button class="btn" data-target="signals">Setups & Risk</button>
+                  <button class="btn" data-target="briefing">Daily Briefing</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Primary table</span><span class="mono">paper_trades</span></div>
+                <div class="split-line"><span>Evaluation table</span><span class="mono">trade_evaluations</span></div>
+                <div class="split-line"><span>Performance input</span><span class="mono">closed trades</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="process-performance">
+        <div class="screen-head">
+          <div>
+            <h1>08 Performance Learning</h1>
+            <p class="screen-kicker">De laatste stap is leren welke hypotheses, bronlagen en no-trade beslissingen waarde hadden.</p>
+          </div>
+          <div class="status-strip">
+            <button class="btn" data-target="process">Back to Process</button>
+            <span class="badge green">Learning loop</span>
+          </div>
+        </div>
+
+        <div class="process-detail-layout">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Learning Metrics</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Performance per eventtype</span><span class="mono">edge pattern</span></div>
+                <div class="split-line"><span>Performance per source quality band</span><span class="mono">source trust</span></div>
+                <div class="split-line"><span>No-trade outcomes</span><span class="mono">risk avoided</span></div>
+                <div class="split-line"><span>Ignored candidate review</span><span class="mono">noise model</span></div>
+                <div class="split-line"><span>Setup verdict quality</span><span class="mono">process check</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Feedback Naar Voorkant</h2></div>
+              <div class="panel-body process-stack">
+                <div class="process-step-line"><span class="mono faint">1</span><div><strong>Betere ranking</strong><p class="muted">Source quality en ignored candidates verbeteren toekomstige top 10 selectie.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">2</span><div><strong>Betere risk reviews</strong><p class="muted">Veelvoorkomende thesis killers krijgen meer gewicht.</p></div></div>
+                <div class="process-step-line"><span class="mono faint">3</span><div><strong>Betere persoonlijke edge</strong><p class="muted">Robin ziet welke eventtypes en setups structureel wel of niet werken.</p></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Waar Te Vinden</h2></div>
+              <div class="panel-body">
+                <div class="location-buttons">
+                  <button class="btn" data-target="performance">Performance Lab</button>
+                  <button class="btn" data-target="trades">Paper Trades</button>
+                  <button class="btn" data-target="ai-log">AI Log</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Data & Audit</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Metrics source</span><span class="mono">paper_trades</span></div>
+                <div class="split-line"><span>Evaluation source</span><span class="mono">trade_evaluations</span></div>
+                <div class="split-line"><span>Future layer</span><span class="mono">personal edge</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen active" id="dashboard">
+        <div class="screen-head">
+          <div>
+            <h1>Candidate Quality Command</h1>
+            <p class="screen-kicker">Breed gevonden events, strak gerankt op relevance, source quality, recency, dedupe en trading-readiness.</p>
+          </div>
+          <div class="status-strip">
+            <span class="nd-chip">Discovery MVP</span>
+            <span class="pill">Jun 03, 2026</span>
+            <span class="badge green">Provider OK</span>
+            <span class="badge cyan">Top 10 ready</span>
+          </div>
+        </div>
+
+        <div class="panel maker-panel" style="margin-bottom:12px;">
+          <div class="nd-lockup">
+            <img src="../NewDefault/assets/logo-nd-basic-white.png" alt="New Default" />
+            <span>Candidate triage cockpit</span>
+          </div>
+          <span class="muted">Broad discovery. Ranked candidates. Paper trades only.</span>
+        </div>
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Dashboard is het handmatige startpunt. Robin kan leeg starten met Start daily scan, of eerst een optionele scan hint meegeven. Daarna toont dit scherm niet alle headlines, maar alleen de top 10 candidate events die breed zijn gevonden, gededuped en gerankt op relevantie, bronkwaliteit, recency en onzekerheid.
+        </div>
+
+        <div class="panel" style="margin-bottom:12px;">
+          <div class="panel-head">
+            <h2>Optional Scan Context</h2>
+            <span class="badge blue">Boost, no filter</span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="field wide">
+                <label for="scan-context">Waar heb je vandaag gevoel bij?</label>
+                <textarea id="scan-context" aria-label="Optionele scan context">Bijv. RACE launch backlash, NVDA exportregels, renteverlaging, olievoorraad, crypto ETF inflows</textarea>
+              </div>
+              <div class="field">
+                <label for="scan-mode">Gebruik als</label>
+                <select id="scan-mode" aria-label="Scan context mode">
+                  <option>Ranking boost</option>
+                  <option>Extra source query</option>
+                  <option>Watch-only note</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="scan-scope">Scan scope</label>
+                <select id="scan-scope" aria-label="Scan scope">
+                  <option>Broad market stays on</option>
+                  <option>Focus plus broad market</option>
+                </select>
+              </div>
+            </div>
+            <div class="action-row">
+              <button class="btn">Save hint</button>
+              <button class="btn">Clear</button>
+              <button class="btn primary">Start daily scan</button>
+            </div>
+            <p class="muted" style="margin-top:10px;">Leeg laten is prima. Een scan hint helpt ranking en query-expansion, maar sluit macro-, sector- of onverwachte markt-events nooit uit.</p>
+          </div>
+        </div>
+
+        <div class="grid cols-4">
+          <div class="panel metric">
+            <div class="metric-label">Top candidates</div>
+            <div class="metric-value">10</div>
+            <div class="metric-foot">28 raw sources scanned</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Avg source quality</div>
+            <div class="metric-value">78</div>
+            <div class="metric-foot">2 weak-source candidates</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Dedupe clusters</div>
+            <div class="metric-value">4</div>
+            <div class="metric-foot">7 duplicate headlines merged</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Open paper trades</div>
+            <div class="metric-value">5</div>
+            <div class="metric-foot">1 risk review pending</div>
+          </div>
+        </div>
+
+        <div class="grid main-dashboard" style="margin-top:12px;">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Top 10 Candidate Events</h2>
+                <span class="badge cyan">Candidate quality</span>
+              </div>
+              <div class="copy-block">
+                <h3>Functie</h3>
+                <p>Deze lijst is de beslislaag tussen ruwe marktbronnen en formele market events. Robin kan een candidate accepteren, negeren, samenvoegen of eerst laten analyseren.</p>
+              </div>
+              <div class="event-row">
+                <span class="badge red">#1 RACE</span>
+                <div>
+                  <div class="event-title">Ferrari launch receives negative public reaction</div>
+                  <div class="event-sub">Reason: perception shock, source quality 78, recency 94, dedupe cluster 1</div>
+                </div>
+                <span class="badge amber">Analyze</span>
+                <span class="mono">CQ 86</span>
+              </div>
+              <div class="event-row">
+                <span class="badge amber">#2 TSLA</span>
+                <div>
+                  <div class="event-title">Model refresh criticism spreads through media cycle</div>
+                  <div class="event-sub">Reason: narrative risk, source quality 61, recency 88, uncertainty high</div>
+                </div>
+                <span class="badge blue">Merge?</span>
+                <span class="mono">CQ 74</span>
+              </div>
+              <div class="event-row">
+                <span class="badge blue">#3 SPY</span>
+                <div>
+                  <div class="event-title">Inflation print cools rates volatility</div>
+                  <div class="event-sub">Reason: macro regime candidate, source quality 91, recency 97, unique</div>
+                </div>
+                <span class="badge green">Accept</span>
+                <span class="mono">CQ 82</span>
+              </div>
+              <div class="event-row">
+                <span class="badge blue">#4 ASML</span>
+                <div>
+                  <div class="event-title">Chip-equipment demand note lifts sector sentiment</div>
+                  <div class="event-sub">Reason: sector read-through, source quality 84, recency 81, dedupe cluster 2</div>
+                </div>
+                <span class="badge amber">Analyze</span>
+                <span class="mono">CQ 79</span>
+              </div>
+              <div class="event-row">
+                <span class="badge amber">#5 NVDA</span>
+                <div>
+                  <div class="event-title">Export restriction update pressures AI hardware names</div>
+                  <div class="event-sub">Reason: policy shock candidate, source quality 76, recency 90, uncertainty medium</div>
+                </div>
+                <span class="badge amber">Analyze</span>
+                <span class="mono">CQ 77</span>
+              </div>
+              <div class="event-row">
+                <span class="badge blue">#6 OIL</span>
+                <div>
+                  <div class="event-title">OPEC supply headline moves energy futures pre-market</div>
+                  <div class="event-sub">Reason: commodity catalyst, source quality 82, recency 73, dedupe cluster 3</div>
+                </div>
+                <span class="badge green">Accept</span>
+                <span class="mono">CQ 75</span>
+              </div>
+              <div class="event-row">
+                <span class="badge amber">#7 BTC</span>
+                <div>
+                  <div class="event-title">ETF inflow streak slows after weekend volatility</div>
+                  <div class="event-sub">Reason: positioning shift, source quality 69, recency 86, unique</div>
+                </div>
+                <span class="badge blue">Watch</span>
+                <span class="mono">CQ 72</span>
+              </div>
+              <div class="event-row">
+                <span class="badge amber">#8 AAPL</span>
+                <div>
+                  <div class="event-title">EU platform ruling adds regulatory overhang</div>
+                  <div class="event-sub">Reason: legal catalyst, source quality 74, recency 70, uncertainty high</div>
+                </div>
+                <span class="badge blue">Watch</span>
+                <span class="mono">CQ 69</span>
+              </div>
+              <div class="event-row">
+                <span class="badge blue">#9 GLD</span>
+                <div>
+                  <div class="event-title">Gold bid returns as real yields soften</div>
+                  <div class="event-sub">Reason: macro hedge candidate, source quality 71, recency 68, unique</div>
+                </div>
+                <span class="badge blue">Watch</span>
+                <span class="mono">CQ 66</span>
+              </div>
+              <div class="event-row">
+                <span class="badge red">#10 NKE</span>
+                <div>
+                  <div class="event-title">Retail margin warning echoes across apparel peers</div>
+                  <div class="event-sub">Reason: weak-source candidate, source quality 48, recency 83, needs confirmation</div>
+                </div>
+                <span class="badge red">Ignore</span>
+                <span class="mono">CQ 51</span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>High Priority Candidate Flow</h2>
+                <span class="badge cyan">Research cycle</span>
+              </div>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-index">01</div>
+                  <div class="step-title">Candidate</div>
+                  <div class="step-status">Broad source scan finds RACE</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">02</div>
+                  <div class="step-title">Quality</div>
+                  <div class="step-status">Source, recency, dedupe checked</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">03</div>
+                  <div class="step-title">Triage</div>
+                  <div class="step-status">Accept, ignore, merge or analyze</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">04</div>
+                  <div class="step-title">Analysis</div>
+                  <div class="step-status">Bull, bear and no-trade case</div>
+                </div>
+                <div class="step">
+                  <div class="step-index">05</div>
+                  <div class="step-title">Setup & Risk</div>
+                  <div class="step-status">Hypothesis attacked first</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Daily Briefing</h2>
+                <span class="badge amber">Caution</span>
+              </div>
+              <div class="panel-body briefing">
+                <div class="brief-item">
+                  <span class="mono faint">08:00</span>
+                  <div>
+                    <strong>Market context</strong>
+                    <p class="muted">Provider scan complete. 28 source items became 10 ranked candidates after dedupe.</p>
+                  </div>
+                </div>
+                <div class="brief-item">
+                  <span class="mono faint">08:12</span>
+                  <div>
+                    <strong>Focus</strong>
+                    <p class="muted">RACE deserves analysis because source quality and recency are strong, but uncertainty is high.</p>
+                  </div>
+                </div>
+                <div class="brief-item">
+                  <span class="mono faint">08:19</span>
+                  <div>
+                    <strong>Do nothing</strong>
+                    <p class="muted">Ignore duplicate TSLA headlines unless a primary source confirms new information.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Open Risk</h2>
+                <span class="badge red">3 alerts</span>
+              </div>
+              <div class="panel-body">
+                <div class="split-line">
+                  <span>Setup without price confirmation</span>
+                  <span class="badge red">High</span>
+                </div>
+                <div class="split-line">
+                  <span>Headline already priced in</span>
+                  <span class="badge amber">Medium</span>
+                </div>
+                <div class="split-line">
+                  <span>ETF macro beta masking signal</span>
+                  <span class="badge amber">Medium</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="watchlist">
+        <div class="screen-head">
+          <div>
+            <h1>Watchlist</h1>
+            <p class="screen-kicker">Assets, holdings and preferences. This influences ranking, but never limits broad discovery.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">Context only</span>
+            <span class="badge blue">18 active assets</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          De watchlist vertelt Edge Terminal welke assets extra relevant zijn voor Robin. Discovery blijft breed zoeken buiten deze lijst, zodat belangrijke macro-, sector- of ETF-events niet gemist worden.
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Ranking Preferences</h2>
+              <span class="badge cyan">No hard filter</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Sensitivity</th>
+                    <th>Recent candidate</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>RACE</strong><br><span class="muted">Ferrari NV</span></td>
+                    <td>EU equity</td>
+                    <td><span class="badge red">High</span></td>
+                    <td>Perception / brand</td>
+                    <td class="mono">CQ 86</td>
+                    <td><span class="badge cyan">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>ASML</strong><br><span class="muted">ASML Holding</span></td>
+                    <td>EU equity</td>
+                    <td><span class="badge amber">Medium</span></td>
+                    <td>Sector / supply chain</td>
+                    <td class="mono">CQ 79</td>
+                    <td><span class="badge cyan">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>SPY</strong><br><span class="muted">S&P 500 ETF</span></td>
+                    <td>ETF</td>
+                    <td><span class="badge amber">Medium</span></td>
+                    <td>Macro / rates</td>
+                    <td class="mono">CQ 82</td>
+                    <td><span class="badge cyan">Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Preference Form</h2></div>
+              <div class="panel-body form-grid">
+                <div class="field">
+                  <label>Ticker</label>
+                  <input value="RACE" />
+                </div>
+                <div class="field">
+                  <label>Priority</label>
+                  <select><option>High ranking weight</option><option>Medium ranking weight</option><option>Watch only</option></select>
+                </div>
+                <div class="field" style="grid-column:1 / -1;">
+                  <label>Discovery notes</label>
+                  <textarea>Brand perception events and luxury-sector weakness should rank higher, but only when source quality is strong.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Why this matters</h2></div>
+              <div class="copy-block">
+                <p>Watchlist priority is a ranking boost, not a search boundary. A high-quality macro candidate can still outrank a weak headline about a watched asset.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="events">
+        <div class="screen-head">
+          <div>
+            <h1>Event Radar</h1>
+            <p class="screen-kicker">AI-ranked candidate events from broad news, macro, sector and market-mover signals. Triage before analysis.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">28 sources</span>
+            <span class="badge green">10 top candidates</span>
+            <span class="badge amber">3 need source check</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Event Radar is de werkbank voor discovery candidates. Hier zie je waarom een candidate in de top 10 staat, of hij dubbel is, hoe sterk de bronnen zijn en welke triage-actie logisch is.
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Discovery Candidates</h2>
+            <div class="status-strip">
+              <span class="pill">Top 10</span>
+              <span class="pill">New</span>
+              <span class="pill">Ignored</span>
+              <span class="pill">Merged</span>
+              <span class="pill">Analyzed</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Candidate</th>
+                  <th>Reason to watch</th>
+                  <th>Quality</th>
+                  <th>Recency</th>
+                  <th>Dedupe</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">#01</td>
+                  <td><strong>RACE</strong><br><span class="muted">Perception event</span></td>
+                  <td>Negative media/public reaction plus immediate price pressure</td>
+                  <td><span class="badge amber">SQ 78</span></td>
+                  <td class="mono">94</td>
+                  <td><span class="badge blue">1 cluster</span></td>
+                  <td><span class="badge amber">Analyze</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">#02</td>
+                  <td><strong>SPY</strong><br><span class="muted">Macro regime</span></td>
+                  <td>Inflation print cools rates volatility and shifts risk appetite</td>
+                  <td><span class="badge green">SQ 91</span></td>
+                  <td class="mono">97</td>
+                  <td><span class="badge green">Unique</span></td>
+                  <td><span class="badge green">Accept</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">#03</td>
+                  <td><strong>ASML</strong><br><span class="muted">Sector demand</span></td>
+                  <td>Supplier commentary improves demand narrative for semis</td>
+                  <td><span class="badge green">SQ 86</span></td>
+                  <td class="mono">82</td>
+                  <td><span class="badge green">Unique</span></td>
+                  <td><span class="badge cyan">New</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">#04</td>
+                  <td><strong>TSLA</strong><br><span class="muted">Narrative noise</span></td>
+                  <td>Repeated model refresh criticism without new primary source</td>
+                  <td><span class="badge amber">SQ 61</span></td>
+                  <td class="mono">88</td>
+                  <td><span class="badge blue">Merge</span></td>
+                  <td><span class="badge">Ignore?</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head"><h2>Candidate Triage</h2><span class="badge cyan">Action layer</span></div>
+            <div class="panel-body form-grid">
+              <div class="field">
+                <label>Candidate status</label>
+                <select><option>New</option><option>Accepted</option><option>Ignored</option><option>Merged</option><option>Analyzed</option></select>
+              </div>
+              <div class="field">
+                <label>Primary action</label>
+                <select><option>Analyze before accept</option><option>Accept as market event</option><option>Merge duplicate</option><option>Ignore as noise</option></select>
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Candidate title</label>
+                <input value="Ferrari launch receives negative public reaction" />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Reason to watch</label>
+                <textarea>Presentation was poorly received. Media and public commentary turned negative. Stock reacted immediately. Still needs source check before setup generation.</textarea>
+              </div>
+              <div class="action-row" style="grid-column:1 / -1;">
+                <button class="btn primary" data-target="event-detail">Analyze</button>
+                <button class="btn">Accept</button>
+                <button class="btn">Merge</button>
+                <button class="btn">Ignore</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Score Breakdown</h2><span class="badge amber">Ranking help</span></div>
+            <div class="panel-body">
+              <div class="score-strip">
+                <div class="score-box"><span>Relevance</span><strong>86</strong></div>
+                <div class="score-box"><span>Source quality</span><strong>78</strong></div>
+                <div class="score-box"><span>Recency</span><strong>94</strong></div>
+                <div class="score-box"><span>Dedupe</span><strong>1x</strong></div>
+              </div>
+              <div class="copy-block">
+                <p>De score helpt prioriteren. Hij is geen signaal om te kopen of verkopen; de volgende stap is analyse of negeren.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Research Sources</h2><span class="badge blue">Audit</span></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Official announcement</span><span class="badge cyan">1</span></div>
+              <div class="split-line"><span>Market reaction</span><span class="badge amber">4</span></div>
+              <div class="split-line"><span>Media sentiment</span><span class="badge red">8</span></div>
+              <div class="split-line"><span>Raw payload refs</span><span class="badge blue">Stored</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head"><h2>Discovery Scope</h2></div>
+            <div class="panel-body">
+              <div class="split-line"><span>US equities</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>EU equities</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>ETF's</span><span class="badge cyan">Active</span></div>
+              <div class="split-line"><span>Crypto</span><span class="badge">Later</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Provider Status</h2></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Last run</span><span class="mono">08:00</span></div>
+              <div class="split-line"><span>Sources scanned</span><span class="mono">28</span></div>
+              <div class="split-line"><span>Candidates created</span><span class="mono">14</span></div>
+              <div class="split-line"><span>Top candidates</span><span class="mono">10</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Ignore Reasons</h2></div>
+            <div class="panel-body">
+              <div class="split-line"><span>Duplicate headline</span><span class="badge blue">Merge</span></div>
+              <div class="split-line"><span>Old news</span><span class="badge">Ignore</span></div>
+              <div class="split-line"><span>Weak source</span><span class="badge amber">Review</span></div>
+              <div class="split-line"><span>No concrete event</span><span class="badge">Ignore</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="event-detail">
+        <div class="screen-head">
+          <div>
+            <h1>RACE - Ferrari perception event</h1>
+            <p class="screen-kicker">Accepted candidate event. Provenance, source quality and AI analysis stay visible.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge red">Impact high</span>
+            <span class="badge amber">Sentiment-driven</span>
+            <span class="badge cyan">Paper trade only</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Event Detail maakt van een geaccepteerde candidate een onderzoekshypothese. Je ziet niet alleen de AI-analyse, maar ook waarom dit event uit discovery kwam en welke bron-, recency- en dedupe-risico's nog meespelen.
+        </div>
+
+        <div class="grid detail">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Candidate Provenance</h2>
+                <span class="badge cyan">From discovery</span>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Reason to watch</span><span>Sentiment shock + price reaction</span></div>
+                <div class="split-line"><span>Source quality</span><span class="mono">78/100</span></div>
+                <div class="split-line"><span>Recency</span><span class="mono">94/100</span></div>
+                <div class="split-line"><span>Dedupe</span><span class="badge blue">1 cluster</span></div>
+                <div class="split-line"><span>Raw payload refs</span><span class="badge cyan">Stored</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Event Analysis</h2>
+                <span class="badge cyan">OpenAI</span>
+              </div>
+              <div class="copy-block">
+                <h3>Summary</h3>
+                <p>The market reaction appears negative because the product presentation damaged the short-term brand narrative. The direct fundamental impact is uncertain, but sentiment pressure is visible in price action and media response.</p>
+              </div>
+              <div class="copy-block">
+                <h3>Bull case</h3>
+                <p>If the reaction is mostly emotional and not tied to orders or margins, the selloff may become an overreaction rebound candidate after sentiment stabilizes.</p>
+              </div>
+              <div class="copy-block">
+                <h3>Bear case</h3>
+                <p>The event may signal broader concern about design direction, pricing power or brand confidence. Negative follow-through could continue if analysts amplify the narrative.</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Impact Split</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Fundamental impact</span><span class="badge amber">Unclear</span></div>
+                <div class="split-line"><span>Sentiment impact</span><span class="badge red">High</span></div>
+                <div class="split-line"><span>Price impact</span><span class="badge red">Confirmed</span></div>
+                <div class="split-line"><span>Reversal chance</span><span class="badge amber">Possible</span></div>
+                <div class="split-line"><span>Follow-through risk</span><span class="badge red">Elevated</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Analysis Scores</h2>
+                <span class="badge amber">Mixed edge</span>
+              </div>
+              <div class="panel-body">
+                <div class="score-strip">
+                  <div class="score-box"><span>Candidate quality</span><strong>86</strong></div>
+                  <div class="score-box"><span>Confidence</span><strong>62</strong></div>
+                  <div class="score-box"><span>Source risk</span><strong>Med</strong></div>
+                  <div class="score-box"><span>No-trade case</span><strong>Strong</strong></div>
+                </div>
+                <div class="split-line"><span>Sentiment</span><span class="badge red">Negative</span></div>
+                <div class="split-line"><span>Time horizon</span><span class="badge blue">Intraday / short term</span></div>
+                <div class="split-line"><span>Confidence</span><span class="mono">62/100</span></div>
+                <div class="progress"><span style="width:62%;"></span></div>
+                <div class="split-line"><span>Trade bias</span><span class="badge amber">Short or no trade</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Risk Flags</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>Opening gap already extended</span><span class="badge red">High</span></div>
+                <div class="split-line"><span>Fundamental damage unproven</span><span class="badge amber">Medium</span></div>
+                <div class="split-line"><span>Luxury sector beta</span><span class="badge amber">Medium</span></div>
+                <div class="split-line"><span>Rebound squeeze risk</span><span class="badge red">High</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Next Action</h2></div>
+              <div class="panel-body">
+                <button class="btn primary" data-target="signals">Generate setup hypothesis</button>
+                <button class="btn" style="margin-left:6px;">Mark no trade</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="signals">
+        <div class="screen-head">
+          <div>
+            <h1>Setups & Risk</h1>
+            <p class="screen-kicker">Every setup is a hypothesis. Risk review attacks the thesis before any paper trade.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">7 active hypotheses</span>
+            <span class="badge amber">3 need risk review</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Setups & Risk vertaalt een geanalyseerd event naar long, short of no-trade hypotheses. De risk review zoekt actief naar redenen om te wachten of over te slaan.
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Setup Hypotheses</h2>
+              <span class="badge cyan">OpenAI</span>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE possible sentiment short</div>
+                  <div class="muted">Only if price confirms below prior support after the first reaction.</div>
+                </div>
+                <span class="badge red">Short</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge amber">Confidence 62</span>
+                <span class="badge red">Risk high</span>
+                <span class="badge cyan">Paper trade only</span>
+              </div>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE overreaction rebound watch</div>
+                  <div class="muted">Valid only after selling pressure fades and narrative stabilizes.</div>
+                </div>
+                <span class="badge green">Long</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge amber">Confidence 48</span>
+                <span class="badge amber">Needs trigger</span>
+                <span class="badge">Watch only</span>
+              </div>
+            </div>
+            <div class="setup-ticket">
+              <div class="ticket-head">
+                <div>
+                  <div class="ticket-title">RACE no clear edge</div>
+                  <div class="muted">The event is tradable only if the next candle confirms follow-through.</div>
+                </div>
+                <span class="badge blue">No trade</span>
+              </div>
+              <div class="ticket-meta">
+                <span class="badge cyan">Preferred until confirmation</span>
+                <span class="badge amber">High uncertainty</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Selected Hypothesis</h2>
+                <span class="badge red">Short</span>
+              </div>
+              <div class="copy-block">
+                <h3>Reasoning</h3>
+                <p>Possible short setup because the market is reacting negatively to a brand perception event and price action confirms immediate pressure. The setup is only valid if the selloff shows follow-through, not just a one-candle emotional move.</p>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Entry logic</span><span>Break below prior support</span></div>
+                <div class="split-line"><span>Invalidation</span><span>Close back above launch-day VWAP</span></div>
+                <div class="split-line"><span>Stop-loss</span><span class="mono">Manual / level based</span></div>
+                <div class="split-line"><span>Target</span><span class="mono">2R or prior demand zone</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Risk Review</h2>
+                <span class="badge red">Attack the thesis</span>
+              </div>
+              <div class="copy-block">
+                <p>The setup may be weak because the negative reaction is visible and may already be priced in. Shorting after a sharp opening move risks chasing. Without clear follow-through, this is better tracked than traded.</p>
+              </div>
+              <div class="panel-body">
+                <div class="split-line"><span>Source/recency risk</span><span class="badge amber">Medium</span></div>
+                <div class="split-line"><span>Thesis killer</span><span>Price reclaims launch-day VWAP</span></div>
+                <div class="split-line"><span>Final review</span><span class="badge amber">Wait for confirmation</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Decision</h2></div>
+              <div class="panel-body">
+                <button class="btn primary" data-target="trades">Create paper trade</button>
+                <button class="btn" style="margin-left:6px;">Reject setup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="trades">
+        <div class="screen-head">
+          <div>
+            <h1>Paper Trades</h1>
+            <p class="screen-kicker">Fictional trades for measuring research quality. No broker execution.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">5 open</span>
+            <span class="badge green">37 closed wins</span>
+            <span class="badge red">27 closed losses</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Paper Trades maakt hypotheses meetbaar zonder echte brokerkoppeling. Elke trade blijft verbonden aan candidate, event, setup en risk review, zodat later duidelijk wordt welke discovery-signalen waarde hadden.
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Open Paper Trades</h2>
+              <span class="badge cyan">Manual close</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Direction</th>
+                    <th>Candidate</th>
+                    <th>Event</th>
+                    <th>Entry</th>
+                    <th>Stop</th>
+                    <th>Target</th>
+                    <th>P/L</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>RACE</strong></td>
+                    <td><span class="badge red">Short</span></td>
+                    <td class="mono">CQ 86</td>
+                    <td>Perception event</td>
+                    <td class="mono">382.20</td>
+                    <td class="mono">392.40</td>
+                    <td class="mono">361.80</td>
+                    <td class="mono green">+1.8%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>ASML</strong></td>
+                    <td><span class="badge green">Long</span></td>
+                    <td class="mono">CQ 79</td>
+                    <td>Sector demand</td>
+                    <td class="mono">931.00</td>
+                    <td class="mono">902.50</td>
+                    <td class="mono">988.00</td>
+                    <td class="mono red">-0.4%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>SPY</strong></td>
+                    <td><span class="badge green">Long</span></td>
+                    <td class="mono">CQ 82</td>
+                    <td>Macro print</td>
+                    <td class="mono">612.40</td>
+                    <td class="mono">604.10</td>
+                    <td class="mono">628.80</td>
+                    <td class="mono green">+0.6%</td>
+                    <td><span class="badge amber">Open</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Close Trade</h2>
+              <span class="badge cyan">Evaluation</span>
+            </div>
+            <div class="panel-body form-grid">
+              <div class="field">
+                <label>Asset</label>
+                <input value="RACE" />
+              </div>
+              <div class="field">
+                <label>Close reason</label>
+                <select><option>Target hit</option><option>Stop-loss hit</option><option>Manual close</option><option>Hypothesis invalidated</option></select>
+              </div>
+              <div class="field">
+                <label>Exit price</label>
+                <input value="365.40" />
+              </div>
+              <div class="field">
+                <label>Result</label>
+                <input value="+4.39%" />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Hypothesis review</label>
+                <textarea>The sentiment short worked because follow-through was confirmed after the first selloff. Risk review was correct about avoiding the opening chase.</textarea>
+              </div>
+              <button class="btn primary">Save result</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="performance">
+        <div class="screen-head">
+          <div>
+            <h1>Performance Lab</h1>
+            <p class="screen-kicker">Measure research quality by candidate quality, event type, direction, strategy and confidence score.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">64 closed trades</span>
+            <span class="badge green">+0.82% avg</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Performance Lab laat zien welke discovery-candidates, eventtypes, setup-hypotheses en no-trade beslissingen achteraf waarde hadden. Het doel is leren, niet performance claimen.
+        </div>
+
+        <div class="grid cols-4">
+          <div class="panel metric">
+            <div class="metric-label">Closed paper trades</div>
+            <div class="metric-value">64</div>
+            <div class="metric-foot">5 open</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Winrate</div>
+            <div class="metric-value">58%</div>
+            <div class="metric-foot">Long 61% / short 52%</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Avg result</div>
+            <div class="metric-value green">+0.82%</div>
+            <div class="metric-foot">Median +0.41%</div>
+          </div>
+          <div class="panel metric">
+            <div class="metric-label">Best candidate band</div>
+            <div class="metric-value">80+</div>
+            <div class="metric-foot">High source quality</div>
+          </div>
+        </div>
+
+        <div class="grid detail" style="margin-top:12px;">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Result by Event Type</h2>
+              <span class="badge cyan">Learning view</span>
+            </div>
+            <div class="chart" aria-label="Result chart">
+              <div class="bar" style="height:74%;"></div>
+              <div class="bar" style="height:58%;"></div>
+              <div class="bar redbar" style="height:32%;"></div>
+              <div class="bar" style="height:67%;"></div>
+              <div class="bar redbar" style="height:46%;"></div>
+              <div class="bar" style="height:81%;"></div>
+              <div class="bar" style="height:52%;"></div>
+              <div class="bar redbar" style="height:28%;"></div>
+              <div class="bar" style="height:63%;"></div>
+              <div class="bar" style="height:71%;"></div>
+              <div class="bar redbar" style="height:38%;"></div>
+              <div class="bar" style="height:56%;"></div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Candidate Quality Learning</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>CQ 80-100 candidates</span><span class="badge green">Good</span></div>
+                <div class="split-line"><span>Weak-source candidates</span><span class="badge red">Avoid</span></div>
+                <div class="split-line"><span>Merged duplicate headlines</span><span class="badge blue">Noise reduced</span></div>
+                <div class="split-line"><span>No-trade after source check</span><span class="badge green">Useful</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>Confidence Calibration</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>80-100 confidence</span><span class="mono green">+1.9%</span></div>
+                <div class="split-line"><span>60-79 confidence</span><span class="mono green">+0.7%</span></div>
+                <div class="split-line"><span>40-59 confidence</span><span class="mono red">-0.3%</span></div>
+                <div class="split-line"><span>No-trade avoided losses</span><span class="mono green">11</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="briefing">
+        <div class="screen-head">
+          <div>
+            <h1>Daily Briefing</h1>
+            <p class="screen-kicker">Morning summary of discovery quality, top candidates, risk alerts and paper trades to monitor.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge green">Scan complete</span>
+            <span class="badge cyan">10 candidates</span>
+            <span class="badge amber">2 ignore suggestions</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          Daily Briefing vat de ochtendscan samen. Het scherm helpt kiezen waar Robin aandacht aan geeft, welke candidates ruis zijn en welke open paper trades geraakt worden door nieuwe informatie.
+        </div>
+
+        <div class="grid detail">
+          <div class="panel">
+            <div class="panel-head"><h2>Morning Briefing</h2><span class="badge cyan">Generated</span></div>
+            <div class="panel-body briefing">
+              <div class="brief-item">
+                <span class="mono faint">1</span>
+                <div>
+                  <strong>Discovery status</strong>
+                  <p class="muted">28 source items scanned. 14 candidates created. 4 duplicate clusters merged. Top 10 ready for triage.</p>
+                </div>
+              </div>
+              <div class="brief-item">
+                <span class="mono faint">2</span>
+                <div>
+                  <strong>Highest priority</strong>
+                  <p class="muted">RACE has strong recency and visible price reaction, but source quality still requires review before setup generation.</p>
+                </div>
+              </div>
+              <div class="brief-item">
+                <span class="mono faint">3</span>
+                <div>
+                  <strong>Do nothing</strong>
+                  <p class="muted">Two candidates look like repeated headlines. Merge or ignore before they pollute the research queue.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-head"><h2>Top Candidate Summary</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>RACE perception shock</span><span class="mono">CQ 86</span></div>
+                <div class="split-line"><span>SPY macro regime</span><span class="mono">CQ 82</span></div>
+                <div class="split-line"><span>ASML sector demand</span><span class="mono">CQ 79</span></div>
+                <div class="split-line"><span>TSLA repeated criticism</span><span class="badge blue">Merge</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><h2>Open Trade Watch</h2></div>
+              <div class="panel-body">
+                <div class="split-line"><span>RACE short</span><span class="badge amber">Watch source follow-up</span></div>
+                <div class="split-line"><span>ASML long</span><span class="badge cyan">No new risk</span></div>
+                <div class="split-line"><span>SPY macro long</span><span class="badge amber">Rates sensitive</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="ai-log">
+        <div class="screen-head">
+          <div>
+            <h1>AI Analysis Log</h1>
+            <p class="screen-kicker">Audit trail for discovery prompts, source payload refs, ranking inputs and analysis outputs.</p>
+          </div>
+          <div class="status-strip">
+            <span class="badge cyan">Prompt versions</span>
+            <span class="badge blue">Source refs stored</span>
+          </div>
+        </div>
+
+        <div class="feature-note" style="margin-bottom:12px;">
+          <strong>Wat doet dit scherm?</strong>
+          AI Log maakt het systeem controleerbaar. Elke discovery-run, ranking, dedupe, analyse en risk review kan later teruggekeken worden met input, output, promptversie en bruikbaarheidsstatus.
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Recent AI and Discovery Runs</h2><span class="badge cyan">Audit</span></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Prompt</th>
+                  <th>Input</th>
+                  <th>Output</th>
+                  <th>Status</th>
+                  <th>Usefulness</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">08:00</td>
+                  <td>Discovery ranking</td>
+                  <td class="mono">candidate-ranking-v1</td>
+                  <td>28 source refs</td>
+                  <td>Top 10 candidates</td>
+                  <td><span class="badge green">OK</span></td>
+                  <td><span class="badge cyan">Useful</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">08:03</td>
+                  <td>Dedupe</td>
+                  <td class="mono">candidate-dedupe-v1</td>
+                  <td>14 candidates</td>
+                  <td>4 merge hints</td>
+                  <td><span class="badge green">OK</span></td>
+                  <td><span class="badge blue">Review</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">08:12</td>
+                  <td>Event analysis</td>
+                  <td class="mono">event-analysis-v1</td>
+                  <td>RACE candidate</td>
+                  <td>Mixed edge / no-trade case</td>
+                  <td><span class="badge green">OK</span></td>
+                  <td><span class="badge cyan">Useful</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('[data-target]');
+    const screens = document.querySelectorAll('.screen');
+    const sidebarLinks = document.querySelectorAll('.nav a');
+    const mobileButtons = document.querySelectorAll('.mobile-tabs button');
+
+    function activate(target) {
+      const navTarget = target.startsWith('process-') ? 'process' : target;
+      screens.forEach((screen) => screen.classList.toggle('active', screen.id === target));
+      sidebarLinks.forEach((link) => link.classList.toggle('active', link.dataset.target === navTarget));
+      mobileButtons.forEach((button) => button.classList.toggle('primary', button.dataset.target === navTarget));
+      history.replaceState(null, '', '#' + target);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const target = button.dataset.target;
+        if (!target) return;
+        event.preventDefault();
+        activate(target);
+      });
+    });
+
+    const initial = location.hash.replace('#', '');
+    if (initial && document.getElementById(initial)) activate(initial);
+  </script>
+</body>
+</html>

@@ -1,3 +1,11 @@
+LET OP (2026-06-12): dit document is de oorspronkelijke projectomschrijving en is deels achterhaald.
+Edge Terminal is herijkt van researchtool naar persoonlijke adviesmachine: een autonome pipeline die
+expliciete koop/verkoop-adviezen levert. De actuele bron van waarheid is Docs/Specs/voorstel-specs.md
+(plus functional-design.md, technical-design.md en Docs/backlog.md). Onderbouwing: Docs/analyse-bouwgereedheid.md.
+Dit bestand blijft bewaard als historische input.
+
+----------------------------------------------------------------------
+
 Projectomschrijving: Edge Terminal
 Wat is Edge Terminal?
 

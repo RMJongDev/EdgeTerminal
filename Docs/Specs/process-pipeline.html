@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edge Terminal - Proces &amp; Pipeline</title>
+<style>
+  :root {
+    --bg: #0b0e14;
+    --panel: #121826;
+    --panel-2: #0e1420;
+    --border: #1f2937;
+    --text: #e5e7eb;
+    --muted: #8b95a7;
+    --faint: #5b6478;
+    --user: #f59e0b;      /* gebruikersstap */
+    --code: #38bdf8;      /* code-stap */
+    --llm-cheap: #a78bfa; /* goedkoop LLM */
+    --llm-strong: #d946ef;/* sterk LLM */
+    --data: #34d399;      /* data / opslag */
+    --out: #f87171;       /* output / beslismoment */
+    --mono: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    padding: 40px 20px 80px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  header { margin-bottom: 28px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; color: var(--data); text-transform: uppercase; }
+  h1 { font-size: 26px; margin: 6px 0 4px; }
+  .sub { color: var(--muted); font-size: 14px; max-width: 760px; }
+  h2 { font-size: 18px; margin: 48px 0 6px; }
+  h2 .num { font-family: var(--mono); color: var(--faint); margin-right: 8px; }
+  .h2sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+
+  /* legenda */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 18px; font-size: 12px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* chips */
+  .chip {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+    padding: 2px 8px; border-radius: 3px; text-transform: uppercase; white-space: nowrap;
+  }
+  .chip.user { background: rgba(245,158,11,.12); color: var(--user); border: 1px solid rgba(245,158,11,.35); }
+  .chip.code { background: rgba(56,189,248,.10); color: var(--code); border: 1px solid rgba(56,189,248,.30); }
+  .chip.llm-cheap { background: rgba(167,139,250,.12); color: var(--llm-cheap); border: 1px solid rgba(167,139,250,.35); }
+  .chip.llm-strong { background: rgba(217,70,239,.10); color: var(--llm-strong); border: 1px solid rgba(217,70,239,.32); }
+  .chip.data { background: rgba(52,211,153,.10); color: var(--data); border: 1px solid rgba(52,211,153,.30); }
+  .chip.out { background: rgba(248,113,113,.10); color: var(--out); border: 1px solid rgba(248,113,113,.30); }
+
+  /* proces (sectie 1) */
+  .flow { display: flex; flex-direction: column; align-items: stretch; }
+  .arrow { text-align: center; color: var(--faint); font-size: 14px; padding: 6px 0; }
+  .arrow small { display: block; font-size: 11px; color: var(--faint); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .node {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .node.accent-user { border-left: 3px solid var(--user); }
+  .node.accent-code { border-left: 3px solid var(--code); }
+  .node.accent-llm { border-left: 3px solid var(--llm-strong); }
+  .node.accent-data { border-left: 3px solid var(--data); }
+  .node.accent-out { border-left: 3px solid var(--out); }
+  .node h3 { font-size: 14px; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .node p { font-size: 12.5px; color: var(--muted); }
+  .node .time { font-family: var(--mono); font-size: 12px; color: var(--data); }
+
+  .loop {
+    border: 1px dashed rgba(52,211,153,.4); border-radius: 8px; padding: 10px 16px;
+    margin-top: 14px; font-size: 12.5px; color: var(--data); text-align: center;
+  }
+
+  /* pipeline (sectie 2) */
+  .stage {
+    display: grid; grid-template-columns: 34px 1fr 190px; gap: 14px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; align-items: start;
+  }
+  .stage .no { font-family: var(--mono); font-size: 16px; color: var(--faint); padding-top: 2px; }
+  .stage h3 { font-size: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 3px; }
+  .stage p { font-size: 12.5px; color: var(--muted); }
+  .stage .db { text-align: right; }
+  .tbl {
+    display: inline-block; font-family: var(--mono); font-size: 11px; color: var(--data);
+    background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.25);
+    border-radius: 3px; padding: 2px 7px; margin: 2px 0 2px 4px; white-space: nowrap;
+  }
+  .sub-adapters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  .adapter {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; font-size: 11.5px; color: var(--muted);
+  }
+  .adapter strong { display: block; color: var(--text); font-size: 12px; margin-bottom: 2px; }
+  .branch {
+    margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: 12px;
+    background: rgba(248,113,113,.06); border: 1px solid rgba(248,113,113,.2); color: var(--muted);
+  }
+  .branch b { color: var(--out); font-weight: 600; }
+
+  .principles {
+    margin-top: 40px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .principles h2 { margin: 0 0 10px; font-size: 15px; }
+  .principles ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  .principles li { font-size: 12.5px; color: var(--muted); padding-left: 16px; position: relative; }
+  .principles li::before { content: ">"; position: absolute; left: 0; color: var(--data); font-family: var(--mono); }
+
+  .footnote { margin-top: 28px; font-size: 11.5px; color: var(--faint); }
+  .footnote code { font-family: var(--mono); color: var(--muted); }
+
+  @media (max-width: 760px) {
+    .row2, .sub-adapters, .principles ul { grid-template-columns: 1fr; }
+    .stage { grid-template-columns: 28px 1fr; }
+    .stage .db { grid-column: 2; text-align: left; }
+    .tbl { margin: 2px 4px 2px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Edge Terminal</div>
+    <h1>Het complete proces &amp; de adviespipeline</h1>
+    <p class="sub">
+      Visualisatie bij <span style="font-family:var(--mono);font-size:13px;">voorstel-specs.md</span> en
+      <span style="font-family:var(--mono);font-size:13px;">technical-design.md</span> - herijkt op 2026-06-12.
+      Sectie 1 toont een handelsdag van begin tot leren; sectie 2 zoomt in op wat er binnen een run gebeurt.
+    </p>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--user)"></i> Robin (handmatig)</span>
+      <span><i class="dot" style="background:var(--code)"></i> Code-stap</span>
+      <span><i class="dot" style="background:var(--llm-cheap)"></i> LLM goedkoop model</span>
+      <span><i class="dot" style="background:var(--llm-strong)"></i> LLM sterk model</span>
+      <span><i class="dot" style="background:var(--data)"></i> Data / opslag (Supabase)</span>
+      <span><i class="dot" style="background:var(--out)"></i> Output / beslismoment</span>
+    </div>
+  </header>
+
+  <!-- ================= SECTIE 1 ================= -->
+  <h2><span class="num">1</span>Een handelsdag - het complete proces</h2>
+  <p class="h2sub">Twee runs per dag, elk met een eigen universum. Robin's enige verplichte handelingen: de run starten (MVP), de top 5 lezen en beslissen.</p>
+
+  <div class="flow">
+    <div class="row2">
+      <div class="node accent-user">
+        <h3><span class="time">07:30</span> EU-run <span class="chip user">start: Robin</span></h3>
+        <p>Profiel <b>eu_open</b>: overnight US, Azie en Europese ochtendberichten. EU-tickers zwaarder gewogen. Voor de opening van de Europese beurzen.</p>
+      </div>
+      <div class="node accent-user">
+        <h3><span class="time">15:00</span> US-run <span class="chip user">start: Robin</span></h3>
+        <p>Profiel <b>us_open</b>: premarket movers, US-bedrijfsnieuws en macro-releases van de dag. Voor de opening van Wall Street.</p>
+      </div>
+    </div>
+
+    <div class="arrow">&#9660;<small>de pipeline draait volledig zelfstandig (sectie 2)</small></div>
+
+    <div class="node accent-out">
+      <h3>Top 5 adviezen op het dashboard <span class="chip out">output</span></h3>
+      <p>Gerangschikt, beste eerst. Per advies: ticker, long/short, entry-zone, stop, target, horizon, positiegrootte-indicatie,
+      redenatie, tegenargument, invalidatie en bronlinks. <b>"Geen advies vandaag"</b> is een volwaardige uitkomst - de lijst wordt nooit opgevuld.</p>
+    </div>
+
+    <div class="arrow">&#9660;</div>
+
+    <div class="node accent-user">
+      <h3>Robin leest, beslist en handelt zelf <span class="chip user">beslismoment</span></h3>
+      <p>Ritme: 2-3 echte trades per week (plafond 6), maximaal 4-5 gelijktijdig open posities, EUR 100-1000 per trade.
+      Robin handelt zelf bij de broker en markeert in de app welke adviezen hij echt nam. De app voert nooit zelf trades uit.</p>
+    </div>
+
+    <div class="arrow">&#9660;<small>ook alle niet-genomen adviezen gaan mee</small></div>
+
+    <div class="row2">
+      <div class="node accent-code">
+        <h3>Automatische tracking <span class="chip code">code</span></h3>
+        <p>Elk advies wordt gevolgd met delayed koersen: uitkomst na 1, 3 en 5 handelsdagen, stop of target geraakt, horizon verlopen. Geen handwerk.</p>
+      </div>
+      <div class="node accent-data">
+        <h3>Performance Lab <span class="chip data">leren</span></h3>
+        <p>Welke adviestypen, richtingen, eventtypes en confidence-bands leveren netto geld op? Verslaat Robins selectie de top 5 als geheel? Wat kostte de pipeline vs. wat leverde hij op?</p>
+      </div>
+    </div>
+
+    <div class="loop">&#8635; Lessen voeden de prompts en de ranking - promptversies zijn via het AI-log vergelijkbaar op uitkomst</div>
+  </div>
+
+  <!-- ================= SECTIE 2 ================= -->
+  <h2><span class="num">2</span>Binnen een run - de adviespipeline stap voor stap</h2>
+  <p class="h2sub">Elke stap schrijft zijn tussenresultaat weg (rechts: Supabase-tabel) en logt naar het AI-log, inclusief kosten. Een falende bronlaag is non-fataal: de run draait door met wat er wel is.</p>
+
+  <div class="flow">
+
+    <div class="stage">
+      <div class="no">1</div>
+      <div>
+        <h3>Run start <span class="chip user">Robin (MVP)</span> <span class="chip code">cron (slice 3)</span></h3>
+        <p>Run wordt aangemaakt met profiel <b>eu_open</b> of <b>us_open</b>; het profiel bepaalt tijdvenster, query-context en marktcontext van alle volgende stappen.</p>
+      </div>
+      <div class="db"><span class="tbl">discovery_runs</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">2</div>
+      <div>
+        <h3>Source funnel <span class="chip code">code</span></h3>
+        <p>Vier adapters halen parallel bronitems op, elk met provenance: bron, URL, publicatietijd, payload-referentie. Geen vrije LLM-websearch: elke kandidaat is herleidbaar tot een bronitem.</p>
+        <div class="sub-adapters">
+          <div class="adapter"><strong>Broad news</strong>GDELT + RSS van persbureaus en company-IR (gratis)</div>
+          <div class="adapter"><strong>Financiele feed</strong>Finnhub / Alpha Vantage news &amp; sentiment</div>
+          <div class="adapter"><strong>Primaire bronnen</strong>SEC EDGAR filings, earnings calendar</div>
+          <div class="adapter"><strong>Market context</strong>Delayed quotes, movers, sector/ETF-context</div>
+        </div>
+      </div>
+      <div class="db"><span class="tbl">event_sources</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">3</div>
+      <div>
+        <h3>Mover sweep <span class="chip code">code</span></h3>
+        <p>Omgekeerde lookup: <b>de koersbeweging is het signaal, het nieuws is de verklaring.</b> Top movers/decliners ophalen (US via gainers/losers-endpoint, EU via quote-sweep over een vast large-cap universum). Elke flinke beweging zonder verklarend bronitem krijgt een gerichte nieuws-fetch: company news op de ticker + brede query op de bedrijfsnaam. Zo wordt een geflopte productlancering (Ferrari-scenario) ook buiten de watchlist gevangen. De brede laag draait daarnaast generieke event-pattern-query's (negatieve tone + marktbewegingstaal) zonder bedrijfsnamen.</p>
+        <div class="branch">Geen nieuws gevonden? Dan blijft het een <b>unexplained move</b>: zichtbaar als context op het dashboard, nooit een candidate - geen candidate zonder bron.</div>
+      </div>
+      <div class="db"><span class="tbl">event_sources</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">4</div>
+      <div>
+        <h3>Normaliseren + dedupe/clusteren <span class="chip code">code</span></h3>
+        <p>Bronitems worden naar een uniform formaat gebracht; dubbele headlines over hetzelfde feit worden een cluster (titel-, symbool- en tijd-similarity), zodat een event nooit meerdere plekken inneemt.</p>
+      </div>
+      <div class="db"><span class="tbl">event_sources</span></div>
+    </div>
+    <div class="arrow">&#9660;<small>~50-100 items per run</small></div>
+
+    <div class="stage">
+      <div class="no">5</div>
+      <div>
+        <h3>Filter + voor-ranking <span class="chip llm-cheap">LLM goedkoop</span></h3>
+        <p>Promptversie <b>advice-filter-v1</b>, in batches: welke items zijn een concreet event met mogelijke koersimpact? Selecteert ~10-15 kansrijke candidates met reason_to_watch, affected symbols en voor-rank. Watchlist en perception-signalen wegen mee als context, nooit als grens.</p>
+      </div>
+      <div class="db"><span class="tbl">event_candidates</span></div>
+    </div>
+    <div class="arrow">&#9660;<small>per kansrijke candidate, parallel</small></div>
+
+    <div class="stage">
+      <div class="no">6</div>
+      <div>
+        <h3>Event-analyse <span class="chip llm-strong">LLM sterk</span></h3>
+        <p>Promptversie <b>advice-analysis-v1</b>: sentiment, impactniveau, horizon, bull case, bear case, onzekerheid. Krijgt de koersreactie sinds publicatie mee om te wegen wat al ingeprijsd is. Bij perception events: split fundamenteel vs. sentiment.</p>
+      </div>
+      <div class="db"><span class="tbl">event_analyses</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">7</div>
+      <div>
+        <h3>Setup-generatie <span class="chip llm-strong">LLM sterk</span></h3>
+        <p>Promptversie <b>advice-setup-v1</b>: richting long, short of <b>none</b>, met entry-logica, stop, target en aannames.</p>
+        <div class="branch"><b>none</b> = keten stopt hier voor deze candidate. Geen advies, wel gelogd waarom - dat is leerdata, geen mislukking.</div>
+      </div>
+      <div class="db"><span class="tbl">trade_setups</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">8</div>
+      <div>
+        <h3>Risk review <span class="chip llm-strong">LLM sterk</span></h3>
+        <p>Promptversie <b>advice-risk-v1</b> valt de setup aan: tegenargument, thesis killer, zwakke aannames, wat al ingeprijsd kan zijn, risk score.</p>
+        <div class="branch">Verdict <b>skip</b> = blokkeert het advies. De risk review is geen ja-knikker; hij moet de setup echt proberen onderuit te halen.</div>
+      </div>
+      <div class="db"><span class="tbl">risk_reviews</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">9</div>
+      <div>
+        <h3>Uitvoerbaarheidscheck <span class="chip code">code</span></h3>
+        <p>Spread, liquiditeit en kostenimpact bij de voorgestelde positiegrootte, plus de <b>kostenhorde</b>: verwachte round-trip kosten moeten in verhouding staan tot de verwachte beweging (richtlijn &le; 1/3, zie risk-framework.md). Een setup die alleen zonder kosten werkt, zakt in de ranking of valt af. Correlatie met open posities geeft een warning en rank-penalty.</p>
+      </div>
+      <div class="db"><span class="tbl">advices</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">10</div>
+      <div>
+        <h3>Advice assembly + ranking <span class="chip llm-strong">LLM sterk</span> <span class="chip code">code</span></h3>
+        <p>Promptversie <b>advice-assembly-v1</b> bundelt analyse, setup, risk review en uitvoerbaarheid tot definitieve adviezen en rankt op confidence, risk score, bronkwaliteit, recency en uitvoerbaarheid. Cap op 5, <b>mag 0 opleveren</b> - liever twee sterke adviezen dan vijf matige.</p>
+      </div>
+      <div class="db"><span class="tbl">advices</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">11</div>
+      <div>
+        <h3>Dashboard + briefing <span class="chip out">output</span></h3>
+        <p>Top 5 op het dashboard, compacte briefing per run (<b>advice-briefing-v1</b>, goedkoop model): marktcontext, de adviezen, wat bewust geen advies werd en waarom, risico's voor open posities.</p>
+      </div>
+      <div class="db"><span class="tbl">daily_briefings</span></div>
+    </div>
+    <div class="arrow">&#9660;</div>
+
+    <div class="stage">
+      <div class="no">12</div>
+      <div>
+        <h3>Tracking-update <span class="chip code">code</span></h3>
+        <p>Bij elke run (en handmatige refresh) worden alle open adviezen bijgewerkt met delayed quotes: D1/D3/D5-returns, stop of target geraakt, horizon verlopen. Voedt het Performance Lab - de feedbackloop uit sectie 1.</p>
+      </div>
+      <div class="db"><span class="tbl">advice_tracking</span></div>
+    </div>
+
+    <div class="loop">Elke LLM-stap logt promptversie, input, output en kosten naar <span style="font-family:var(--mono)">ai_analysis_logs</span> - de run toont zijn totale kosten op het dashboard</div>
+  </div>
+
+  <!-- ================= PRINCIPES ================= -->
+  <div class="principles">
+    <h2>Vaste regels van de pipeline</h2>
+    <ul>
+      <li>Geen advies zonder concreet event met bronreferentie en publicatietijd</li>
+      <li>Geen advies zonder tegenargument en invalidatiecriterium</li>
+      <li>"Geen advies vandaag" is een volwaardige uitkomst; nooit opvullen naar vijf</li>
+      <li>Elk advies wordt automatisch getrackt, ook als Robin het niet neemt</li>
+      <li>Watchlist en scan hints zijn rankingcontext, nooit een zoekgrens</li>
+      <li>Een falende bronlaag is non-fataal; de run toont wat er miste</li>
+      <li>Een mover zonder verklarend nieuws blijft context (unexplained move), nooit een candidate</li>
+      <li>Kostenhorde, correlatie-check en circuit breaker volgen risk-framework.md</li>
+      <li>Alle LLM-calls gelogd met promptversie en kosten (budget EUR 150/mnd)</li>
+      <li>De app voert nooit zelf trades uit en adviseert alleen Robin</li>
+    </ul>
+  </div>
+
+  <p class="footnote">
+    Bron van waarheid: <code>Docs/Specs/voorstel-specs.md</code>, <code>functional-design.md</code> en <code>technical-design.md</code> (2026-06-12).
+    Slice 1 bouwt stap 1 t/m 11 end-to-end op echte data; slice 2 voegt stap 12 + Performance Lab toe; slice 3 vervangt de handmatige start door cron.
+  </p>
+
+</div>
+</body>
+</html>

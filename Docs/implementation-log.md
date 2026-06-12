@@ -13,6 +13,16 @@
 
 ---
 
+## 2026-06-12 - Herijking naar adviesmachine doorgevoerd
+- Wat: Doel-interview + `Docs/analyse-bouwgereedheid.md`: Edge Terminal wordt een adviesmachine met autonome pipeline (top 5 expliciete adviezen, 2 runs/dag, automatische tracking, EUR 150/mnd).
+- Wat: Voorstel-specs, functional design, technical design, client-briefing en backlog volledig herschreven; oude epics gearchiveerd als demo-skelet; adviesritme vastgelegd (2-3 echte trades/week, plafond 6, max 4-5 open).
+- Wat: Procesvisualisatie `Docs/Specs/process-pipeline.html` toegevoegd; mockups en ProjectOmschrijving.txt gemarkeerd als deels achterhaald.
+- Wat: `Docs/Specs/news-sources.md` toegevoegd: geverifieerde bronnen (Finnhub, EDGAR, GDELT, RSS, Marketaux, Alpha Vantage) met endpoints, limieten en ophaalpatroon; mover sweep + generieke event-pattern-query's toegevoegd zodat perception events buiten de watchlist (Ferrari-scenario) gevangen worden.
+- Wat: `Docs/Specs/risk-framework.md` toegevoegd (edge-these, kostenhorde, positiegrootte, correlatieregel, circuit breaker, opschaal-gates, kalibratie-context) en doorvertaald naar specs, ontwerpen, backlog en visualisatie.
+- Wat: Besluiten vastgelegd (OpenAI, Engelse UI, keys op verzoek); AGENTS.md, README, `.env.example` en `dependencies.md` op Edge Terminal gezet; volledig bouwbacklog (EPIC-11 t/m 17, S-21 t/m S-48) geschreven voor uitvoering door een bouw-AI.
+- Wat: Mockups vernieuwd naar de adviesmachine (9 klikbare schermen incl. Advice Detail, Tracking en risk-status); oude triage-first mockup gearchiveerd in `Docs/Archive/`.
+- Volgende stap: Bouw-AI start met S-21; Robin levert Supabase-keys aan en vult het trading-kapitaal in `risk-framework.md` in.
+
 ## 2026-06-03 - Discovery MVP completion audit
 - Wat: Top-10 ranking aangescherpt zodat dedupe clusters maar een keer meetellen en merged/ignored candidates uit de actieve dashboardranking vallen.
 - Wat: Dashboard toont discovery-run foutmeldingen en de backlog staat op done voor Discovery Candidate Quality MVP.

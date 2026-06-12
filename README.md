@@ -1,54 +1,39 @@
-# Project Accelerator Next/Supabase
+# Edge Terminal
 
-Herbruikbare projectstart voor New Default-apps op Next.js, Supabase en Vercel. Deze repo combineert twee dingen:
+Persoonlijke adviesmachine voor swing trading op nieuws. Een autonome pipeline scant twee keer per dag nieuws, filings en marktcontext, en levert een gerangschikte top 5 expliciete tradingadviezen met entry, stop, target en onderbouwing. Elk advies wordt automatisch getrackt; het Performance Lab laat zien welke adviestypen waarde hebben.
 
-- een startbare Next.js app-skeleton met Supabase auth, Tailwind en Playwright;
-- de Project Accelerator workflow in `Docs/` en `.agents/skills/`, zodat discovery, voorstel, specs, backlog en bouwvoorbereiding vanaf dag 1 meelopen.
+Single-user app voor Robin de Jong. Geen tradingbot: de app voert nooit zelf trades uit en deelt geen adviezen met derden.
 
-## Start nieuw project
+## Quickstart
 
 ```bash
 pnpm install
-cp .env.example .env.local
+cp .env.example .env.local   # vul Supabase-waarden in zodra er een project is
 pnpm dev
 ```
 
-Vul daarna de Supabase-waarden in `.env.local`:
+Zonder env vars draait de app in **demo mode** met voorbeelddata - alle schermen blijven reviewbaar en testbaar.
 
-```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
-```
+## Documentatie
 
-Open Claude Code of Codex in deze map en zeg:
+- [AGENTS.md](AGENTS.md) - projectinstructies en werkwijze (start hier)
+- [Docs/Specs/voorstel-specs.md](Docs/Specs/voorstel-specs.md) - wat het product is
+- [Docs/Specs/technical-design.md](Docs/Specs/technical-design.md) - architectuur en pipeline
+- [Docs/Specs/news-sources.md](Docs/Specs/news-sources.md) - bronnen en endpoints
+- [Docs/Specs/risk-framework.md](Docs/Specs/risk-framework.md) - risicokader
+- [Docs/Specs/process-pipeline.html](Docs/Specs/process-pipeline.html) - procesvisualisatie
+- [Docs/backlog.md](Docs/backlog.md) - bouwbacklog
 
-```txt
-start nieuw project
-```
-
-De accelerator vult de projectdocumentatie en past de app-skeleton aan op basis van het klantproject.
-
-## Standaard stack
+## Stack
 
 | Laag | Keuze |
 |---|---|
-| Frontend | Next.js App Router, React, TypeScript |
-| Styling | Tailwind CSS, shadcn-compatible component primitives, darkmode default |
-| Auth | Supabase Auth met cookie-based SSR via `@supabase/ssr` |
-| Database | Supabase Postgres met RLS en migraties in `supabase/migrations/` |
+| Frontend | Next.js App Router, React, TypeScript, Tailwind (darkmode terminal) |
+| Auth/DB | Supabase Auth + Postgres met RLS, migraties in `supabase/migrations/` |
 | Hosting | Vercel |
-| Tests | Playwright e2e smoke tests |
-
-## Belangrijke mappen
-
-```txt
-src/                         Next.js app-skeleton
-supabase/                    migraties en seed-data
-tests/e2e/                   Playwright tests
-Docs/                        projectdocumentatie en accelerator-output
-.agents/skills/              gedeelde Codex/Claude skills
-.claude/                     Claude Code configuratie
-```
+| LLM | OpenAI: goedkoop filtermodel + sterk analysemodel (server-only) |
+| Bronnen | Finnhub, SEC EDGAR, RSS, GDELT/Marketaux, Alpha Vantage movers |
+| Tests | Playwright e2e + unit tests op pipeline-helpers |
 
 ## Commands
 
@@ -63,8 +48,9 @@ pnpm test       # lint + typecheck + e2e
 
 ## Projectregels
 
-- Documentatie in Nederlands, code in Engels.
-- Nieuwe env vars altijd in `.env.example`.
-- Geen secrets committen.
+- Documentatie Nederlands, code en UI-copy Engels.
+- Nieuwe env vars altijd in `.env.example` en `Docs/dependencies.md`.
+- Geen secrets committen; alle provider-keys server-only.
 - Datarechten afdwingen met Supabase RLS.
 - Na codewijzigingen: `graphify update .` draaien als `graphify` beschikbaar is.
+- Elke sessie een entry in `Docs/implementation-log.md`.

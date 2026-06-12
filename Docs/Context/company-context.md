@@ -1,6 +1,6 @@
 # Company Context - Edge Terminal
 
-> Disclaimer: dit document is samengesteld op basis van Robin's projectomschrijving en dient ter verificatie door Robin. Er is nog geen externe website- of marktresearch gedaan voor dit interne product.
+> Disclaimer: dit document is samengesteld op basis van Robin's projectomschrijving en de interviews van 2026-05-31 en 2026-06-12. Intern product; er is geen externe markt-research gedaan.
 
 ## Kerngegevens
 - **Naam:** Edge Terminal
@@ -10,112 +10,74 @@
 - **Website:** (open)
 
 ## Wat doen ze?
-- **Kernactiviteit:** Edge Terminal structureert market events, analyseert impact en helpt trading hypotheses via paper trades meetbaar te maken.
-- **Producten / diensten:** Persoonlijke trading research terminal voor event-driven research.
-- **Verdienmodel:** n.v.t. in MVP. 
-  > AANNAME: eerste versie is voor persoonlijk gebruik, niet als publiek SaaS-product.
+- **Kernactiviteit:** Edge Terminal is Robins persoonlijke adviesmachine voor swing trading op nieuws: een autonome pipeline die twee keer per dag nieuws, filings en marktcontext verzamelt, analyseert en vertaalt naar een gerangschikte top 5 expliciete koop/verkoop-adviezen.
+- **Producten / diensten:** Persoonlijke trading advice terminal voor eigen gebruik.
+- **Verdienmodel:** n.v.t. - persoonlijk product, geen SaaS, geen advies aan derden.
 
 ## Productpositionering
-Edge Terminal is geen tradingbot en geen signaaldienst. Het is een research cockpit waarin elke mogelijke trade als hypothese wordt behandeld.
+Edge Terminal is geen tradingbot en geen signaaldienst voor derden. Het is een persoonlijke adviesmachine: de pipeline doet al het werk (verzamelen, dedupen, analyseren, risico's afwegen, ranken) en levert expliciete adviezen met ticker, richting, entry, stop, target en onderbouwing. Robin beslist en handelt zelf bij zijn broker.
 
-De app ondersteunt:
-- events verzamelen en classificeren;
-- impact en sentiment beoordelen;
-- mogelijke long, short of no-trade setups formuleren;
-- setups kritisch laten aanvallen via risk review;
-- paper trades aanmaken en volgen;
-- resultaten meten in het Performance Lab;
-- leren welke signalen, eventtypes en strategieen waarde hebben.
+De app:
+- scant breed nieuws, filings, macro-items en koersbewegingen (incl. mover sweep voor onverwachte bewegingen);
+- analyseert impact, sentiment en of de marktreactie over- of onderdreven is;
+- genereert per kansrijke gebeurtenis automatisch analyse, setup en risk review;
+- bundelt dat tot gerangschikte adviezen met verplicht tegenargument en invalidatie;
+- trackt elk advies automatisch (D1/D3/D5, stop/target), ook niet-genomen adviezen;
+- meet in het Performance Lab welke adviestypen netto geld opleveren;
+- bewaakt het risicokader signalerend: kostenhorde, correlatie, circuit breaker.
 
 ## Kernflow
 
 ```text
-Watchlist
-  -> Market Event
-  -> Event Analysis
-  -> Signal Desk
-  -> Risk Review
-  -> Paper Trade
-  -> Performance Lab
-  -> Better research rules
+Run (07:30 EU / 15:00 US)
+  -> source funnel + mover sweep
+  -> dedupe -> LLM-filter
+  -> per candidate: analyse -> setup -> risk review
+  -> top 5 expliciete adviezen (of "no advice today")
+  -> Robin beslist en handelt zelf
+  -> automatische tracking -> Performance Lab -> leren
 ```
 
 ## Markt & doelgroep
-- **Doelgroep:** Robin als eerste gebruiker. De MVP blijft single-user, maar gebruikt wel Supabase Auth zodat login, sessies en later uitbreiden netjes geregeld zijn.
-- **Marktpositie:** Persoonlijke, compacte research terminal tussen losse notities, watchlists, nieuwsplatformen en professionele terminals in.
-- **Geografische focus:** Eerst VS-aandelen, EU-aandelen en ETF's.
-
-## Referentiecategorieen
-- Professionele marktterminals.
-- Trading dashboards.
-- Watchlist- en nieuwsplatformen.
-- Research journals.
-- Paper trading tools.
-- AI-assisted analysis tools.
+- **Doelgroep:** Robin als enige gebruiker. Single-user met Supabase Auth, zodat sessies en latere uitbreiding netjes geregeld zijn.
+- **Marktpositie:** Persoonlijke adviesmachine tussen nieuwsplatformen, watchlists en professionele terminals in; vergelijkbaar denkkader: LevelFields AI, Trade Ideas.
+- **Geografische focus:** Start US-aandelen + EU large caps, long en short; EU small caps later.
 
 ## Functionele domeinen
-- **Dashboard:** dagelijkse cockpit met events, setups, risico's, open paper trades en performance.
-- **Watchlist:** assets die gevolgd worden.
-- **Market Events:** formele financiele events en perception events.
-- **Event Analysis:** analyse van sentiment, impact, horizon, onzekerheid, bull case, bear case en risico's.
-- **Signal Desk:** vertaalt een event naar een mogelijke setup of no trade.
-- **Risk Review:** zoekt tegenargumenten en redenen om over te slaan.
-- **Paper Trades:** test hypotheses zonder echt geld.
-- **Performance Lab:** meet of analyses en setups waarde hebben.
-- **Daily Market Briefing:** korte dagelijkse samenvatting met kansen, risico's en do-nothing signalen.
-- **AI Analysis Log:** inzicht in prompts, inputs, outputs, bruikbaarheid en fouten.
+- **Dashboard:** run-start, runstatus, top 5 advieskaarten, risk-statusbalk, unexplained movers.
+- **Advice Detail:** volledig advies met uitklapbare redeneerketen, kostenhorde en kalibratie-context.
+- **Event Radar:** inspectie en correctie van wat de pipeline vond (geen verplichte triage).
+- **Watchlist:** voorkeuren/holdings als rankingcontext, nooit een zoekgrens.
+- **Tracking:** automatische uitkomsten per advies; genomen vs. paper.
+- **Performance Lab:** expectancy na kosten per adviestype; opschaal-gates.
+- **Briefing:** compacte samenvatting per run.
+- **AI Log:** audit trail van elke LLM-stap met promptversie en kosten.
 
 ## Perception Events
-Edge Terminal moet niet alleen klassieke financiele gebeurtenissen verwerken. Ook narratief- en sentimentgedreven gebeurtenissen zijn volwaardige market events.
-
-Voorbeelden:
-- slecht ontvangen productpresentatie;
-- negatieve mediareactie;
-- reputatieschade;
-- social backlash;
-- onverwachte kritiek op design, prijs, strategie of management;
-- opvallende koersreactie na een publiek event.
-
-Belangrijke analysevragen bij perception events:
-- Is de impact fundamenteel of vooral sentimentgedreven?
-- Is de koersreactie overdreven of terecht?
-- Kan negatieve beeldvorming langer blijven hangen?
-- Is er een mogelijke sentiment short, rebound setup of juist no trade?
+Naast klassieke financiele events zijn narratief- en sentimentgedreven gebeurtenissen volwaardige input: slecht ontvangen productpresentaties, reputatieschade, social backlash, opvallende koersreacties na publieke events. De mover sweep garandeert dat zulke bewegingen gevonden worden, ook buiten de watchlist (het Ferrari-scenario). De analyse splitst fundamentele impact van sentimentimpact en beoordeelt overreactie vs. follow-through.
 
 ## Tone of voice & productprincipes
-- Kritisch boven enthousiast.
-- Research eerst, handelen later.
-- No trade is een geldige uitkomst.
-- Geen setup zonder concreet event.
-- Geen setup zonder risk review.
-- Confidence is geen zekerheid.
-- Alles moet later meetbaar zijn.
-- Snel scanbaar boven lange tekst waar badges, scores en compacte samenvattingen beter werken.
+- Expliciet en concreet richting Robin: richting, entry zone, stop, target, horizon.
+- Elk advies draagt verplicht zijn tegenargument en invalidatie - nooit alleen de bull case.
+- "No advice today" is een volwaardige uitkomst; de lijst wordt nooit opgevuld.
+- Geen advies zonder concreet event met bronreferentie.
+- Kostenhorde: een advies dat alleen zonder kosten werkt, bestaat niet.
+- Confidence is een rankinghulp, geen zekerheid; de tracking-data weegt zwaarder dan het verhaal.
+- Snel scanbaar: badges, levels en compacte samenvattingen boven lange tekst.
+- UI-copy Engels; documentatie Nederlands.
 
-Vermijden:
-- "Guaranteed winner"
-- "Must buy"
-- "Perfect setup"
-- "Risk-free"
-- "Easy money"
-
-Gewenst:
-- "Possible long setup"
-- "No clear edge"
-- "High uncertainty"
-- "Risk review suggests caution"
-- "Worth tracking, not trading yet"
-- "Paper trade only"
-- "Hypothesis failed"
+Vermijden: "Guaranteed winner", "Must buy", "Perfect setup", "Risk-free", "Easy money".
+Gewenst: "Short RACE, entry 380-388, invalidated above 402 - because...", "No advice today", "High uncertainty", "Cost check passed", "Counterargument:".
 
 ## Technische context
-- **Bestaande systemen:** Next.js / Supabase / Vercel template-repo.
-- **Tech stack:** Next.js App Router, Supabase Auth/Postgres, Tailwind, TypeScript, Playwright.
-- **AI-aanpak:** OpenAI voor analyse, setup generation en risk review. Gemini voor websearch/research rond actuele marktcontext.
-- **Market-data aanpak:** delayed koersdata via API als dit eenvoudig en betaalbaar kan; handmatige invoer/fallback blijft toegestaan in MVP.
-- **Vendor lock-ins / gevoeligheden:** market-data provider en eventuele toekomstige brokerkoppeling zijn nog open.
-- **Belangrijke randvoorwaarde:** service-role keys blijven server-only; financiele analyses mogen niet als beleggingsadvies voor derden worden gepresenteerd.
+- **Bestaande systemen:** Next.js / Supabase / Vercel app (demo-skelet, wordt omgebouwd volgens `Docs/backlog.md`).
+- **Tech stack:** Next.js App Router, Supabase Auth/Postgres/RLS, Tailwind, TypeScript, Playwright, Vercel.
+- **AI-aanpak:** OpenAI - goedkoop filtermodel + sterk analysemodel, structured outputs, alles gelogd met kosten (besluit 2026-06-12).
+- **Databronnen:** Finnhub, SEC EDGAR, RSS (GlobeNewswire/EQS/Euronext), GDELT of Marketaux, Alpha Vantage movers, delayed quotes US+EU. Budget EUR 150/maand totaal.
+- **Belangrijke randvoorwaarden:** alle keys server-only; RLS verplicht; adviezen zijn uitsluitend voor Robin en worden nooit gedeeld of gepubliceerd; de app voert nooit zelf trades uit.
 
 ## Bronnen
-- `ProjectOmschrijving.txt` - volledige ruwe projectomschrijving door Robin.
-- Gesprek met Robin op 2026-05-31 - bevestiging van projectrichting en volgende stap.
+- `ProjectOmschrijving.txt` - oorspronkelijke ruwe projectomschrijving (deels achterhaald, gemarkeerd).
+- Interview 2026-05-31 - eerste projectrichting.
+- Interview 2026-06-12 - herijking naar adviesmachine; kernbesluiten in `Docs/Specs/voorstel-specs.md`.
+- `Docs/analyse-bouwgereedheid.md` - onderbouwing van de koerswijziging.
