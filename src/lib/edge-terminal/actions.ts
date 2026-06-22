@@ -3,26 +3,28 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Json } from "@/lib/database.types";
-import { hasSupabaseEnv } from "@/lib/env";
+import { getEdgeRuntimeMode, hasSupabaseEnv } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
-import {
-  createAiLog,
-  createMockEventAnalysis,
-  createMockRiskReview,
-  createMockSetup,
-} from "./ai";
+import { createAiLog } from "./ai";
 import { buildMockDiscoveryResult, createScanContextHints } from "./discovery";
-import { demoEvents, demoSetups } from "./demo-data";
+import { startRun } from "./pipeline";
+import { fetchFinnhubLastPrices } from "./pipeline/adapters/finnhub";
+import {
+  createDeterministicTrackingQuotes,
+  updateAdviceTrackingWithPrices,
+  type TrackingQuote,
+} from "./pipeline/steps/tracking";
+import { createLocalId, getLocalTerminalData, updateLocalTerminalData } from "./store/local";
 import type {
   AIAnalysisLog,
   AssetType,
   CandidateStatus,
-  CloseReason,
   EventType,
   ImpactDirection,
   ImpactLevel,
+  MarketEvent,
   ScanHintMode,
-  SetupDirection,
+  TerminalData,
 } from "./types";
 
 function asString(formData: FormData, key: string, fallback = "") {
@@ -80,15 +82,125 @@ function toAiLogRow(userId: string, log: Omit<AIAnalysisLog, "id" | "createdAt">
     provider: log.provider,
     model: log.model,
     prompt_version: log.promptVersion,
-    input_payload: {},
-    output_payload: { summary: log.summary },
+    input_payload: asJson(log.inputPayload ?? {}),
+    output_payload: asJson(log.outputPayload ?? { summary: log.summary }),
     status: log.status,
     usefulness_rating: log.usefulnessRating,
     summary: log.summary,
-    error_message: null,
+    error_message: log.errorMessage ?? null,
     source_payload_refs: log.sourcePayloadRefs,
     score_inputs: asJson(log.scoreInputs),
+    input_tokens: typeof log.costSummary?.inputTokens === "number" ? log.costSummary.inputTokens : null,
+    output_tokens: typeof log.costSummary?.outputTokens === "number" ? log.costSummary.outputTokens : null,
+    cost_eur: typeof log.costSummary?.costEur === "number" ? log.costSummary.costEur : null,
   };
+}
+
+function isLocalRuntime() {
+  return getEdgeRuntimeMode() === "local";
+}
+
+function localAiLog(log: Omit<AIAnalysisLog, "id" | "createdAt">): AIAnalysisLog {
+  return {
+    id: createLocalId("log"),
+    createdAt: new Date().toISOString(),
+    ...log,
+  };
+}
+
+function safeNextPath(value: string) {
+  if (value === "/dashboard" || value === "/tracking" || value === "/performance" || value.startsWith("/advices/")) {
+    return value;
+  }
+
+  return "/tracking";
+}
+
+async function getLocalTrackingQuotes(data: TerminalData, now: string) {
+  const activeAdvices = data.advices.filter((advice) => advice.status === "active");
+  const tickers = Array.from(new Set(activeAdvices.map((advice) => advice.ticker)));
+  let provider = "deterministic_local";
+  let providerError: string | null = null;
+  let liveQuotes: TrackingQuote[] = [];
+
+  if (tickers.length > 0) {
+    try {
+      liveQuotes = (await fetchFinnhubLastPrices(tickers)).map((quote) => ({
+        ticker: quote.ticker,
+        price: quote.price,
+        checkedAt: quote.checkedAt,
+      }));
+      if (liveQuotes.length > 0) {
+        provider = liveQuotes.length === tickers.length ? "finnhub" : "finnhub+fallback";
+      }
+    } catch (error) {
+      providerError = error instanceof Error ? error.message : "Finnhub tracking quote refresh failed";
+    }
+  }
+
+  const fallbackQuotes = createDeterministicTrackingQuotes({
+    advices: activeAdvices,
+    tracking: data.adviceTracking,
+    now,
+  });
+  const quoteByTicker = new Map<string, TrackingQuote>();
+
+  for (const quote of fallbackQuotes) {
+    quoteByTicker.set(quote.ticker.toUpperCase(), quote);
+  }
+
+  for (const quote of liveQuotes) {
+    quoteByTicker.set(quote.ticker.toUpperCase(), quote);
+  }
+
+  return {
+    quotes: Array.from(quoteByTicker.values()),
+    provider,
+    providerError,
+  };
+}
+
+function createLocalEventFromCandidate(
+  data: TerminalData,
+  candidateId: string,
+  status: CandidateStatus,
+): string | null {
+  const candidate = data.eventCandidates.find((item) => item.id === candidateId);
+
+  if (!candidate) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+  const sourceText =
+    candidate.sourceIds
+      .map((sourceId) => data.eventSources.find((source) => source.id === sourceId)?.sourceUrl)
+      .find((sourceUrl): sourceUrl is string => Boolean(sourceUrl)) ??
+    candidate.rawPayloadRefs[0] ??
+    "Discovery candidate";
+  const linkedAssets = data.assets.filter((asset) => candidate.affectedSymbols.includes(asset.ticker));
+  const eventId = createLocalId("event");
+  const event: MarketEvent = {
+    id: eventId,
+    title: candidate.title,
+    summary: candidate.summary,
+    source: sourceText,
+    occurredAt: now,
+    eventType: candidate.eventTypeGuess,
+    impactDirection: candidate.impactDirectionGuess,
+    impactLevel: candidate.impactLevelGuess,
+    analysisStatus: status === "analyzed" ? "needs_review" : "pending",
+    priceMovePercent: null,
+    linkedAssetIds: linkedAssets.map((asset) => asset.id),
+    linkedTickers: candidate.affectedSymbols,
+  };
+
+  data.events = [event, ...data.events];
+  candidate.candidateStatus = status;
+  candidate.acceptedMarketEventId = eventId;
+  candidate.updatedAt = now;
+
+  return eventId;
 }
 
 async function createMarketEventFromCandidate(
@@ -170,6 +282,92 @@ async function createMarketEventFromCandidate(
 export async function startDailyScan(formData: FormData) {
   const contextHints = createScanContextHints(asString(formData, "scan_hint"), asScanHintMode(formData));
   const discovery = buildMockDiscoveryResult(contextHints);
+
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const now = new Date().toISOString();
+      const runId = createLocalId("run");
+      const run = {
+        id: runId,
+        status: "completed" as const,
+        trigger: "manual" as const,
+        provider: "mock" as const,
+        runProfile: "mock" as const,
+        contextHints,
+        startedAt: now,
+        completedAt: now,
+        sourceCount: discovery.sources.length,
+        candidateCount: discovery.candidates.length,
+        topCandidateCount: discovery.candidates.length,
+        costSummary: {
+          mode: "local_mock",
+          totalCostEur: 0,
+          note: "Mock pipeline run persisted locally.",
+        },
+        errorMessage: null,
+      };
+      const sourceIdByRef = new Map<string, string>();
+      const sources = discovery.sources.map((source) => {
+        const sourceId = createLocalId("source");
+
+        if (source.rawPayloadRef) {
+          sourceIdByRef.set(source.rawPayloadRef, sourceId);
+        }
+
+        return {
+          ...source,
+          id: sourceId,
+          discoveryRunId: runId,
+          fetchedAt: now,
+        };
+      });
+      const candidates = discovery.candidates.map((candidate) => ({
+        ...candidate,
+        id: createLocalId("candidate"),
+        discoveryRunId: runId,
+        sourceIds: candidate.rawPayloadRefs
+          .map((ref) => sourceIdByRef.get(ref))
+          .filter((sourceId): sourceId is string => Boolean(sourceId)),
+        candidateStatus: "new" as const,
+        acceptedMarketEventId: null,
+        canonicalCandidateId: null,
+        createdAt: now,
+        updatedAt: now,
+      }));
+
+      data.discoveryRuns = [run, ...data.discoveryRuns].slice(0, 10);
+      data.eventSources = [...sources, ...data.eventSources].slice(0, 200);
+      data.eventCandidates = [...candidates, ...data.eventCandidates].slice(0, 100);
+      data.latestDiscoveryRun = run;
+      data.aiLogs = [
+        localAiLog({
+          ...createAiLog("candidate_ranking", `Ranked ${candidates.length} candidate events from ${sources.length} sources.`),
+          sourcePayloadRefs: sources
+            .map((source) => source.rawPayloadRef)
+            .filter((ref): ref is string => Boolean(ref)),
+          scoreInputs: {
+            contextHints,
+            sourceCount: sources.length,
+            candidateCount: candidates.length,
+          },
+        }),
+        ...data.aiLogs,
+      ];
+      data.dailyBriefing = {
+        ...data.dailyBriefing,
+        briefingDate: now.slice(0, 10),
+        title: "Local run briefing",
+        marketSummary: `Local mock run completed with ${candidates.length} ranked candidates from ${sources.length} sources.`,
+        keyEvents: candidates.slice(0, 3).map((candidate) => candidate.title),
+        possibleSetups: candidates.slice(0, 2).map((candidate) => candidate.reasonToWatch),
+        conclusion: candidates.length > 0 ? "Review the top candidates and only act when the setup is clean." : "No advice today.",
+      };
+    });
+
+    refresh(["/dashboard", "/events", "/briefing", "/ai-log"]);
+    redirect("/dashboard?notice=Local%20run%20complete%3A%20candidates%20stored");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -289,7 +487,170 @@ export async function startDailyScan(formData: FormData) {
   redirect("/dashboard?notice=Daily%20scan%20complete%3A%20top%2010%20ready");
 }
 
+export async function startAdviceRun(formData: FormData) {
+  const requestedProfile = asString(formData, "run_profile", "eu_open");
+  const runProfile = requestedProfile === "us_open" ? "us_open" : "eu_open";
+
+  if (isLocalRuntime()) {
+    const result = await startRun(runProfile, "manual");
+    refresh(["/dashboard", "/events", "/briefing", "/ai-log", "/performance"]);
+    redirect(
+      `/dashboard?notice=${encodeURIComponent(
+        `${runProfile} advice run complete: ${result.adviceCount} advice(s), top ${result.topAdviceTickers.join(", ") || "none"}`,
+      )}`,
+    );
+  }
+
+  const auth = await getAuthenticatedSupabase();
+
+  if (!auth) {
+    redirect("/dashboard?notice=Demo%20mode%3A%20mock%20advice%20run%20preview");
+  }
+
+  redirect("/dashboard?notice=Supabase%20advice%20pipeline%20komt%20na%20de%20lokale%20MVP");
+}
+
+export async function markAdviceTaken(formData: FormData) {
+  const adviceId = asString(formData, "advice_id");
+  const entryPrice = asNumber(formData, "entry_price", Number.NaN);
+
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const now = new Date().toISOString();
+      const advice = data.advices.find((item) => item.id === adviceId);
+
+      if (!advice) {
+        return;
+      }
+
+      advice.takenByUser = true;
+      advice.userEntryPrice = Number.isFinite(entryPrice) ? entryPrice : advice.userEntryPrice ?? advice.entryZoneLow;
+      advice.updatedAt = now;
+
+      const tracking = data.adviceTracking.find((item) => item.adviceId === advice.id);
+      if (tracking && Number.isFinite(entryPrice)) {
+        tracking.referenceEntry = entryPrice;
+        tracking.updatedAt = now;
+      }
+    });
+    refresh(["/dashboard", "/tracking", "/performance"]);
+    redirect("/dashboard?notice=Advice%20marked%20as%20taken");
+  }
+
+  redirect("/dashboard?notice=Taking%20advices%20is%20available%20in%20local%20mode%20for%20the%20MVP");
+}
+
+export async function rejectAdvice(formData: FormData) {
+  const adviceId = asString(formData, "advice_id");
+  const rejectedReason = asString(formData, "rejected_reason", "Rejected by user");
+
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const now = new Date().toISOString();
+      const advice = data.advices.find((item) => item.id === adviceId);
+
+      if (!advice) {
+        return;
+      }
+
+      advice.status = "rejected_by_user";
+      advice.takenByUser = false;
+      advice.rejectedReason = rejectedReason;
+      advice.updatedAt = now;
+    });
+    refresh(["/dashboard", "/tracking", "/performance"]);
+    redirect("/dashboard?notice=Advice%20rejected");
+  }
+
+  redirect("/dashboard?notice=Rejecting%20advices%20is%20available%20in%20local%20mode%20for%20the%20MVP");
+}
+
+export async function refreshAdviceTracking(formData: FormData) {
+  const nextPath = safeNextPath(asString(formData, "next", "/tracking"));
+
+  if (isLocalRuntime()) {
+    const now = new Date().toISOString();
+    const snapshot = getLocalTerminalData();
+    const { quotes, provider, providerError } = await getLocalTrackingQuotes(snapshot, now);
+    let updatedCount = 0;
+    let closedCount = 0;
+    let missingTickers: string[] = [];
+
+    updateLocalTerminalData((data) => {
+      const result = updateAdviceTrackingWithPrices({
+        advices: data.advices,
+        tracking: data.adviceTracking,
+        quotes,
+        now,
+        createId: createLocalId,
+      });
+
+      updatedCount = result.updatedCount;
+      closedCount = result.closedCount;
+      missingTickers = result.missingTickers;
+      data.advices = result.advices;
+      data.adviceTracking = result.tracking;
+      data.aiLogs = [
+        localAiLog({
+          ...createAiLog("pipeline_step", `Refreshed advice tracking with ${provider}.`),
+          promptVersion: "pipeline-update_tracking-v1",
+          outputPayload: {
+            provider,
+            updatedCount,
+            closedCount,
+            missingTickers,
+            providerError,
+          },
+          scoreInputs: {
+            provider,
+            quoteCount: quotes.length,
+          },
+        }),
+        ...data.aiLogs,
+      ];
+    });
+
+    refresh(["/dashboard", "/tracking", "/performance", "/ai-log"]);
+    redirect(
+      `${nextPath}?notice=${encodeURIComponent(
+        `Tracking refreshed: ${updatedCount} updated, ${closedCount} closed via ${provider}${
+          missingTickers.length ? `; missing ${missingTickers.join(", ")}` : ""
+        }`,
+      )}`,
+    );
+  }
+
+  redirect(`${nextPath}?notice=Tracking%20refresh%20is%20available%20in%20local%20mode%20for%20the%20MVP`);
+}
+
 export async function createAsset(formData: FormData) {
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const now = new Date().toISOString();
+      data.assets = [
+        {
+          id: createLocalId("asset"),
+          ticker: asString(formData, "ticker").toUpperCase(),
+          name: asString(formData, "name"),
+          assetType: asString(formData, "asset_type", "us_equity") as AssetType,
+          sector: asString(formData, "sector"),
+          exchange: asString(formData, "exchange"),
+          currency: asString(formData, "currency", "USD").toUpperCase(),
+          country: asString(formData, "country"),
+          priority: asNumber(formData, "priority", 5),
+          notes: asString(formData, "notes") || null,
+          status: "active" as const,
+          lastMovePercent: null,
+          updatedAt: now,
+        },
+        ...data.assets,
+      ].sort((a, b) => a.priority - b.priority || a.ticker.localeCompare(b.ticker));
+    });
+
+    refresh(["/watchlist", "/dashboard"]);
+    redirect("/watchlist?notice=Asset%20stored%20locally");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -316,6 +677,35 @@ export async function createAsset(formData: FormData) {
 }
 
 export async function createMarketEvent(formData: FormData) {
+  if (isLocalRuntime()) {
+    let eventId = "";
+    updateLocalTerminalData((data) => {
+      eventId = createLocalId("event");
+      const assetId = asString(formData, "asset_id");
+      const asset = data.assets.find((item) => item.id === assetId);
+      data.events = [
+        {
+          id: eventId,
+          title: asString(formData, "title"),
+          summary: asString(formData, "summary"),
+          source: asString(formData, "source") || null,
+          occurredAt: asString(formData, "occurred_at", new Date().toISOString()),
+          eventType: asString(formData, "event_type", "other") as EventType,
+          impactDirection: asString(formData, "impact_direction", "mixed") as ImpactDirection,
+          impactLevel: asString(formData, "impact_level", "medium") as ImpactLevel,
+          priceMovePercent: asNumber(formData, "price_move_percent", 0),
+          analysisStatus: "pending",
+          linkedAssetIds: assetId ? [assetId] : [],
+          linkedTickers: asset ? [asset.ticker] : [],
+        },
+        ...data.events,
+      ];
+    });
+
+    refresh(["/events", "/dashboard"]);
+    redirect(eventId ? `/events/${eventId}?notice=Event%20stored%20locally` : "/events");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -356,6 +746,17 @@ export async function createMarketEvent(formData: FormData) {
 
 export async function acceptCandidate(formData: FormData) {
   const candidateId = asString(formData, "candidate_id");
+
+  if (isLocalRuntime()) {
+    let eventId: string | null = null;
+    updateLocalTerminalData((data) => {
+      eventId = createLocalEventFromCandidate(data, candidateId, "accepted");
+    });
+
+    refresh(["/events", "/dashboard", eventId ? `/events/${eventId}` : "/events"]);
+    redirect(eventId ? `/events/${eventId}?notice=Candidate%20accepted%20locally` : "/events?notice=Candidate%20not%20found");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -383,6 +784,22 @@ export async function acceptCandidate(formData: FormData) {
 export async function ignoreCandidate(formData: FormData) {
   const candidateId = asString(formData, "candidate_id");
   const ignoreReason = asString(formData, "ignore_reason", "Not enough edge or source proof");
+
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const candidate = data.eventCandidates.find((item) => item.id === candidateId);
+
+      if (candidate) {
+        candidate.candidateStatus = "ignored";
+        candidate.ignoreReason = ignoreReason;
+        candidate.updatedAt = new Date().toISOString();
+      }
+    });
+
+    refresh(["/events", "/dashboard"]);
+    redirect("/events?notice=Candidate%20ignored%20locally");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -407,6 +824,23 @@ export async function mergeCandidate(formData: FormData) {
   const candidateId = asString(formData, "candidate_id");
   const mergeHint = asString(formData, "merge_hint", "Merged with canonical candidate or repeated headline cluster");
   const canonicalCandidateId = asString(formData, "canonical_candidate_id") || null;
+
+  if (isLocalRuntime()) {
+    updateLocalTerminalData((data) => {
+      const candidate = data.eventCandidates.find((item) => item.id === candidateId);
+
+      if (candidate) {
+        candidate.candidateStatus = "merged";
+        candidate.mergeHint = mergeHint;
+        candidate.canonicalCandidateId = canonicalCandidateId;
+        candidate.updatedAt = new Date().toISOString();
+      }
+    });
+
+    refresh(["/events", "/dashboard"]);
+    redirect("/events?notice=Candidate%20merged%20locally");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -430,6 +864,29 @@ export async function mergeCandidate(formData: FormData) {
 
 export async function analyzeCandidate(formData: FormData) {
   const candidateId = asString(formData, "candidate_id");
+
+  if (isLocalRuntime()) {
+    let eventId: string | null = null;
+    updateLocalTerminalData((data) => {
+      eventId = createLocalEventFromCandidate(data, candidateId, "analyzed");
+      const candidate = data.eventCandidates.find((item) => item.id === candidateId);
+
+      if (candidate) {
+        data.aiLogs = [
+          localAiLog({
+            ...createAiLog("event_analysis", `Prepared candidate analysis input for ${candidate.title}.`),
+            sourcePayloadRefs: candidate.rawPayloadRefs,
+            scoreInputs: candidate.scoreBreakdown,
+          }),
+          ...data.aiLogs,
+        ];
+      }
+    });
+
+    refresh(["/events", "/dashboard", "/ai-log", eventId ? `/events/${eventId}` : "/events"]);
+    redirect(eventId ? `/events/${eventId}?notice=Candidate%20ready%20locally` : "/events?notice=Candidate%20not%20found");
+  }
+
   const auth = await getAuthenticatedSupabase();
 
   if (!auth) {
@@ -461,200 +918,4 @@ export async function analyzeCandidate(formData: FormData) {
 
   refresh(["/events", "/dashboard", "/ai-log", eventId ? `/events/${eventId}` : "/events"]);
   redirect(eventId ? `/events/${eventId}?notice=Candidate%20ready%20for%20analysis` : "/events?notice=Candidate%20analyzed");
-}
-
-export async function generateEventAnalysis(formData: FormData) {
-  const eventId = asString(formData, "event_id");
-  const auth = await getAuthenticatedSupabase();
-
-  if (!auth) {
-    redirect(`/events/${eventId || "event-race-launch"}?notice=Demo%20mode%3A%20mock%20analysis`);
-  }
-
-  const { supabase, user } = auth;
-  const { data: eventRow } = await supabase
-    .from("market_events")
-    .select("*")
-    .eq("id", eventId)
-    .single();
-
-  if (!eventRow) {
-    redirect("/events?notice=Event%20niet%20gevonden");
-  }
-
-  const mockEvent = demoEvents.find((event) => event.id === eventId) ?? {
-    id: String(eventRow.id),
-    title: String(eventRow.title),
-    summary: String(eventRow.summary ?? ""),
-    source: eventRow.source ? String(eventRow.source) : null,
-    occurredAt: String(eventRow.occurred_at),
-    eventType: eventRow.event_type as EventType,
-    impactDirection: eventRow.impact_direction as ImpactDirection,
-    impactLevel: eventRow.impact_level as ImpactLevel,
-    analysisStatus: "pending" as const,
-    priceMovePercent:
-      eventRow.price_move_percent === null ? null : Number(eventRow.price_move_percent ?? 0),
-    linkedAssetIds: [],
-    linkedTickers: [],
-  };
-  const analysis = createMockEventAnalysis(mockEvent);
-
-  await supabase.from("event_analyses").insert({
-    user_id: user.id,
-    event_id: eventId,
-    sentiment: analysis.sentiment,
-    impact_level: analysis.impactLevel,
-    time_horizon: analysis.timeHorizon,
-    confidence_score: analysis.confidenceScore,
-    summary: analysis.summary,
-    bull_case: analysis.bullCase,
-    bear_case: analysis.bearCase,
-    key_risks: analysis.keyRisks,
-    fundamental_impact: analysis.fundamentalImpact,
-    sentiment_impact: analysis.sentimentImpact,
-    price_impact: analysis.priceImpact,
-    reversal_chance: analysis.reversalChance,
-    follow_through_risk: analysis.followThroughRisk,
-  });
-  await supabase
-    .from("market_events")
-    .update({ analysis_status: "analyzed" })
-    .eq("id", eventId)
-    .eq("user_id", user.id);
-  await supabase
-    .from("ai_analysis_logs")
-    .insert(toAiLogRow(user.id, createAiLog("event_analysis", `Generated mock event analysis for ${mockEvent.title}.`)));
-
-  refresh([`/events/${eventId}`, "/events", "/dashboard", "/ai-log"]);
-  redirect(`/events/${eventId}?notice=Analysis%20generated`);
-}
-
-export async function generateSetup(formData: FormData) {
-  const eventId = asString(formData, "event_id");
-  const assetId = asString(formData, "asset_id");
-  const assetTicker = asString(formData, "asset_ticker", "ASSET").toUpperCase();
-  const auth = await getAuthenticatedSupabase();
-
-  if (!auth) {
-    redirect("/setups?notice=Demo%20mode%3A%20mock%20setup");
-  }
-
-  const { supabase, user } = auth;
-  const event = demoEvents.find((item) => item.id === eventId) ?? demoEvents[0];
-  const setup = createMockSetup(event, assetId, assetTicker);
-
-  await supabase.from("trade_setups").insert({
-    user_id: user.id,
-    event_id: setup.eventId,
-    asset_id: setup.assetId,
-    asset_ticker: setup.assetTicker,
-    title: setup.title,
-    direction: setup.direction,
-    strategy: setup.strategy,
-    entry_logic: setup.entryLogic,
-    stop_loss: setup.stopLoss,
-    target: setup.target,
-    time_horizon: setup.timeHorizon,
-    confidence_score: setup.confidenceScore,
-    rationale: setup.rationale,
-    invalidation: setup.invalidation,
-    assumptions: setup.assumptions,
-    status: setup.status,
-  });
-  await supabase
-    .from("ai_analysis_logs")
-    .insert(toAiLogRow(user.id, createAiLog("setup_generation", `Generated setup hypothesis for ${assetTicker}.`)));
-
-  refresh(["/setups", "/signals", `/events/${eventId}`, "/dashboard", "/ai-log"]);
-  redirect("/setups?notice=Setup%20generated");
-}
-
-export async function generateRiskReview(formData: FormData) {
-  const setupId = asString(formData, "setup_id");
-  const auth = await getAuthenticatedSupabase();
-
-  if (!auth) {
-    redirect("/setups?notice=Demo%20mode%3A%20mock%20risk%20review");
-  }
-
-  const { supabase, user } = auth;
-  const setup = demoSetups.find((item) => item.id === setupId) ?? demoSetups[0];
-  const risk = createMockRiskReview(setup);
-
-  await supabase.from("risk_reviews").insert({
-    user_id: user.id,
-    setup_id: setupId,
-    key_risks: risk.keyRisks,
-    counterargument: risk.counterargument,
-    reason_to_skip: risk.reasonToSkip,
-    risk_score: risk.riskScore,
-    final_verdict: risk.finalVerdict,
-  });
-  await supabase
-    .from("ai_analysis_logs")
-    .insert(toAiLogRow(user.id, createAiLog("risk_review", `Generated risk review for ${setup.title}.`)));
-
-  refresh(["/setups", "/risk", "/signals", "/dashboard", "/ai-log"]);
-  redirect("/setups?notice=Risk%20review%20generated");
-}
-
-export async function createPaperTrade(formData: FormData) {
-  const auth = await getAuthenticatedSupabase();
-
-  if (!auth) {
-    redirect("/paper-trades?notice=Demo%20mode%3A%20paper%20trade%20niet%20opgeslagen");
-  }
-
-  const { supabase, user } = auth;
-  await supabase.from("paper_trades").insert({
-    user_id: user.id,
-    setup_id: asString(formData, "setup_id"),
-    asset_id: asString(formData, "asset_id"),
-    asset_ticker: asString(formData, "asset_ticker").toUpperCase(),
-    direction: asString(formData, "direction", "long") as SetupDirection,
-    entry_price: asNumber(formData, "entry_price"),
-    stop_loss: asNumber(formData, "stop_loss") || null,
-    target_price: asNumber(formData, "target_price") || null,
-    opened_at: new Date().toISOString(),
-    status: "open",
-    notes: asString(formData, "notes") || null,
-  });
-
-  refresh(["/paper-trades", "/performance", "/dashboard"]);
-  redirect("/paper-trades?notice=Paper%20trade%20created");
-}
-
-export async function closePaperTrade(formData: FormData) {
-  const auth = await getAuthenticatedSupabase();
-  const tradeId = asString(formData, "trade_id");
-
-  if (!auth) {
-    redirect("/paper-trades?notice=Demo%20mode%3A%20resultaat%20niet%20opgeslagen");
-  }
-
-  const { supabase, user } = auth;
-  const resultPercent = asNumber(formData, "result_percent");
-  await supabase
-    .from("paper_trades")
-    .update({
-      status: "closed",
-      closed_at: new Date().toISOString(),
-      exit_price: asNumber(formData, "exit_price"),
-      result_percent: resultPercent,
-      close_reason: asString(formData, "close_reason", "manual_close") as CloseReason,
-      hypothesis_review: asString(formData, "hypothesis_review"),
-    })
-    .eq("id", tradeId)
-    .eq("user_id", user.id);
-
-  await supabase.from("trade_evaluations").insert({
-    user_id: user.id,
-    paper_trade_id: tradeId,
-    result_percent: resultPercent,
-    close_reason: asString(formData, "close_reason", "manual_close") as CloseReason,
-    hypothesis_review: asString(formData, "hypothesis_review"),
-  });
-
-  refresh(["/paper-trades", "/performance", "/dashboard"]);
-  redirect("/performance?notice=Paper%20trade%20closed");
 }

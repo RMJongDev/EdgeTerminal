@@ -13,6 +13,41 @@
 
 ---
 
+## 2026-06-13 - Live bronnen lokaal hersteld
+- Wat: `.env.local` aangevuld met de ontbrekende Finnhub/Alpha Vantage provider-vars onder de namen die de code leest; waarden blijven gitignored.
+- Wat: Oude local mock-scan knop uit Dashboard/Event Radar gehaald zodat live testen via EU/US advice runs loopt.
+- Wat: Live `eu_open` sanity-run haalde 73 sources op; checks opnieuw groen.
+- Volgende stap: Providerwaarschuwingen oplossen voor Finnhub earnings/quotes en GDELT throttling tijdens validatie.
+
+## 2026-06-13 - Adviesmachine MVP lokaal bouwklaar
+- Wat: OpenAI analyse/setup/risk/briefing-keten, adviesassembly, tracking-refresh, Performance Lab en risk guardrails gebouwd op lokale SQLite/demo-data.
+- Wat: Dashboard, Advice Detail, Tracking, Process en legacy redirects omgezet naar de autonome adviesflow; oude handmatige setup/risk-actions verwijderd.
+- Wat: Unit- en e2e-dekking uitgebreid voor pipeline, tracking, risk guardrails en de nieuwe smoke flow; build/checks groen.
+- Volgende stap: 4 weken lokale validatie starten; S-31 quote-providerkeuze blijft open omdat Finnhub `/quote` met de huidige key 403 geeft.
+
+## 2026-06-13 - Lokale pipeline, bronlagen en OpenAI-filter gebouwd
+- Wat: Runtime modes `demo/local/supabase`, local shell/loginstatus en SQLite-backed store met schema, seed/reset, start-watchlist en lokale actions gebouwd.
+- Wat: `startRun("eu_open"|"us_open", "manual")` toegevoegd met mock-adapters, mover sweep, adviesassembly, tracking, step/audit logging, Ferrari golden test en dedupe/scoring-clustering.
+- Wat: Finnhub, SEC EDGAR, RSS/official, GDELT, Alpha Vantage movers en Nasdaq halts aangesloten met fixtures, live checks, dashboard-context en non-fatale providerfouten.
+- Wat: OpenAI structured-output client en `advice-filter-v1` aangesloten; compacte Finnhub+OpenAI run gaf 43 candidates, 0 zonder bronreferentie en EUR 0.005222 filterkosten.
+- Volgende stap: S-34 bouwen: analyse-, setup- en risk-stappen via OpenAI sterk model, met `none`/`skip` als geldige stops.
+
+## 2026-06-13 - Gratis bronkeys toegevoegd
+- Wat: Finnhub- en Alpha Vantage-keys lokaal toegevoegd aan `.env.local`; waarden blijven buiten git.
+- Wat: Backlog bijgewerkt: S-26/S-30 input is geleverd, Marketaux blijft optioneel/later.
+- Volgende stap: starten met S-21 local runtime en daarna S-22 SQLite-store.
+
+## 2026-06-13 - Lokale keys en startconfig vastgelegd
+- Wat: `.env.local` lokaal gevuld met local mode, OpenAI-key, modelkeuze en EDGAR User-Agent; `.env.example` houdt dezelfde niet-geheime modeldefaults aan.
+- Wat: Trading-kapitaal op EUR 2500 gezet, eToro als MVP-startaanname vastgelegd met IBKR-achtig alternatief als advies, en start-watchlist v1 toegevoegd.
+- Wat: Providerkey-links voor Finnhub, Alpha Vantage en optioneel Marketaux toegevoegd aan dependencies.
+- Waarom: De lokale MVP kan nu zonder Supabase/Vercel starten en later gecontroleerd echte bronnen aansluiten.
+
+## 2026-06-13 - Local-first MVP vereenvoudigd
+- Wat: Specs, backlog, README, env-template en dependencies omgezet naar lokaal bouwen met `EDGE_RUNTIME_MODE=local` en SQLite in `.data/edge-terminal.sqlite`.
+- Wat: Supabase/Vercel/cron verplaatst naar een latere deployfase na lokale validatie; EPIC-11 start nu met runtime, SQLite-store en store-interface.
+- Waarom: Docker/WSL/Supabase-cloud blokkeren de MVP-start; lokaal moet eerst zonder infrastructuurkosten werkend en testbaar zijn.
+
 ## 2026-06-12 - Gratis nieuwsbronnen aangescherpt
 - Wat: `news-sources.md` uitgebreid met gratis-first bronnen: exchange halts, company IR registry, Business Wire/PR Newswire, BLS/Eurostat en FDA/EMA sectorfeeds.
 - Wat: Backlog S-28/S-30 en specs bijgewerkt zodat deze bronnen als gratis official-source/triggerlaag worden gebouwd zonder extra API-key verplichting.
@@ -22,7 +57,7 @@
 - Wat: Playwright-baseline hersteld met webpack-devserver; `pnpm test:e2e` is weer groen.
 - Wat: Unit-test runner toegevoegd via Node 24 en pipeline-contracttests toegevoegd voor step order, legacy-normalisatie, payload refs, kosten en structured-output schemas.
 - Wat: Adviesmachine-preflightmigratie toegevoegd voor `advices`, `advice_tracking`, `pipeline_step_runs`, `source_payload_snapshots`, runprofielen/kosten en ticker-only adviezen buiten de watchlist; specs/backlog hierop bijgewerkt.
-- Volgende stap: S-21/S-23 kan starten met live Supabase en migratievalidatie.
+- Volgende stap: vervangen door de local-first koers van 2026-06-13; start met SQLite-runtime en store-interface.
 
 ## 2026-06-12 - Herijking naar adviesmachine doorgevoerd
 - Wat: Doel-interview + `Docs/analyse-bouwgereedheid.md`: Edge Terminal wordt een adviesmachine met autonome pipeline (top 5 expliciete adviezen, 2 runs/dag, automatische tracking, EUR 150/mnd).
@@ -32,7 +67,7 @@
 - Wat: `Docs/Specs/risk-framework.md` toegevoegd (edge-these, kostenhorde, positiegrootte, correlatieregel, circuit breaker, opschaal-gates, kalibratie-context) en doorvertaald naar specs, ontwerpen, backlog en visualisatie.
 - Wat: Besluiten vastgelegd (OpenAI, Engelse UI, keys op verzoek); AGENTS.md, README, `.env.example` en `dependencies.md` op Edge Terminal gezet; volledig bouwbacklog (EPIC-11 t/m 17, S-21 t/m S-48) geschreven voor uitvoering door een bouw-AI.
 - Wat: Mockups vernieuwd naar de adviesmachine (9 klikbare schermen incl. Advice Detail, Tracking en risk-status); oude triage-first mockup gearchiveerd in `Docs/Archive/`.
-- Volgende stap: Bouw-AI start met S-21; Robin levert Supabase-keys aan en vult het trading-kapitaal in `risk-framework.md` in.
+- Volgende stap: vervangen door de local-first koers van 2026-06-13; Robin levert pas keys wanneer de betreffende adapter/LLM-story start.
 
 ## 2026-06-03 - Discovery MVP completion audit
 - Wat: Top-10 ranking aangescherpt zodat dedupe clusters maar een keer meetellen en merged/ignored candidates uit de actieve dashboardranking vallen.
@@ -139,12 +174,12 @@
 - Wat: Node/pnpm-versies gecontroleerd, typecheck gedraaid en de dev server lokaal gestart.
 - Wat: Poort `3000` bleek bezet door een ander project; Edge Terminal draait gecontroleerd op `http://127.0.0.1:3001`.
 - Wat: Cockpitpagina's doorgenomen voor een korte review-kijkwijzer.
-- Volgende stap: Supabase `.env.local` vullen zodra login en live data getest moeten worden.
+- Volgende stap: vervangen door de local-first koers van 2026-06-13; lokale SQLite-runtime eerst testbaar maken.
 
 ## 2026-05-31 - 11-punten MVP-basis afgerond
 - Wat: Styleguide, functioneel ontwerp, technisch ontwerp, backlog, Supabase schema, app-shell, CRUD-routes, AI-placeholders, paper trading, performance en e2e tests uitgewerkt.
 - Wat: Demo/live datalaag toegevoegd zodat de app zonder Supabase-project werkt en later met Supabase Auth/Postgres kan draaien.
-- Volgende stap: Supabase/Vercel projecten aanmaken en daarna echte provider keys + market-data provider kiezen.
+- Volgende stap: vervangen door de local-first koers van 2026-06-13; geen Supabase/Vercel-projecten nodig voor het MVP.
 
 ## 2026-05-31 - Volledige vervolgstappen uitgezet
 - Wat: Route vanaf voorstel-specs naar styleguide, functioneel ontwerp, technisch ontwerp, backlog en bouwstart bepaald.

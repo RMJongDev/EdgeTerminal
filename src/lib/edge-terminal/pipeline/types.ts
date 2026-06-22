@@ -14,6 +14,7 @@ export type PipelineStepName =
   | "check_executability"
   | "assemble_advices"
   | "update_tracking"
+  | "generate_briefing"
   | "complete_run";
 
 export type PipelineStepStatus = "pending" | "running" | "completed" | "failed" | "skipped";
@@ -28,6 +29,7 @@ export type SourceCategory =
 
 export type SourceItem = {
   providerItemId: string;
+  sourceCategory?: SourceCategory;
   sourceName: string;
   sourceUrl: string;
   publishedAt: string;
@@ -57,6 +59,23 @@ export type SourceAdapter = {
   provider: string;
   category: SourceCategory;
   fetchItems(window: RunWindow): Promise<SourceItem[]>;
+};
+
+export type NumericTradePlan = {
+  entryZoneLow: number;
+  entryZoneHigh: number;
+  stopLoss: number;
+  target: number;
+  horizonDays: number;
+};
+
+export type ExecutabilityCheck = {
+  isExecutable: boolean;
+  expectedMovePct: number;
+  costEstimatePct: number;
+  costHurdleRatio: number;
+  sizeSuggestionEur: number;
+  note: string;
 };
 
 export type PipelineSetupDirection = "long" | "short" | "none";
@@ -101,4 +120,17 @@ export type JsonSchema = {
   readonly maximum?: number;
   readonly minItems?: number;
   readonly maxItems?: number;
+};
+
+export type PipelineRunResult = {
+  runId: string;
+  profile: RunProfile;
+  trigger: PipelineTrigger;
+  status: "completed" | "failed";
+  sourceCount: number;
+  candidateCount: number;
+  adviceCount: number;
+  topAdviceTickers: string[];
+  noAdviceReason: string | null;
+  completedAt: string;
 };

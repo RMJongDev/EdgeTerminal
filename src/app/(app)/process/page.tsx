@@ -8,13 +8,13 @@ export const dynamic = "force-dynamic";
 
 const processSteps = [
   {
-    id: "research",
-    title: "1. Research start",
+    id: "start-run",
+    title: "1. Start run",
     route: "/dashboard",
-    owner: "Dashboard",
-    output: "Manual daily scan met optionele context hint",
+    owner: "Advice Dashboard",
+    output: "EU open of US open scan met budgetlimiet",
     detail:
-      "Jij start de scan. Het systeem neemt brede marktdekking als basis en gebruikt jouw onderwerp, aandeel of gevoel als extra ranking-context.",
+      "Jij start de run of laat het schema draaien. Het systeem kiest het run-profiel, bewaakt kosten en houdt demo/local mode bruikbaar zonder externe database.",
   },
   {
     id: "source-funnel",
@@ -23,52 +23,52 @@ const processSteps = [
     owner: "Event Radar",
     output: "Gestructureerde source items",
     detail:
-      "Mock MVP: brede nieuwsbronnen, financial feeds, primaire bronnen, macro calendars en marktcontext worden samengebracht in een dedupebare bronlaag.",
+      "Gratis bronnen, filings, RSS, macro-items, movers en markthalts komen samen in een bronlaag met snapshots, provenance en provider-metadata.",
   },
   {
-    id: "candidate-ranking",
-    title: "3. Candidate ranking",
+    id: "filter-ranking",
+    title: "3. Filter & ranking",
     route: "/events",
     owner: "Event Radar",
-    output: "Top 10 Candidate Event List",
+    output: "Deduped candidate list met reden per selectie",
     detail:
-      "Kandidaten krijgen scores voor relevantie, confidence, bronkwaliteit, recency en scan-hint fit. Alleen de beste tien gaan naar triage.",
+      "De pipeline dedupet bronitems, filtert ruis weg en rangschikt candidates op bronkwaliteit, recency, impact, liquiditeit en thesis-fit.",
   },
   {
-    id: "triage",
-    title: "4. Triage",
-    route: "/events",
-    owner: "Event Radar",
-    output: "Accept, Analyze, Merge of Ignore",
+    id: "analysis-chain",
+    title: "4. Analysis chain",
+    route: "/ai-log",
+    owner: "AI Log",
+    output: "Analysis, setup en risk review per candidate",
     detail:
-      "Jij houdt controle. Een kandidaat wordt pas een echt market event wanneer je hem accepteert of doorzet naar analyse.",
+      "OpenAI analyseert de beste candidates in drie stappen. Een 'none' setup of 'skip' risk verdict stopt de keten bewust voordat er een advies ontstaat.",
   },
   {
-    id: "analysis",
-    title: "5. Event analysis",
-    route: "/events/event-race-launch",
-    owner: "Event Detail",
-    output: "Bull case, bear case, risico's en horizon",
+    id: "advice-assembly",
+    title: "5. Advice assembly",
+    route: "/dashboard",
+    owner: "Advice Dashboard",
+    output: "Top 5 expliciete adviezen of bewust geen advies",
     detail:
-      "Het taalmodel analyseert het geaccepteerde event met broncontext, impactrichting en onzekerheden als input.",
+      "Alleen setups met entry, stop, target, bronbewijs en kostenhorde worden gerankt. Correlatie met open exposure verlaagt de score of blokkeert het advies.",
   },
   {
-    id: "setup-risk",
-    title: "6. Setup & risk",
-    route: "/setups",
-    owner: "Setups & Risk",
-    output: "Paper-trade hypothese of bewust geen trade",
+    id: "briefing",
+    title: "6. Briefing",
+    route: "/briefing",
+    owner: "Briefing",
+    output: "Korte besluitbriefing met do-nothing conclusie waar nodig",
     detail:
-      "Een setup is pas bruikbaar na risk review. De default uitkomst mag altijd skippen of wachten zijn.",
+      "De run eindigt met een briefing die de topadviezen, blokkades, kosten en belangrijkste onzekerheden uitlegt in beslisbare taal.",
   },
   {
-    id: "paper-trade",
-    title: "7. Paper trade",
-    route: "/paper-trades",
-    owner: "Paper Trades",
-    output: "Gelogde trade zonder echt kapitaal",
+    id: "tracking",
+    title: "7. Tracking",
+    route: "/tracking",
+    owner: "Tracking",
+    output: "Taken/rejected adviezen met D1/D3/D5 vervolg",
     detail:
-      "Alleen gevalideerde hypotheses komen in paper trading. Entry, stop, target en notities blijven expliciet vastgelegd.",
+      "Robin beslist zelf. De app volgt elk advies en meet later of genomen en afgewezen ideeën waarde hadden, zonder ooit orders uit te voeren.",
   },
   {
     id: "performance",
@@ -77,7 +77,7 @@ const processSteps = [
     owner: "Performance Lab",
     output: "Feedback naar scoring en proces",
     detail:
-      "Resultaten worden gebruikt om te leren welke events, bronnen en setup-types daadwerkelijk edge opleveren.",
+      "Resultaten worden gebruikt om te leren welke bronnen, sectoren, eventtypes en adviestypen daadwerkelijk edge opleveren.",
   },
 ];
 
@@ -90,7 +90,7 @@ export default async function ProcessPage() {
 
   return (
     <div>
-      <PageHeader title="Process A-Z" eyebrow="Van handmatige research-start tot performance feedback">
+      <PageHeader title="Process A-Z" eyebrow="Van autonome run tot performance feedback">
         <Badge tone="cyan">{processSteps.length} stappen</Badge>
         <Badge tone={latestRun?.status === "completed" ? "green" : "amber"}>
           {latestRun?.status ?? "not started"}
@@ -161,8 +161,8 @@ export default async function ProcessPage() {
             <PanelHeader title="Audit trail" />
             <PanelBody className="space-y-3 text-sm text-muted-foreground">
               <p>
-                Discovery runs, candidate ranking en model-output horen zichtbaar te blijven in AI Log,
-                zodat later te verklaren is waarom een event wel of niet door de funnel kwam.
+                Discovery runs, candidate ranking en model-output blijven zichtbaar in AI Log,
+                zodat later te verklaren is waarom een advies wel of niet door de funnel kwam.
               </p>
               <Button asChild size="sm" variant="secondary">
                 <Link href="/ai-log">

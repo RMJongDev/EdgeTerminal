@@ -141,7 +141,7 @@
       <span><i class="dot" style="background:var(--code)"></i> Code-stap</span>
       <span><i class="dot" style="background:var(--llm-cheap)"></i> LLM goedkoop model</span>
       <span><i class="dot" style="background:var(--llm-strong)"></i> LLM sterk model</span>
-      <span><i class="dot" style="background:var(--data)"></i> Data / opslag (Supabase)</span>
+      <span><i class="dot" style="background:var(--data)"></i> Data / opslag (SQLite local MVP)</span>
       <span><i class="dot" style="background:var(--out)"></i> Output / beslismoment</span>
     </div>
   </header>
@@ -196,14 +196,14 @@
 
   <!-- ================= SECTIE 2 ================= -->
   <h2><span class="num">2</span>Binnen een run - de adviespipeline stap voor stap</h2>
-  <p class="h2sub">Elke stap schrijft zijn tussenresultaat weg (rechts: Supabase-tabel) en logt naar het AI-log, inclusief kosten. Een falende bronlaag is non-fataal: de run draait door met wat er wel is.</p>
+  <p class="h2sub">Elke stap schrijft zijn tussenresultaat weg (rechts: lokale SQLite-store; later Supabase-pariteit) en logt naar het AI-log, inclusief kosten. Een falende bronlaag is non-fataal: de run draait door met wat er wel is.</p>
 
   <div class="flow">
 
     <div class="stage">
       <div class="no">1</div>
       <div>
-        <h3>Run start <span class="chip user">Robin (MVP)</span> <span class="chip code">cron (slice 3)</span></h3>
+        <h3>Run start <span class="chip user">Robin (MVP)</span> <span class="chip code">cron (later)</span></h3>
         <p>Run wordt aangemaakt met profiel <b>eu_open</b> of <b>us_open</b>; het profiel bepaalt tijdvenster, query-context en marktcontext van alle volgende stappen.</p>
       </div>
       <div class="db"><span class="tbl">discovery_runs</span></div>
@@ -350,7 +350,7 @@
 
   <p class="footnote">
     Bron van waarheid: <code>Docs/Specs/voorstel-specs.md</code>, <code>functional-design.md</code> en <code>technical-design.md</code> (2026-06-12).
-    Slice 1 bouwt stap 1 t/m 11 end-to-end op echte data; slice 2 voegt stap 12 + Performance Lab toe; slice 3 vervangt de handmatige start door cron.
+    Slice 1 bouwt stap 1 t/m 11 lokaal end-to-end op echte data; slice 2 voegt stap 12 + Performance Lab toe; slice 3 valideert lokaal of automatisering/deploy de extra complexiteit waard is.
   </p>
 
 </div>

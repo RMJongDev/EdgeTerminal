@@ -1,7 +1,11 @@
-import { hasSupabaseEnv } from "@/lib/env";
+import { getEdgeRuntimeMode, hasSupabaseEnv } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import { demoTerminalData } from "./demo-data";
+import { getLocalTerminalData } from "./store/local";
 import type {
+  Advice,
+  AdviceSourceRef,
+  AdviceTracking,
   AIAnalysisLog,
   Asset,
   CandidateScoreBreakdown,
@@ -24,6 +28,24 @@ function asRecord(value: unknown): Record<string, unknown> {
 
 function asStringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.map((item) => String(item)) : [];
+}
+
+function asAdviceSourceRefs(value: unknown): AdviceSourceRef[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.map((item) => {
+    const record = asRecord(item);
+
+    return {
+      title: String(record.title ?? ""),
+      url: record.url ? String(record.url) : null,
+      publishedAt: record.publishedAt || record.published_at ? String(record.publishedAt ?? record.published_at) : null,
+      sourceId: record.sourceId || record.source_id ? String(record.sourceId ?? record.source_id) : null,
+      rawPayloadRef: record.rawPayloadRef || record.raw_payload_ref ? String(record.rawPayloadRef ?? record.raw_payload_ref) : null,
+    };
+  });
 }
 
 function asScoreBreakdown(value: unknown): CandidateScoreBreakdown {
@@ -172,6 +194,11 @@ function toTrade(row: Record<string, unknown>): PaperTrade {
 }
 
 function toLog(row: Record<string, unknown>): AIAnalysisLog {
+  const storedCostSummary = asRecord(row.cost_summary);
+  const inputTokens = Number(row.input_tokens ?? storedCostSummary.inputTokens ?? 0);
+  const outputTokens = Number(row.output_tokens ?? storedCostSummary.outputTokens ?? 0);
+  const costEur = Number(row.cost_eur ?? storedCostSummary.costEur ?? 0);
+
   return {
     id: String(row.id),
     analysisType: row.analysis_type as AIAnalysisLog["analysisType"],
@@ -183,6 +210,17 @@ function toLog(row: Record<string, unknown>): AIAnalysisLog {
     summary: String(row.summary ?? ""),
     sourcePayloadRefs: asStringArray(row.source_payload_refs),
     scoreInputs: asRecord(row.score_inputs),
+    inputPayload: asRecord(row.input_payload),
+    outputPayload: asRecord(row.output_payload),
+    costSummary: Object.keys(storedCostSummary).length > 0
+      ? storedCostSummary
+      : {
+          inputTokens,
+          outputTokens,
+          totalTokens: inputTokens + outputTokens,
+          costEur,
+        },
+    errorMessage: row.error_message ? String(row.error_message) : null,
     createdAt: String(row.created_at),
   };
 }
@@ -206,6 +244,72 @@ function toDiscoveryRun(row: Record<string, unknown>): DiscoveryRun {
     topCandidateCount: Number(row.top_candidate_count ?? 0),
     costSummary: asRecord(row.cost_summary),
     errorMessage: row.error_message ? String(row.error_message) : null,
+  };
+}
+
+function toAdvice(row: Record<string, unknown>): Advice {
+  return {
+    id: String(row.id),
+    discoveryRunId: row.discovery_run_id ? String(row.discovery_run_id) : null,
+    candidateId: row.candidate_id ? String(row.candidate_id) : null,
+    analysisId: row.analysis_id ? String(row.analysis_id) : null,
+    setupId: row.setup_id ? String(row.setup_id) : null,
+    riskReviewId: row.risk_review_id ? String(row.risk_review_id) : null,
+    assetId: row.asset_id ? String(row.asset_id) : null,
+    ticker: String(row.ticker ?? ""),
+    direction: row.direction as Advice["direction"],
+    market: row.market as Advice["market"],
+    entryZoneLow: Number(row.entry_zone_low ?? 0),
+    entryZoneHigh: Number(row.entry_zone_high ?? 0),
+    stopLoss: Number(row.stop_loss ?? 0),
+    target: Number(row.target ?? 0),
+    horizonDays: Number(row.horizon_days ?? 0),
+    sizeSuggestionEur: Number(row.size_suggestion_eur ?? 0),
+    confidence: Number(row.confidence ?? 0),
+    rank: row.rank === null ? null : Number(row.rank ?? 0),
+    eventType: row.event_type as Advice["eventType"],
+    runProfile: row.run_profile as Advice["runProfile"],
+    reasoning: String(row.reasoning ?? ""),
+    counterargument: String(row.counterargument ?? ""),
+    invalidation: String(row.invalidation ?? ""),
+    sourceRefs: asAdviceSourceRefs(row.source_refs),
+    executabilityNote: row.executability_note ? String(row.executability_note) : null,
+    expectedMovePct: row.expected_move_pct === null ? null : Number(row.expected_move_pct ?? 0),
+    costEstimatePct: row.cost_estimate_pct === null ? null : Number(row.cost_estimate_pct ?? 0),
+    costHurdleRatio: row.cost_hurdle_ratio === null ? null : Number(row.cost_hurdle_ratio ?? 0),
+    correlationWarning: row.correlation_warning ? String(row.correlation_warning) : null,
+    gapRiskNote: row.gap_risk_note ? String(row.gap_risk_note) : null,
+    squeezeRiskNote: row.squeeze_risk_note ? String(row.squeeze_risk_note) : null,
+    status: row.status as Advice["status"],
+    takenByUser: Boolean(row.taken_by_user),
+    userEntryPrice: row.user_entry_price === null ? null : Number(row.user_entry_price ?? 0),
+    userExitPrice: row.user_exit_price === null ? null : Number(row.user_exit_price ?? 0),
+    userNote: row.user_note ? String(row.user_note) : null,
+    rejectedReason: row.rejected_reason ? String(row.rejected_reason) : null,
+    metadata: asRecord(row.metadata),
+    createdAt: String(row.created_at),
+    updatedAt: String(row.updated_at),
+  };
+}
+
+function toAdviceTracking(row: Record<string, unknown>): AdviceTracking {
+  return {
+    id: String(row.id),
+    adviceId: String(row.advice_id),
+    referenceEntry: Number(row.reference_entry ?? 0),
+    d1Return: row.d1_return === null ? null : Number(row.d1_return ?? 0),
+    d3Return: row.d3_return === null ? null : Number(row.d3_return ?? 0),
+    d5Return: row.d5_return === null ? null : Number(row.d5_return ?? 0),
+    stopHitAt: row.stop_hit_at ? String(row.stop_hit_at) : null,
+    targetHitAt: row.target_hit_at ? String(row.target_hit_at) : null,
+    expiredAt: row.expired_at ? String(row.expired_at) : null,
+    finalReturn: row.final_return === null ? null : Number(row.final_return ?? 0),
+    outcome: row.outcome ? row.outcome as AdviceTracking["outcome"] : null,
+    lastCheckedAt: row.last_checked_at ? String(row.last_checked_at) : null,
+    lastPrice: row.last_price === null ? null : Number(row.last_price ?? 0),
+    metadata: asRecord(row.metadata),
+    createdAt: String(row.created_at),
+    updatedAt: String(row.updated_at),
   };
 }
 
@@ -277,6 +381,16 @@ function toBriefing(row: Record<string, unknown>): DailyBriefing {
 }
 
 export async function getTerminalData(): Promise<TerminalData> {
+  const runtimeMode = getEdgeRuntimeMode();
+
+  if (runtimeMode === "demo") {
+    return demoTerminalData;
+  }
+
+  if (runtimeMode === "local") {
+    return getLocalTerminalData();
+  }
+
   if (!hasSupabaseEnv()) {
     return demoTerminalData;
   }
@@ -299,6 +413,8 @@ export async function getTerminalData(): Promise<TerminalData> {
     analysesResult,
     setupsResult,
     risksResult,
+    advicesResult,
+    trackingResult,
     tradesResult,
     logsResult,
     briefingResult,
@@ -311,6 +427,8 @@ export async function getTerminalData(): Promise<TerminalData> {
     supabase.from("event_analyses").select("*").order("created_at", { ascending: false }),
     supabase.from("trade_setups").select("*").order("created_at", { ascending: false }),
     supabase.from("risk_reviews").select("*").order("created_at", { ascending: false }),
+    supabase.from("advices").select("*").order("rank", { ascending: true }),
+    supabase.from("advice_tracking").select("*").order("created_at", { ascending: false }),
     supabase.from("paper_trades").select("*").order("opened_at", { ascending: false }),
     supabase.from("ai_analysis_logs").select("*").order("created_at", { ascending: false }),
     supabase.from("daily_briefings").select("*").order("briefing_date", { ascending: false }).limit(1),
@@ -325,6 +443,8 @@ export async function getTerminalData(): Promise<TerminalData> {
     analysesResult.error ||
     setupsResult.error ||
     risksResult.error ||
+    advicesResult.error ||
+    trackingResult.error ||
     tradesResult.error ||
     logsResult.error
   ) {
@@ -339,12 +459,16 @@ export async function getTerminalData(): Promise<TerminalData> {
     discoveryRuns,
     eventSources: (sourcesResult.data ?? []).map((row) => toEventSource(row)),
     eventCandidates: (candidatesResult.data ?? []).map((row) => toEventCandidate(row)),
+    sourcePayloadSnapshots: [],
+    pipelineStepRuns: [],
     latestDiscoveryRun: discoveryRuns[0] ?? null,
     assets,
     events,
     analyses: (analysesResult.data ?? []).map((row) => toAnalysis(row)),
     setups: (setupsResult.data ?? []).map((row) => toSetup(row)),
     riskReviews: (risksResult.data ?? []).map((row) => toRisk(row)),
+    advices: (advicesResult.data ?? []).map((row) => toAdvice(row)),
+    adviceTracking: (trackingResult.data ?? []).map((row) => toAdviceTracking(row)),
     paperTrades: (tradesResult.data ?? []).map((row) => toTrade(row)),
     aiLogs: (logsResult.data ?? []).map((row) => toLog(row)),
     dailyBriefing:

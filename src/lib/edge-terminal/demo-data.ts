@@ -1,4 +1,6 @@
 import type {
+  Advice,
+  AdviceTracking,
   AIAnalysisLog,
   Asset,
   CandidateScoreBreakdown,
@@ -169,6 +171,27 @@ export const demoAnalyses: EventAnalysis[] = [
     reversalChance: "Possible if selling pressure fades.",
     followThroughRisk: "Elevated while media narrative remains negative.",
   },
+  {
+    id: "analysis-asml-demand",
+    eventId: "event-asml-demand",
+    sentiment: "positive",
+    impactLevel: "medium",
+    timeHorizon: "5-8 trading days",
+    confidenceScore: 66,
+    summary:
+      "Supplier commentary improves the demand narrative, but the setup only works if the chip-equipment group confirms instead of fading the first move.",
+    bullCase:
+      "If sector breadth follows through, ASML can keep repricing toward a stronger demand scenario over several sessions.",
+    bearCase:
+      "The note may already be in the price or be too supplier-specific to justify a standalone ASML trade.",
+    keyRisks:
+      "Sector beta, crowded semiconductor positioning, and a weak pullback entry can erase the edge.",
+    fundamentalImpact: "Possible",
+    sentimentImpact: "Medium",
+    priceImpact: "Needs confirmation",
+    reversalChance: "Moderate if the sector rejects the breakout.",
+    followThroughRisk: "Medium.",
+  },
 ];
 
 export const demoSetups: TradeSetup[] = [
@@ -244,7 +267,19 @@ export const demoRiskReviews: RiskReview[] = [
     reasonToSkip:
       "Skip if price is already extended far below support or if rebound volume appears quickly.",
     riskScore: 74,
-    finalVerdict: "wait",
+    finalVerdict: "ok",
+  },
+  {
+    id: "risk-asml-long",
+    setupId: "setup-asml-long",
+    keyRisks:
+      "Semiconductor positioning is crowded and a broad-market reversal can overwhelm a supplier commentary catalyst.",
+    counterargument:
+      "The market may already expect stronger chip-equipment demand, making the next move less asymmetric.",
+    reasonToSkip:
+      "Skip if ASML gaps through the entry zone or if sector confirmation fails.",
+    riskScore: 58,
+    finalVerdict: "ok",
   },
 ];
 
@@ -328,8 +363,8 @@ export const demoDiscoveryRuns: DiscoveryRun[] = [
     id: "run-2026-06-03-morning",
     status: "completed",
     trigger: "manual",
-    provider: "mock",
-    runProfile: "mock",
+    provider: "mixed",
+    runProfile: "eu_open",
     contextHints: {
       text: "RACE launch backlash, NVDA exportregels, renteverlaging, olievoorraad, crypto ETF inflows",
       mode: "ranking_boost",
@@ -340,9 +375,32 @@ export const demoDiscoveryRuns: DiscoveryRun[] = [
     completedAt: "2026-06-03T08:03:00.000Z",
     sourceCount: 10,
     candidateCount: 10,
-    topCandidateCount: 10,
-    costSummary: {},
+    topCandidateCount: 2,
+    costSummary: {
+      totalTokens: 12840,
+      totalCostEur: 0.0214,
+      steps: {},
+    },
     errorMessage: null,
+  },
+  {
+    id: "run-2026-06-02-us-open-no-advice",
+    status: "completed",
+    trigger: "manual",
+    provider: "mixed",
+    runProfile: "us_open",
+    contextHints: null,
+    startedAt: "2026-06-02T13:10:00.000Z",
+    completedAt: "2026-06-02T13:13:00.000Z",
+    sourceCount: 37,
+    candidateCount: 9,
+    topCandidateCount: 0,
+    costSummary: {
+      totalTokens: 9120,
+      totalCostEur: 0.0142,
+      steps: {},
+    },
+    errorMessage: "No advice today: candidates failed the cost hurdle, risk gate, source proof, or direction clarity.",
   },
 ];
 
@@ -854,6 +912,167 @@ export const demoAiLogs: AIAnalysisLog[] = [
   },
 ];
 
+export const demoAdvices: Advice[] = [
+  {
+    id: "advice-race-short",
+    discoveryRunId: "run-2026-06-03-morning",
+    candidateId: "candidate-race-launch",
+    analysisId: "analysis-race-launch",
+    setupId: "setup-race-short",
+    riskReviewId: "risk-race-short",
+    assetId: "asset-race",
+    ticker: "RACE",
+    direction: "short",
+    market: "eu",
+    entryZoneLow: 394,
+    entryZoneHigh: 399,
+    stopLoss: 414,
+    target: 361,
+    horizonDays: 7,
+    sizeSuggestionEur: 650,
+    confidence: 62,
+    rank: 1,
+    eventType: "perception",
+    runProfile: "eu_open",
+    reasoning:
+      "Ferrari sold off after a source-backed launch backlash. The possible edge is a second leg if the media narrative remains negative after the first reaction.",
+    counterargument:
+      "This can be a one-wave emotional selloff; shorting late risks being caught in a relief bounce.",
+    invalidation:
+      "Advice expires if price reclaims the launch-day VWAP or if the narrative stabilizes before follow-through.",
+    sourceRefs: [
+      {
+        title: "Ferrari launch receives negative public reaction",
+        url: "https://example.com/race-launch-reaction",
+        publishedAt: "2026-06-03T07:42:00.000Z",
+        sourceId: "source-race-launch-media",
+        rawPayloadRef: "mock://sources/race-launch-media",
+      },
+    ],
+    executabilityNote:
+      "Cost hurdle clears with conservative CFD-style costs; skip if the entry zone is gone at the open.",
+    expectedMovePct: 9.13,
+    costEstimatePct: 1.05,
+    costHurdleRatio: 0.115,
+    correlationWarning: null,
+    gapRiskNote:
+      "Stops are not guaranteed around launch headlines; gap risk is material after a sentiment shock.",
+    squeezeRiskNote:
+      "Short squeeze risk is explicit: use smaller size and skip if the bounce reclaims VWAP.",
+    status: "active",
+    takenByUser: false,
+    userEntryPrice: null,
+    userExitPrice: null,
+    userNote: null,
+    rejectedReason: null,
+    metadata: {
+      assemblyVersion: "demo-advice-v1",
+      rankScore: 72.4,
+      sourceQualityScore: 78,
+    },
+    createdAt: "2026-06-03T08:04:00.000Z",
+    updatedAt: "2026-06-03T08:04:00.000Z",
+  },
+  {
+    id: "advice-asml-long",
+    discoveryRunId: "run-2026-06-03-morning",
+    candidateId: "candidate-asml-demand",
+    analysisId: "analysis-asml-demand",
+    setupId: "setup-asml-long",
+    riskReviewId: "risk-asml-long",
+    assetId: "asset-asml",
+    ticker: "ASML",
+    direction: "long",
+    market: "eu",
+    entryZoneLow: 928,
+    entryZoneHigh: 940,
+    stopLoss: 899,
+    target: 992,
+    horizonDays: 8,
+    sizeSuggestionEur: 800,
+    confidence: 66,
+    rank: 2,
+    eventType: "sector",
+    runProfile: "eu_open",
+    reasoning:
+      "Supplier commentary improves the chip-equipment demand narrative. The setup only works on a pullback with sector confirmation.",
+    counterargument:
+      "The market may already expect stronger demand, and crowded semiconductor positioning can reverse quickly.",
+    invalidation:
+      "Advice expires if the semiconductor group rolls over or ASML loses the prior breakout zone.",
+    sourceRefs: [
+      {
+        title: "Chip-equipment demand note lifts sector sentiment",
+        url: "https://example.com/asml-demand-note",
+        publishedAt: "2026-06-03T07:22:00.000Z",
+        sourceId: "source-asml-demand",
+        rawPayloadRef: "mock://sources/asml-demand",
+      },
+    ],
+    executabilityNote:
+      "Cost hurdle clears if entry is inside the pullback zone; do not chase a gap above target path.",
+    expectedMovePct: 6.21,
+    costEstimatePct: 0.92,
+    costHurdleRatio: 0.148,
+    correlationWarning: null,
+    gapRiskNote:
+      "Skip if the open gaps beyond the entry zone; stops can slip on sector headlines.",
+    squeezeRiskNote: null,
+    status: "active",
+    takenByUser: false,
+    userEntryPrice: null,
+    userExitPrice: null,
+    userNote: null,
+    rejectedReason: null,
+    metadata: {
+      assemblyVersion: "demo-advice-v1",
+      rankScore: 68.9,
+      sourceQualityScore: 84,
+    },
+    createdAt: "2026-06-03T08:04:00.000Z",
+    updatedAt: "2026-06-03T08:04:00.000Z",
+  },
+];
+
+export const demoAdviceTracking: AdviceTracking[] = [
+  {
+    id: "tracking-race-short",
+    adviceId: "advice-race-short",
+    referenceEntry: 396.5,
+    d1Return: null,
+    d3Return: null,
+    d5Return: null,
+    stopHitAt: null,
+    targetHitAt: null,
+    expiredAt: null,
+    finalReturn: null,
+    outcome: null,
+    lastCheckedAt: "2026-06-03T08:04:00.000Z",
+    lastPrice: 394.8,
+    metadata: { demo: true, status: "open" },
+    createdAt: "2026-06-03T08:04:00.000Z",
+    updatedAt: "2026-06-03T08:04:00.000Z",
+  },
+  {
+    id: "tracking-asml-long",
+    adviceId: "advice-asml-long",
+    referenceEntry: 934,
+    d1Return: 1.1,
+    d3Return: null,
+    d5Return: null,
+    stopHitAt: null,
+    targetHitAt: null,
+    expiredAt: null,
+    finalReturn: null,
+    outcome: null,
+    lastCheckedAt: "2026-06-04T08:04:00.000Z",
+    lastPrice: 944.3,
+    metadata: { demo: true, status: "tracking" },
+    createdAt: "2026-06-03T08:04:00.000Z",
+    updatedAt: "2026-06-04T08:04:00.000Z",
+  },
+];
+
 export const demoDailyBriefing: DailyBriefing = {
   id: "briefing-2026-05-31",
   briefingDate: "2026-05-31",
@@ -884,12 +1103,16 @@ export const demoTerminalData: TerminalData = {
   discoveryRuns: demoDiscoveryRuns,
   eventSources: demoEventSources,
   eventCandidates: demoEventCandidates,
+  sourcePayloadSnapshots: [],
+  pipelineStepRuns: [],
   latestDiscoveryRun: demoDiscoveryRuns[0],
   assets: demoAssets,
   events: demoEvents,
   analyses: demoAnalyses,
   setups: demoSetups,
   riskReviews: demoRiskReviews,
+  advices: demoAdvices,
+  adviceTracking: demoAdviceTracking,
   paperTrades: demoPaperTrades,
   aiLogs: demoAiLogs,
   dailyBriefing: demoDailyBriefing,

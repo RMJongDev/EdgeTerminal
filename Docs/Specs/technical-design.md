@@ -10,12 +10,14 @@
 [Browser]
   |
   v
-[Next.js App Router op Vercel]
+[Next.js App Router lokaal]
   |-- Server Components voor dashboard/advieslijst/tracking
   |-- Server Actions voor run-start, correcties, taken-markering
-  |-- Route handlers voor pipeline-run en (later) cron
+  |-- Route handlers voor pipeline-run
   |
-  +--> [Supabase Auth + Postgres + RLS]
+  +--> [Local SQLite store] (MVP: .data/edge-terminal.sqlite)
+  |
+  +--> [Supabase Auth + Postgres + RLS] (later/deployfase, niet MVP)
   |
   +--> [Advice Pipeline] (server-side orchestratie, een module)
         |
@@ -38,16 +40,25 @@
 
 ## Runtime modes
 
-### Demo mode (Supabase-env ontbreekt)
+### Demo mode
 
 - App toont demo-adviezen en demo-runstatus; UI blijft reviewbaar en Playwright-testbaar zonder extern project.
 - Pipeline draait met deterministische mock-adapters en mock-LLM-stappen.
 
-### Live mode
+### Local mode (MVP)
+
+- Actief met `EDGE_RUNTIME_MODE=local`.
+- Persistente opslag in een lokaal SQLite-bestand (`EDGE_LOCAL_DB_PATH`, default `.data/edge-terminal.sqlite`).
+- Geen Docker, WSL, Supabase-project of Vercel nodig.
+- Single-user: geen login- of RLS-afdwinging in de MVP; de app draait alleen lokaal op Robins machine.
+- De lokale store gebruikt dezelfde domeinvelden als het latere Supabase-schema zodat migratie naar Postgres later mechanisch blijft.
+- Pipeline draait server-side vanuit lokale server actions; alle keys blijven server-only in `.env.local`.
+
+### Supabase/deploy mode (later)
 
 - Supabase Auth verplicht; RLS beperkt data tot `auth.uid()`.
 - Pipeline draait server-side vanuit een authenticated owner action; alle keys server-only.
-- Cron (slice 3) via route handler met `DISCOVERY_SCAN_CRON_SECRET` en een expliciet ingerichte server-side write-strategie.
+- Vercel/cron komen pas terug nadat de lokale MVP vier weken bruikbaar is gebleken.
 
 ## Pipeline-orchestratie
 
@@ -125,10 +136,13 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SITE_URL=
 
+EDGE_RUNTIME_MODE=local
+EDGE_LOCAL_DB_PATH=.data/edge-terminal.sqlite
+
 # OpenAI - server-only; actuele modelnamen invullen bij bouw
 OPENAI_API_KEY=
-OPENAI_FILTER_MODEL=
-OPENAI_ANALYSIS_MODEL=
+OPENAI_FILTER_MODEL=gpt-5.4-mini
+OPENAI_ANALYSIS_MODEL=gpt-5.4
 
 # Bronnen - server-only
 FINANCIAL_NEWS_API_KEY=      # Finnhub
@@ -143,11 +157,13 @@ MARKET_DATA_BASE_URL=
 DISCOVERY_SCAN_CRON_SECRET=
 ```
 
-`GEMINI_*` en `NEWS_DISCOVERY_*` vars zijn vervallen. `.env.example` en `Docs/dependencies.md` zijn bijgewerkt op 2026-06-12; de code migreert mee in EPIC-14 van het backlog.
+Voor het lokale MVP zijn alleen `EDGE_RUNTIME_MODE`, optioneel `EDGE_LOCAL_DB_PATH`, en later de bron-/OpenAI-keys nodig. `NEXT_PUBLIC_SUPABASE_*` blijft leeg tot de deployfase. `GEMINI_*` en `NEWS_DISCOVERY_*` vars zijn vervallen.
 
 ## Database
 
-Bestaande tabellen blijven: `profiles`, `discovery_runs`, `event_sources`, `event_candidates`, `market_events`, `event_assets`, `assets`, `event_analyses`, `trade_setups`, `risk_reviews`, `ai_analysis_logs`, `daily_briefings`.
+Het MVP gebruikt SQLite lokaal, maar het domeinmodel blijft gelijk aan het latere Supabase/Postgres-model. De bestaande Postgres-migraties blijven als deploy-pariteitsdocumentatie; de eerste bouwstap maakt daarnaast een SQLite schema/store.
+
+Bestaande entiteiten blijven: `profiles` (alleen later in Supabase mode), `discovery_runs`, `event_sources`, `event_candidates`, `market_events`, `event_assets`, `assets`, `event_analyses`, `trade_setups`, `risk_reviews`, `ai_analysis_logs`, `daily_briefings`.
 
 Wijzigingen voor de adviesmachine:
 
@@ -205,7 +221,7 @@ Tracking-update draait bij elke run en bij handmatige refresh: haalt delayed quo
 
 Worden vervangen door `advices` + `advice_tracking`. Bestaande migratiebestanden blijven (historie), een nieuwe migratie voegt de nieuwe tabellen toe; de oude tabellen worden niet meer door de app gebruikt en kunnen in een latere opruimmigratie vervallen.
 
-Alle nieuwe tabellen: `user_id` + RLS (`auth.uid() = user_id`) + `updated_at`-trigger, conform bestaande conventie. `trade_setups.asset_id` is nullable vanaf de adviesmachine-migratie; watchlist-assets blijven rankingcontext, geen harde zoekgrens.
+Alle nieuwe tabellen in Supabase mode: `user_id` + RLS (`auth.uid() = user_id`) + `updated_at`-trigger, conform bestaande conventie. In local SQLite mode gebruikt de app een vaste lokale owner-id en geen RLS. `trade_setups.asset_id` is nullable vanaf de adviesmachine-migratie; watchlist-assets blijven rankingcontext, geen harde zoekgrens.
 
 ## LLM-keten en promptversies
 
@@ -236,7 +252,7 @@ Elke call logt naar `ai_analysis_logs`: prompt_version, model, input_payload, ou
 | Route | Doel |
 |---|---|
 | `/` | product-entry |
-| `/login` | Supabase auth |
+| `/login` | Supabase auth later; in local mode status/uitleg en door naar dashboard |
 | `/dashboard` | advieslijst + run-start + runstatus |
 | `/advices/[id]` | advies detail met volledige keten |
 | `/events` | Event Radar: candidates, clusters, correcties |
@@ -248,15 +264,16 @@ Elke call logt naar `ai_analysis_logs`: prompt_version, model, input_payload, ou
 | `/ai-log` | audit trail + kosten |
 | `/process` | procesoverzicht (verwijst naar process-pipeline.html inhoud) |
 | `/api/pipeline/run` | route handler: start run (profile param), authenticated |
-| `/api/pipeline/cron` | slice 3: cron-entrypoint met secret |
+| `/api/pipeline/cron` | later/deployfase: cron-entrypoint met secret |
 
 Oude routes `/setups`, `/signals`, `/risk`, `/paper-trades` redirecten naar `/dashboard` of `/tracking`.
 
 ## Security
 
 - Alle provider- en LLM-keys server-only; nooit in client components.
-- RLS verplicht op alle user-data tabellen.
-- Cron-route vereist secret en expliciete write-strategie voordat hij live schrijft.
+- Local SQLite-bestand staat in `.data/` en wordt niet gecommit.
+- RLS is verplicht zodra Supabase/deploy mode wordt toegevoegd; local mode is single-user en localhost-only.
+- Cron-route vereist secret en expliciete write-strategie voordat hij live schrijft; niet in het lokale MVP.
 - Bronpayloads opslaan als referentie/samenvatting; betaalde content niet integraal herpubliceren.
 - Adviezen zijn voor Robin alleen; geen publieke endpoints met advies-output.
 
@@ -271,13 +288,13 @@ Oude routes `/setups`, `/signals`, `/risk`, `/paper-trades` redirecten naar `/da
 
 ## Bouwvolgorde slice 1
 
-1. Migratie: `advices`, `advice_tracking`, `discovery_runs.run_profile` + `cost_summary`, RLS.
-2. Supabase-project + Vercel live; auth golden path werkend.
-3. Pipeline-skeleton met mock-adapters en mock-LLM end-to-end (bestaande demo-code ombouwen naar de nieuwe keten).
-4. Echte adapters: financiele feed + EDGAR + delayed quotes + mover sweep (gratis tiers, EU-dekking testen).
-5. Echte LLM-calls: filter-stap, daarna analyse/setup/risk, daarna assembly; per stap structured outputs + logging.
-6. Dashboard-advieslijst + Advies Detail.
-7. Run-profielen eu_open/us_open.
-8. Playwright + unit tests op de nieuwe keten.
+1. Local runtime: `EDGE_RUNTIME_MODE=local`, `.data/` gitignored, SQLite store initialisatie/reset.
+2. SQLite schema voor `advices`, `advice_tracking`, `discovery_runs.run_profile`, `cost_summary`, `pipeline_step_runs`, `source_payload_snapshots`; Supabase-migraties blijven pariteit voor later.
+3. Pipeline-skeleton met mock-adapters en mock-LLM end-to-end, persistent in SQLite.
+4. Dashboard-advieslijst + Advies Detail + Tracking op local store.
+5. Echte LLM-calls: filter-stap, daarna analyse/setup/risk, daarna assembly; per stap structured outputs + logging in SQLite.
+6. Echte gratis adapters: RSS/official, EDGAR, GDELT/Marketaux-keuze, Finnhub/Alpha Vantage zodra keys beschikbaar zijn.
+7. Run-profielen `eu_open`/`us_open`.
+8. Playwright + unit tests op de lokale keten.
 
-Slice 2: tracking-update job, taken-markering, Performance Lab op adviezen. Slice 3: cron, dedupe-verbetering, bronmix, promptversie-vergelijking.
+Slice 2: automatische tracking-update job, taken-markering, Performance Lab op adviezen. Slice 3: vier weken lokale validatie. Slice 4: pas daarna Supabase/Vercel/deploy/cron beoordelen.

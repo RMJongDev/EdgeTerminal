@@ -6,7 +6,7 @@
 
 ## Scope
 
-Edge Terminal is een single-user webapp (Supabase Auth) met een autonome adviespipeline. Robin start een run; de pipeline verzamelt nieuws, analyseert en levert een gerangschikte top 5 expliciete tradingadviezen. Robin beslist en handelt zelf bij zijn broker. Elk advies wordt automatisch gevolgd zodat het Performance Lab leert welke adviestypen waarde hebben.
+Edge Terminal is in het MVP een single-user lokale webapp met een autonome adviespipeline en persistente SQLite-opslag. Robin start een run; de pipeline verzamelt nieuws, analyseert en levert een gerangschikte top 5 expliciete tradingadviezen. Robin beslist en handelt zelf bij zijn broker. Elk advies wordt automatisch gevolgd zodat het Performance Lab leert welke adviestypen waarde hebben.
 
 ```text
 Run starten -> source funnel -> dedupe -> LLM-filter -> per candidate: analyse/setup/risk
@@ -33,7 +33,7 @@ Run starten -> source funnel -> dedupe -> LLM-filter -> per candidate: analyse/s
 - Handmatig ingrijpen (advies verwerpen, candidate negeren/corrigeren) is een correctiepad achteraf, geen poort.
 - Elke LLM-call wordt gelogd met promptversie, input, output en kosten.
 - Het risicokader (`risk-framework.md`) werkt signalerend in de app: kostenhorde en correlatie wegen mee in de ranking, het dashboard toont risk-status en circuit-breaker meldingen; Robin voert zelf uit.
-- Demo-data alleen als fallback wanneer Supabase-env ontbreekt.
+- Runtime modes: demo (vaste voorbeelddata), local (SQLite, MVP), Supabase/deploy (later).
 - UI-copy, gegenereerde adviezen en briefings zijn Engels (terminal-stijl); documentatie blijft Nederlands.
 - De app voert nooit zelf trades uit en deelt geen adviezen met derden.
 
@@ -44,13 +44,15 @@ Run starten -> source funnel -> dedupe -> LLM-filter -> per candidate: analyse/s
 | `eu_open` | 07:30 | Overnight US, Azie, Europese ochtendberichten; EU-tickers zwaarder gewogen |
 | `us_open` | 15:00 NL | Premarket movers, US-bedrijfsnieuws, macro-releases van de dag |
 
-MVP: Robin start beide runs handmatig vanaf het dashboard. Cron volgt in slice 3.
+MVP: Robin start beide runs handmatig vanaf het dashboard. Automatisering/cron wordt pas na lokale validatie beoordeeld.
 
 ## Schermen
 
-### Login
+### Login / Local Access
 
-- Supabase Auth formulier; melding wanneer Supabase-env ontbreekt; single-user uitleg.
+- In local mode geen verplichte login: de app draait alleen op Robins machine en gebruikt een vaste lokale owner.
+- De loginroute toont runtime-status en verwijst door naar het dashboard.
+- Supabase Auth komt pas terug in een latere deployfase.
 
 ### App Shell
 
@@ -64,7 +66,7 @@ Navigatie:
 - AI Log;
 - Process.
 
-Zichtbaar: NewDefault-logo subtiel, environment status (live/demo), uitloggen.
+Zichtbaar: NewDefault-logo subtiel, environment status (demo/local/supabase), lokale opslagstatus, uitloggen alleen in Supabase mode.
 
 ### Dashboard - de advieslijst
 
@@ -184,14 +186,15 @@ Acties: details openen, stap opnieuw draaien, bruikbaarheid markeren, kosten per
 
 Doel: het complete proces kunnen terugzien zoals gevisualiseerd in `process-pipeline.html`; verwijst per stap naar het bijbehorende scherm.
 
-## MVP-acceptatie (slice 1)
+## MVP-acceptatie (local-first slice 1)
 
-- Robin logt in op een live Supabase-omgeving.
+- Robin start de app lokaal zonder Docker, WSL, Supabase-project of Vercel.
+- `EDGE_RUNTIME_MODE=local` gebruikt een lokaal SQLite-bestand en data blijft behouden na app-restart.
 - Robin start een EU- of US-run; de pipeline draait end-to-end zonder verdere kliks.
 - Het dashboard toont binnen enkele minuten een gerangschikte top 5 met echte bronnen, of een onderbouwde "geen advies vandaag".
 - Elk advies toont entry/stop/target, redenatie, tegenargument, invalidatie en bronlinks.
-- Elke LLM-stap is terug te vinden in het AI-log met promptversie en kosten.
+- Elke LLM-stap is terug te vinden in het lokale AI-log met promptversie en kosten.
 - Bij een falende bronlaag draait de run door en is zichtbaar wat er miste.
-- Demo-mode blijft werken zonder Supabase-env voor UI-review en tests.
+- Demo-mode blijft werken zonder env vars voor UI-review en tests.
 
-Slice 2 voegt daar automatische tracking en het Performance Lab op echte adviezen aan toe; slice 3 cron en kwaliteitsiteraties (zie `voorstel-specs.md`).
+Slice 2 voegt daar automatische tracking en het Performance Lab op echte adviezen aan toe; slice 3 is lokale validatie en kwaliteitsiteratie. Deploy/Vercel/Supabase volgt pas na bewezen lokaal nut (zie `voorstel-specs.md`).

@@ -43,8 +43,8 @@ export default async function BriefingPage() {
             <Panel key={title as string}>
               <PanelHeader title={title as string} />
               <PanelBody className="space-y-2">
-                {(items as string[]).map((item) => (
-                  <div key={item} className="rounded-md border border-border bg-background p-3 text-sm text-muted-foreground">
+                {(items as string[]).map((item, index) => (
+                  <div key={`${index}-${item}`} className="rounded-md border border-border bg-background p-3 text-sm text-muted-foreground">
                     {item}
                   </div>
                 ))}

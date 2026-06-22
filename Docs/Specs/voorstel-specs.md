@@ -26,7 +26,8 @@ De app voert nooit zelf trades uit en geeft geen advies aan derden. Maar richtin
 | Inzet | EUR 100-1000 per trade; uitvoerbaarheid (spread, liquiditeit, kosten) weegt mee in het advies. |
 | Budget | EUR 150/maand voor data-API's en AI samen. |
 | Validatie | Elk advies wordt automatisch gevolgd (paper); Robin beslist zelf op gevoel plus argumentatie. |
-| Scan starten | Handmatig vanaf het dashboard in het MVP; cron direct daarna. |
+| MVP-runtime | Volledig lokaal testen: Next.js + SQLite-bestand, geen Docker/WSL/Supabase-cloud/Vercel. |
+| Scan starten | Handmatig vanaf het dashboard in het MVP; cron/deploy pas na lokale validatie. |
 | LLM-provider | OpenAI: goedkoop filtermodel + sterk analysemodel; modelnamen in env (besluit 2026-06-12). |
 | UI-taal | Engels (terminal-stijl), incl. gegenereerde adviezen en briefings; documentatie Nederlands. |
 | Keys/accounts | Robin levert API-keys op verzoek; de bouw-AI vraagt per story concreet welke nodig zijn. |
@@ -100,7 +101,7 @@ Handmatig ingrijpen (advies verwerpen, candidate negeren of corrigeren) blijft m
 | `eu_open` | 07:30 | EU-opening: overnight US, Azie, Europese ochtendberichten; EU-tickers zwaarder gewogen |
 | `us_open` | 15:00 NL | US-opening: premarket movers, US-bedrijfsnieuws, macro-releases van de dag |
 
-Profielen verschillen in bronquery's, tijdvensters en rankingcontext. In het MVP start Robin beide runs handmatig; cron is de eerste verbetering daarna.
+Profielen verschillen in bronquery's, tijdvensters en rankingcontext. In het MVP start Robin beide runs handmatig; automatisering/cron wordt pas na lokale validatie beoordeeld.
 
 ## Bronnenstrategie en budget
 
@@ -171,9 +172,9 @@ De watchlist blijft bestaan als ranking-context (voorkeuren en holdings krijgen 
 | Frontend | Next.js App Router + React + TypeScript | Template-stack, snelle dashboardbouw |
 | Styling | Tailwind / shadcn-compatible, darkmode terminal | Bestaat al als demo-skelet |
 | Backend | Next.js route handlers / server actions | Pipeline draait server-side, keys blijven server-only |
-| Database | Supabase Postgres + RLS | Relationeel model, auth-integratie |
-| Auth | Supabase Auth | Single-user nu, uitbreidbaar |
-| Hosting | Vercel | Standaard New Default-stack |
+| Database | SQLite lokaal in het MVP; Supabase Postgres later | Geen Docker/WSL/cloudkosten tijdens validatie; schema blijft Postgres-compatible |
+| Auth | Geen verplichte auth in local MVP; Supabase Auth later | Single-user op Robins machine eerst, uitbreidbaar bij deploy |
+| Hosting | Lokaal (`pnpm dev`) | Vercel pas na bewezen lokaal nut |
 | Pipeline | Eigen orchestratie in server-code | Getrapte keten: adapters -> dedupe -> filter-LLM -> analyse-LLM -> assembly |
 | LLM | OpenAI: goedkoop filtermodel + sterk analysemodel (namen in env, actueel houden) | Budget en kwaliteit gescheiden |
 | Tracking | Delayed quotes provider | Automatische uitkomstmeting per advies |
@@ -196,11 +197,12 @@ De watchlist blijft bestaan als ranking-context (voorkeuren en holdings krijgen 
 - Adviesformat, run-profielen en providerstack vastgelegd.
 - Procesvisualisatie: `process-pipeline.html`.
 
-### Slice 1 - Tracer bullet (alles staat of valt hiermee)
-- Supabase-project + Vercel live, auth werkend.
-- Migraties bijgewerkt: `advices`, `advice_tracking`, `run_profile`.
-- Echte adapters: een nieuwsbron + EDGAR + delayed quotes.
-- Getrapte LLM-keten met echte calls, structured outputs en logging.
+### Slice 1 - Local tracer bullet (alles staat of valt hiermee)
+- Lokale SQLite-runtime werkend zonder Docker, WSL, Supabase-cloud of Vercel.
+- Datamodel lokaal aangemaakt voor `advices`, `advice_tracking`, `run_profile`, `cost_summary`, AI-log en pipeline-step logging.
+- Pipeline draait end-to-end lokaal met mock-adapters/mock-LLM en bewaart runhistorie.
+- Getrapte LLM-keten met echte OpenAI-calls zodra key beschikbaar is, structured outputs en lokale kostenlogging.
+- Minimaal een gratis echte bronlaag + EDGAR/RSS/official-source werkt lokaal.
 - Advice assembly en dashboard-advieslijst: end-to-end van run naar top 5.
 - Beide run-profielen handmatig startbaar.
 
@@ -209,10 +211,14 @@ De watchlist blijft bestaan als ranking-context (voorkeuren en holdings krijgen 
 - "Genomen"-markering; Performance Lab op echte adviezen (genomen vs. paper).
 - Briefing per run.
 
-### Slice 3 - Kwaliteit en automatisering
-- Cron: runs staan klaar zonder handmatige start.
+### Slice 3 - Lokale validatie en kwaliteit
+- Vier weken lokaal draaien zonder deploy; beslissen of het product nuttig genoeg is voor cloud.
 - Dedupe verbeteren, bronmix uitbreiden, promptversies vergelijken via AI-log.
 - EU small caps evalueren; betaalde feed overwegen bij bewezen waarde.
+
+### Slice 4 - Deploy pas na bewijs
+- Supabase Auth/Postgres/RLS en Vercel deployment toevoegen als de lokale MVP waarde bewijst.
+- Cron: runs staan klaar zonder handmatige start.
 
 ### Later / nice-to-have
 - Alerts, scenario library, historical reaction patterns per eventtype.
@@ -227,7 +233,8 @@ Vier weken dagelijks draaien. Per advies beoordeelt Robin "had ik hier wat aan g
 ## Open punten
 
 - Definitieve providerkeuze bevestigen na test van de gratis tiers (dekking EU-nieuws en EU-quotes is het criterium).
-- Concrete OpenAI-modelnamen (filter + analyse) bij bouwstart vastleggen in env; actuele modellen kiezen en prijzen verifieren.
-- Brokerkeuze: eToro-kosten (CFD overnight/weekend fees, spreads) versus alternatief zoals Interactive Brokers - door Robin zelf te verifieren, staat los van de bouw.
+- OpenAI-modelkeuze voor bouwstart: `gpt-5.4-mini` voor filter/briefing en `gpt-5.4` voor analyse/setup/risk; prijzen geverifieerd op 2026-06-13.
+- Supabase/Vercel-deploybesluit pas nemen na lokale validatie; niet nodig voor MVP.
+- Brokerkeuze: MVP start met eToro-kostenaanname; beter structureel alternatief is Interactive Brokers/IBKR-achtig, vooral voor kosten, echte markttoegang en shorts.
 - Hoe de positiegrootte-indicatie berekend wordt (vast bedrag vs. risico-percentage per trade).
 - Mockups (`mockups.html`) zijn op 2026-06-12 vernieuwd naar de adviesmachine-flow (oude versie in `Docs/Archive/`); restpunten uit Robins mockup-review verwerken voor S-38.

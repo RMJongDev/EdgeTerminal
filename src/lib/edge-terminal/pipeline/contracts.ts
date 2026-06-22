@@ -25,6 +25,7 @@ export const PIPELINE_STEP_ORDER: PipelineStepName[] = [
   "check_executability",
   "assemble_advices",
   "update_tracking",
+  "generate_briefing",
   "complete_run",
 ];
 

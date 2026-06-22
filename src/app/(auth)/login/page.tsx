@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, KeyRound } from "lucide-react";
+import { ArrowLeft, Database, KeyRound } from "lucide-react";
 import { signIn, signUp } from "./actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { hasSupabaseEnv } from "@/lib/env";
+import { getRuntimeStatus, isSupabaseMode } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
 type LoginPageProps = {
@@ -27,7 +27,8 @@ export const dynamic = "force-dynamic";
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const isSupabaseConfigured = hasSupabaseEnv();
+  const runtime = getRuntimeStatus();
+  const isSupabaseConfigured = isSupabaseMode();
 
   if (isSupabaseConfigured) {
     const supabase = await createClient();
@@ -53,17 +54,36 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <KeyRound className="h-5 w-5 text-primary" />
-              Edge Terminal login
+              {runtime.mode === "local" ? (
+                <Database className="h-5 w-5 text-primary" />
+              ) : (
+                <KeyRound className="h-5 w-5 text-primary" />
+              )}
+              {runtime.mode === "local" ? "Edge Terminal local access" : "Edge Terminal login"}
             </CardTitle>
             <CardDescription>
-              Single-user Supabase auth voor Robin. Zonder env blijft de cockpit in demo mode zichtbaar.
+              {runtime.mode === "local"
+                ? "Single-user local mode. Data is stored in your local SQLite database."
+                : "Single-user Supabase auth voor Robin. Zonder env blijft de cockpit in demo mode zichtbaar."}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {!isSupabaseConfigured ? (
+            {runtime.mode === "local" ? (
+              <div className="space-y-4">
+                <div className="rounded-md border border-primary/40 bg-primary/10 p-3 text-sm text-primary">
+                  Local mode is active. No login is required for the MVP.
+                </div>
+                <div className="rounded-md border border-border bg-secondary/20 p-3 font-mono text-xs text-muted-foreground">
+                  Storage: {runtime.storage}
+                </div>
+                <Button asChild className="w-full">
+                  <Link href="/dashboard">Open dashboard</Link>
+                </Button>
+              </div>
+            ) : null}
+            {runtime.mode === "demo" ? (
               <div className="mb-4 rounded-md border border-accent/40 bg-accent/10 p-3 text-sm text-accent">
-                Vul eerst `.env.local` met je Supabase URL en publishable key.
+                Demo mode is active. Set `EDGE_RUNTIME_MODE=local` to use persistent SQLite data.
               </div>
             ) : null}
             {params.error ? (
@@ -77,6 +97,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               </div>
             ) : null}
 
+            {isSupabaseConfigured ? (
             <form className="space-y-4">
               <input type="hidden" name="next" value={params.next ?? "/dashboard"} />
               <div className="space-y-2">
@@ -102,6 +123,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 </Button>
               </div>
             </form>
+            ) : null}
           </CardContent>
         </Card>
       </div>

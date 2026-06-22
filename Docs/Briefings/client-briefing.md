@@ -1,6 +1,6 @@
 # Client Briefing - Edge Terminal
 
-> Status: herijkt op 2026-06-12 naar adviesmachine.
+> Status: herijkt op 2026-06-12 naar adviesmachine; MVP-runtime op 2026-06-13 versimpeld naar volledig lokaal testen met SQLite.
 > Bron: `ProjectOmschrijving.txt` (2026-05-31, deels achterhaald) en interviews met Robin op 2026-05-31 en 2026-06-12.
 > Onderbouwing koerswijziging: `Docs/analyse-bouwgereedheid.md`.
 
@@ -16,7 +16,7 @@ Edge Terminal is Robins persoonlijke **adviesmachine** voor swing trading op nie
 De kernflow:
 
 ```text
-Run (07:30 EU / 15:00 US)
+Handmatige run (EU / US)
   -> source funnel -> dedupe -> LLM-filter
   -> per candidate: analyse -> setup -> risk review
   -> top 5 expliciete adviezen (of "geen advies vandaag")
@@ -29,13 +29,14 @@ Run (07:30 EU / 15:00 US)
 - **Markten:** US-aandelen + EU large caps, long en short; EU small caps later.
 - **Inzet:** EUR 100-1000 per trade; adviesritme 2-3 echte trades per week (plafond 6), max 4-5 open posities.
 - **Budget data/AI:** EUR 150 per maand.
-- **Auth:** single-user met Supabase Auth.
+- **Runtime MVP:** volledig lokaal: Next.js via `pnpm dev` + SQLite in `.data/edge-terminal.sqlite`; geen Docker, WSL, Supabase-cloud of Vercel nodig.
+- **Auth:** geen verplichte auth in het lokale MVP; Supabase Auth pas als latere deployfase wordt gekozen.
 - **Broker:** Robin handelt zelf (nu eToro; alternatief wordt los van de bouw bekeken). Geen brokerkoppeling.
-- **Fasering:** slice 1 tracer bullet (pipeline end-to-end op echte data), slice 2 uitkomstmeting, slice 3 cron + kwaliteit. Zie `Docs/Specs/voorstel-specs.md`.
+- **Fasering:** slice 1 lokale tracer bullet met SQLite + echte gratis bronnen/OpenAI waar beschikbaar, slice 2 uitkomstmeting, slice 3 lokale validatie en kwaliteit. Deploy/cron pas na bewezen lokaal nut. Zie `Docs/Specs/voorstel-specs.md`.
 
 ## Aanleiding
 - **Probleem:** relevante markt-events handmatig vinden kost te veel tijd en komt te laat of versnipperd binnen; Robin wil dat een pipeline dit werk volledig overneemt en vertaalt naar concrete adviezen.
-- **Waarom nu:** het voorwerk (datamodel, ontwerpen, demo-UI) ligt er; de richting is op 2026-06-12 definitief vastgelegd; bouwen is de enige manier om de kernvraag (advieskwaliteit op echte data) te beantwoorden.
+- **Waarom nu:** het voorwerk (datamodel, ontwerpen, demo-UI) ligt er; de productrichting is op 2026-06-12 vastgelegd en de MVP-runtime is op 2026-06-13 bewust lokaal gemaakt; bouwen is de enige manier om de kernvraag (advieskwaliteit op echte data) te beantwoorden.
 
 ## Buiten scope
 - Automatisch trades uitvoeren of brokerkoppeling.

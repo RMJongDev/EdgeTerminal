@@ -9,13 +9,12 @@ import {
   ListChecks,
   LogOut,
   Radar,
-  ShieldAlert,
   Sparkles,
 } from "lucide-react";
 import { signOut } from "@/app/(auth)/login/actions";
 import { Badge } from "@/components/edge-terminal";
 import { Button } from "@/components/ui/button";
-import { hasSupabaseEnv } from "@/lib/env";
+import { getRuntimeStatus, isSupabaseMode } from "@/lib/env";
 
 type AppShellProps = {
   children: ReactNode;
@@ -26,15 +25,15 @@ const navItems = [
   { href: "/process", label: "Process", icon: GitBranch },
   { href: "/watchlist", label: "Watchlist", icon: ListChecks },
   { href: "/events", label: "Event Radar", icon: Radar },
-  { href: "/setups", label: "Setups & Risk", icon: ShieldAlert },
-  { href: "/paper-trades", label: "Paper Trades", icon: CalendarDays },
+  { href: "/tracking", label: "Tracking", icon: CalendarDays },
   { href: "/performance", label: "Performance Lab", icon: BarChart3 },
   { href: "/briefing", label: "Daily Briefing", icon: Sparkles },
   { href: "/ai-log", label: "AI Log", icon: Bot },
 ];
 
 export function AppShell({ children }: AppShellProps) {
-  const isLive = hasSupabaseEnv();
+  const runtime = getRuntimeStatus();
+  const isSupabase = isSupabaseMode();
 
   return (
     <div className="min-h-screen bg-background text-foreground lg:grid lg:grid-cols-[250px_minmax(0,1fr)]">
@@ -75,9 +74,12 @@ export function AppShell({ children }: AppShellProps) {
             <div>
               <div className="text-xs text-muted-foreground">Runtime</div>
               <div className="mt-1">
-                <Badge tone={isLive ? "green" : "amber"}>
-                  {isLive ? "Supabase live" : "Demo mode"}
+                <Badge tone={runtime.mode === "local" ? "cyan" : runtime.mode === "supabase" ? "green" : "amber"}>
+                  {runtime.label}
                 </Badge>
+              </div>
+              <div className="mt-1 truncate font-mono text-[11px] text-muted-foreground">
+                {runtime.storage}
               </div>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -85,12 +87,14 @@ export function AppShell({ children }: AppShellProps) {
               <span className="h-2 w-2 rounded-full bg-[#D3BEA1]" />
               NewDefault private product
             </div>
-            <form action={signOut}>
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                <LogOut className="h-4 w-4" />
-                Uitloggen
-              </Button>
-            </form>
+            {isSupabase ? (
+              <form action={signOut}>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <LogOut className="h-4 w-4" />
+                  Uitloggen
+                </Button>
+              </form>
+            ) : null}
           </div>
         </div>
       </aside>

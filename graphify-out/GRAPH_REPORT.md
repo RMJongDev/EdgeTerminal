@@ -1,12 +1,12 @@
-# Graph Report - .  (2026-06-12)
+# Graph Report - .  (2026-06-13)
 
 ## Corpus Check
-- 53 files · ~53,749 words
+- 84 files · ~81,371 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 191 nodes · 275 edges · 40 communities detected
-- Extraction: 83% EXTRACTED · 17% INFERRED · 0% AMBIGUOUS · INFERRED: 46 edges (avg confidence: 0.8)
+- 438 nodes · 751 edges · 62 communities detected
+- Extraction: 83% EXTRACTED · 17% INFERRED · 0% AMBIGUOUS · INFERRED: 128 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -50,123 +50,145 @@
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 44|Community 44]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
+- [[_COMMUNITY_Community 54|Community 54]]
+- [[_COMMUNITY_Community 55|Community 55]]
+- [[_COMMUNITY_Community 56|Community 56]]
+- [[_COMMUNITY_Community 57|Community 57]]
+- [[_COMMUNITY_Community 58|Community 58]]
+- [[_COMMUNITY_Community 59|Community 59]]
+- [[_COMMUNITY_Community 60|Community 60]]
+- [[_COMMUNITY_Community 61|Community 61]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `asString()` - 15 edges
-2. `getAuthenticatedSupabase()` - 15 edges
-3. `refresh()` - 13 edges
-4. `hasSupabaseEnv()` - 11 edges
-5. `GET()` - 10 edges
-6. `createClient()` - 10 edges
-7. `startDailyScan()` - 9 edges
-8. `New Default` - 9 edges
-9. `analyzeCandidate()` - 8 edges
-10. `toAiLogRow()` - 7 edges
+1. `startRun()` - 24 edges
+2. `GET()` - 15 edges
+3. `updateLocalTerminalData()` - 15 edges
+4. `asString()` - 14 edges
+5. `round()` - 14 edges
+6. `isLocalRuntime()` - 13 edges
+7. `refresh()` - 12 edges
+8. `startDailyScan()` - 12 edges
+9. `getAuthenticatedSupabase()` - 11 edges
+10. `analyzeCandidate()` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `generateEventAnalysis()` --calls--> `createMockEventAnalysis()`  [INFERRED]
-  src\lib\edge-terminal\actions.ts → src\lib\edge-terminal\ai.ts
-- `generateSetup()` --calls--> `createMockSetup()`  [INFERRED]
-  src\lib\edge-terminal\actions.ts → src\lib\edge-terminal\ai.ts
-- `generateRiskReview()` --calls--> `createMockRiskReview()`  [INFERRED]
-  src\lib\edge-terminal\actions.ts → src\lib\edge-terminal\ai.ts
+- `createEmptyCostSummary()` --calls--> `startRun()`  [INFERRED]
+  src\lib\edge-terminal\pipeline\contracts.ts → src\lib\edge-terminal\pipeline\run.ts
 - `House Style (NL docs, EN code, ASCII, darkmode)` --semantically_similar_to--> `DEPT-style Tone of Voice`  [INFERRED] [semantically similar]
   CLAUDE.md → Docs/Context/developer-context.md
 - `AiLogPage()` --calls--> `getTerminalData()`  [INFERRED]
   src\app\(app)\ai-log\page.tsx → src\lib\edge-terminal\data.ts
+- `GET()` --calls--> `asString()`  [INFERRED]
+  src\app\auth\confirm\route.ts → src\lib\edge-terminal\actions.ts
+- `GET()` --calls--> `asNumber()`  [INFERRED]
+  src\app\auth\confirm\route.ts → src\lib\edge-terminal\actions.ts
 
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.13
-Nodes (16): getCredentials(), safeNext(), signIn(), signOut(), signUp(), AppShell(), createClient(), getSupabaseEnv() (+8 more)
+Cohesion: 0.07
+Nodes (42): createEventAnalysis(), createEventFromCandidate(), createCandidatesFromSources(), hasOpenAiApiKey(), createRiskReview(), aggregateStepCost(), briefingPromptInput(), buildRunWindow() (+34 more)
 
 ### Community 1 - "Community 1"
+Cohesion: 0.07
+Nodes (38): createRawPayloadRef(), createFinnhubAdapters(), createFinnhubEarningsAdapter(), createFinnhubNewsAdapter(), createFinnhubQuoteAdapter(), earningsToSourceItem(), fetchFinnhubLastPrices(), getFinnhubConfig() (+30 more)
+
+### Community 2 - "Community 2"
+Cohesion: 0.23
+Nodes (28): acceptCandidate(), analyzeCandidate(), asJson(), asNumber(), asRecord(), asScanHintMode(), asString(), createAsset() (+20 more)
+
+### Community 3 - "Community 3"
+Cohesion: 0.13
+Nodes (20): getCredentials(), safeNext(), signIn(), signOut(), signUp(), createClient(), getEdgeRuntimeMode(), getLocalDatabasePath() (+12 more)
+
+### Community 4 - "Community 4"
 Cohesion: 0.09
 Nodes (25): .claude/ Configuration, Docs/ Structure, Four-Phase Kickstart, Graphify Integration, House Style (NL docs, EN code, ASCII, darkmode), Mandatory Implementation Log, Project Accelerator Skill, Project Kickstart (+17 more)
 
-### Community 2 - "Community 2"
-Cohesion: 0.3
-Nodes (22): acceptCandidate(), analyzeCandidate(), asJson(), asNumber(), asRecord(), asScanHintMode(), asString(), closePaperTrade() (+14 more)
+### Community 5 - "Community 5"
+Cohesion: 0.15
+Nodes (21): mergeCluster(), applyScanHint(), calculateCandidateQualityScore(), clampScore(), getScanHintFit(), tokenize(), checkExecutability(), round() (+13 more)
 
-### Community 3 - "Community 3"
-Cohesion: 0.19
-Nodes (11): asContextHints(), asRecord(), asScoreBreakdown(), asStringArray(), getEventDetail(), getTerminalData(), toBriefing(), toDiscoveryRun() (+3 more)
+### Community 6 - "Community 6"
+Cohesion: 0.17
+Nodes (14): asAdviceSourceRefs(), asContextHints(), asRecord(), asScoreBreakdown(), asStringArray(), getEventDetail(), getTerminalData(), toAdvice() (+6 more)
 
-### Community 4 - "Community 4"
+### Community 7 - "Community 7"
+Cohesion: 0.15
+Nodes (13): createAiLog(), getAiRuntimeStatus(), hasOpenAiEnv(), callOpenAiStructured(), estimateOpenAiCost(), extractOutputText(), fetchWithRetry(), getApiKey() (+5 more)
+
+### Community 8 - "Community 8"
+Cohesion: 0.24
+Nodes (11): average(), formatPercent(), getAdvicePerformance(), getCalibrationContext(), getDashboardMetrics(), getRiskGuardrails(), groupBy(), qualityLabel() (+3 more)
+
+### Community 9 - "Community 9"
+Cohesion: 0.22
+Nodes (11): companyFromTitle(), createEdgarCurrentFilingsAdapter(), decodeXml(), entryToSourceItem(), fetchCurrentFeed(), getUserAgent(), hasEdgarEnv(), linkHref() (+3 more)
+
+### Community 10 - "Community 10"
+Cohesion: 0.32
+Nodes (11): cloneData(), createInitialData(), ensureSchema(), getDatabase(), getLocalTerminalData(), normalizeTerminalData(), readSnapshot(), replaceMirrorRows() (+3 more)
+
+### Community 11 - "Community 11"
 Cohesion: 0.28
 Nodes (11): buildMockDiscoveryResult(), createScanContextHints(), extractSymbols(), extractTopics(), cloneSources(), fetchBroadNewsSources(), fetchFinancialNewsSources(), fetchMarketContext() (+3 more)
 
-### Community 5 - "Community 5"
-Cohesion: 0.2
-Nodes (4): createRawPayloadRef(), mergeStepCost(), roundCost(), sanitizeRefPart()
-
-### Community 6 - "Community 6"
-Cohesion: 0.28
-Nodes (7): createMockEventAnalysis(), createMockRiskReview(), createMockSetup(), getAiRuntimeStatus(), hasGeminiEnv(), hasOpenAiEnv(), AiLogPage()
-
-### Community 7 - "Community 7"
-Cohesion: 0.33
-Nodes (2): getDashboardMetrics(), getPerformanceSummary()
-
-### Community 8 - "Community 8"
-Cohesion: 0.33
-Nodes (0):
-
-### Community 9 - "Community 9"
-Cohesion: 0.67
-Nodes (5): applyScanHint(), calculateCandidateQualityScore(), clampScore(), getScanHintFit(), tokenize()
-
-### Community 10 - "Community 10"
-Cohesion: 0.4
-Nodes (0):
-
-### Community 11 - "Community 11"
-Cohesion: 0.67
-Nodes (1): impactTone()
-
 ### Community 12 - "Community 12"
-Cohesion: 1.0
-Nodes (0):
+Cohesion: 0.27
+Nodes (10): assetQuery(), buildGdeltQueries(), cleanTicker(), fetchGdeltArticles(), parseGdeltDate(), quotePhrase(), sectorQuery(), timespanForWindow() (+2 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 1.0
-Nodes (0):
+Cohesion: 0.42
+Nodes (9): activeOpenSameThemeCount(), assembleAdvices(), correlationPenalty(), correlationWarning(), marketForTicker(), rankedSameThemeCount(), rankScore(), rankScoreWithOpenCorrelation() (+1 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 1.0
-Nodes (0):
+Cohesion: 0.31
+Nodes (9): dedupeAndClusterCandidates(), fuzzyMatches(), jaccard(), sharesSymbol(), sourceById(), sourceExactKeys(), sourcePublishedAt(), titleTokens() (+1 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 1.0
-Nodes (0):
+Cohesion: 0.25
+Nodes (4): createEmptyCostSummary(), mergeStepCost(), roundCost(), sanitizeRefPart()
 
 ### Community 16 - "Community 16"
-Cohesion: 1.0
+Cohesion: 0.33
 Nodes (0):
 
 ### Community 17 - "Community 17"
-Cohesion: 1.0
-Nodes (0):
+Cohesion: 0.4
+Nodes (1): impactTone()
 
 ### Community 18 - "Community 18"
-Cohesion: 1.0
+Cohesion: 0.4
 Nodes (0):
 
 ### Community 19 - "Community 19"
-Cohesion: 1.0
+Cohesion: 0.5
 Nodes (0):
 
 ### Community 20 - "Community 20"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0):
 
 ### Community 21 - "Community 21"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0):
 
 ### Community 22 - "Community 22"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0):
 
 ### Community 23 - "Community 23"
@@ -237,80 +259,190 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0):
 
+### Community 40 - "Community 40"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 41 - "Community 41"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 42 - "Community 42"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 43 - "Community 43"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 44 - "Community 44"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 45 - "Community 45"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 46 - "Community 46"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 47 - "Community 47"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 48 - "Community 48"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 49 - "Community 49"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 50 - "Community 50"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 51 - "Community 51"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 52 - "Community 52"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 53 - "Community 53"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 54 - "Community 54"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 55 - "Community 55"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 56 - "Community 56"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 57 - "Community 57"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 58 - "Community 58"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 59 - "Community 59"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 60 - "Community 60"
+Cohesion: 1.0
+Nodes (0):
+
+### Community 61 - "Community 61"
+Cohesion: 1.0
+Nodes (0):
+
 ## Knowledge Gaps
 - **12 isolated node(s):** `Four-Phase Kickstart`, `Docs/ Structure`, `Skill Location Convention`, `Settings Team vs Local`, `Graphify Integration` (+7 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 12`** (2 nodes): `RootLayout()`, `layout.tsx`
+- **Thin community `Community 23`** (2 nodes): `RootLayout()`, `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 13`** (2 nodes): `RiskRedirectPage()`, `page.tsx`
+- **Thin community `Community 24`** (2 nodes): `PaperTradesRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (2 nodes): `SignalsRedirectPage()`, `page.tsx`
+- **Thin community `Community 25`** (2 nodes): `qualityTone()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (2 nodes): `AuthErrorPage()`, `page.tsx`
+- **Thin community `Community 26`** (2 nodes): `RiskRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 16`** (2 nodes): `status-pill.tsx`, `StatusPill()`
+- **Thin community `Community 27`** (2 nodes): `SetupsRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 17`** (2 nodes): `Button()`, `button.tsx`
+- **Thin community `Community 28`** (2 nodes): `SignalsRedirectPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (2 nodes): `Input()`, `input.tsx`
+- **Thin community `Community 29`** (2 nodes): `AuthErrorPage()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 19`** (2 nodes): `Label()`, `label.tsx`
+- **Thin community `Community 30`** (2 nodes): `status-pill.tsx`, `StatusPill()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (2 nodes): `utils.ts`, `cn()`
+- **Thin community `Community 31`** (2 nodes): `Button()`, `button.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (2 nodes): `scoreBreakdown()`, `demo-data.ts`
+- **Thin community `Community 32`** (2 nodes): `Input()`, `input.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 33`** (2 nodes): `Label()`, `label.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (1 nodes): `next.config.ts`
+- **Thin community `Community 34`** (2 nodes): `utils.ts`, `cn()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 24`** (1 nodes): `playwright.config.ts`
+- **Thin community `Community 35`** (2 nodes): `scoreBreakdown()`, `demo-data.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 25`** (1 nodes): `postcss.config.js`
+- **Thin community `Community 36`** (2 nodes): `createFixtureFetch()`, `finnhub-adapter.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 26`** (1 nodes): `tailwind.config.ts`
+- **Thin community `Community 37`** (2 nodes): `createJsonFetch()`, `openai-llm.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 27`** (1 nodes): `page.tsx`
+- **Thin community `Community 38`** (2 nodes): `createAssemblyItem()`, `pipeline-run.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 28`** (1 nodes): `page.tsx`
+- **Thin community `Community 39`** (2 nodes): `createRiskFixture()`, `risk-guardrails.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 29`** (1 nodes): `page.tsx`
+- **Thin community `Community 40`** (2 nodes): `createFixtureFetch()`, `rss-official-adapter.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 30`** (1 nodes): `page.tsx`
+- **Thin community `Community 41`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (1 nodes): `page.tsx`
+- **Thin community `Community 42`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (1 nodes): `page.tsx`
+- **Thin community `Community 43`** (1 nodes): `playwright.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 33`** (1 nodes): `page.tsx`
+- **Thin community `Community 44`** (1 nodes): `postcss.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 34`** (1 nodes): `page.tsx`
+- **Thin community `Community 45`** (1 nodes): `tailwind.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 35`** (1 nodes): `database.types.ts`
+- **Thin community `Community 46`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 36`** (1 nodes): `types.ts`
+- **Thin community `Community 47`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 37`** (1 nodes): `index.ts`
+- **Thin community `Community 48`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 38`** (1 nodes): `smoke.spec.ts`
+- **Thin community `Community 49`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 39`** (1 nodes): `pipeline-contracts.test.ts`
+- **Thin community `Community 50`** (1 nodes): `page.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 51`** (1 nodes): `page.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 52`** (1 nodes): `page.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 53`** (1 nodes): `page.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 54`** (1 nodes): `app-shell.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 55`** (1 nodes): `database.types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 56`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 57`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 58`** (1 nodes): `smoke.spec.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 59`** (1 nodes): `edgar-adapter.test.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 60`** (1 nodes): `local-store.test.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 61`** (1 nodes): `pipeline-contracts.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getTerminalData()` connect `Community 3` to `Community 0`, `Community 6`?**
+- **Why does `startRun()` connect `Community 0` to `Community 1`, `Community 2`, `Community 5`, `Community 10`, `Community 13`, `Community 14`, `Community 15`?**
+  _High betweenness centrality (0.164) - this node is a cross-community bridge._
+- **Why does `getTerminalData()` connect `Community 6` to `Community 10`, `Community 3`, `Community 7`?**
   _High betweenness centrality (0.082) - this node is a cross-community bridge._
-- **Why does `hasSupabaseEnv()` connect `Community 0` to `Community 2`, `Community 3`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
-- **Why does `getAuthenticatedSupabase()` connect `Community 2` to `Community 0`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
-- **Are the 2 inferred relationships involving `getAuthenticatedSupabase()` (e.g. with `hasSupabaseEnv()` and `createClient()`) actually correct?**
-  _`getAuthenticatedSupabase()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 10 inferred relationships involving `hasSupabaseEnv()` (e.g. with `ProtectedLayout()` and `signIn()`) actually correct?**
-  _`hasSupabaseEnv()` has 10 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 8 inferred relationships involving `GET()` (e.g. with `getCredentials()` and `signIn()`) actually correct?**
-  _`GET()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Four-Phase Kickstart`, `Docs/ Structure`, `Skill Location Convention` to the rest of the system?**
-  _12 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `GET()` connect `Community 3` to `Community 2`, `Community 5`, `Community 8`, `Community 10`, `Community 11`, `Community 14`?**
+  _High betweenness centrality (0.081) - this node is a cross-community bridge._
+- **Are the 16 inferred relationships involving `startRun()` (e.g. with `startAdviceRun()` and `getLocalTerminalData()`) actually correct?**
+  _`startRun()` has 16 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 13 inferred relationships involving `GET()` (e.g. with `getCredentials()` and `signIn()`) actually correct?**
+  _`GET()` has 13 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 11 inferred relationships involving `updateLocalTerminalData()` (e.g. with `startDailyScan()` and `markAdviceTaken()`) actually correct?**
+  _`updateLocalTerminalData()` has 11 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 12 inferred relationships involving `round()` (e.g. with `clampScore()` and `getPerformanceSummary()`) actually correct?**
+  _`round()` has 12 INFERRED edges - model-reasoned connections that need verification._

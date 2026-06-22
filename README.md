@@ -8,11 +8,11 @@ Single-user app voor Robin de Jong. Geen tradingbot: de app voert nooit zelf tra
 
 ```bash
 pnpm install
-cp .env.example .env.local   # vul Supabase-waarden in zodra er een project is
+cp .env.example .env.local
 pnpm dev
 ```
 
-Zonder env vars draait de app in **demo mode** met voorbeelddata - alle schermen blijven reviewbaar en testbaar.
+De MVP draait lokaal met `EDGE_RUNTIME_MODE=local` en bewaart data in `.data/edge-terminal.sqlite`. Zonder keys blijft **demo mode** met voorbeelddata beschikbaar voor review en tests.
 
 ## Documentatie
 
@@ -29,8 +29,8 @@ Zonder env vars draait de app in **demo mode** met voorbeelddata - alle schermen
 | Laag | Keuze |
 |---|---|
 | Frontend | Next.js App Router, React, TypeScript, Tailwind (darkmode terminal) |
-| Auth/DB | Supabase Auth + Postgres met RLS, migraties in `supabase/migrations/` |
-| Hosting | Vercel |
+| Auth/DB | Local SQLite in het MVP; Supabase Auth/Postgres/RLS later als deployfase |
+| Hosting | Lokaal via `pnpm dev`; Vercel later als de lokale MVP waarde bewijst |
 | LLM | OpenAI: goedkoop filtermodel + sterk analysemodel (server-only) |
 | Bronnen | Finnhub, SEC EDGAR, RSS, GDELT/Marketaux, Alpha Vantage movers |
 | Tests | Playwright e2e + unit tests op pipeline-helpers |
@@ -46,11 +46,15 @@ pnpm test:e2e   # Playwright
 pnpm test       # lint + typecheck + e2e
 ```
 
+## Lokale database
+
+Local mode bewaart data in `.data/edge-terminal.sqlite`. Maak een backup door dit bestand te kopieren terwijl de dev server uit staat. Reset local mode door `.data/edge-terminal.sqlite`, `.data/edge-terminal.sqlite-shm` en `.data/edge-terminal.sqlite-wal` te verwijderen; bij de volgende start seedt de app de lokale watchlist en demo-fixtures opnieuw.
+
 ## Projectregels
 
 - Documentatie Nederlands, code en UI-copy Engels.
 - Nieuwe env vars altijd in `.env.example` en `Docs/dependencies.md`.
 - Geen secrets committen; alle provider-keys server-only.
-- Datarechten afdwingen met Supabase RLS.
+- Local mode is single-user SQLite; datarechten afdwingen met Supabase RLS zodra deploy mode wordt gebouwd.
 - Na codewijzigingen: `graphify update .` draaien als `graphify` beschikbaar is.
 - Elke sessie een entry in `Docs/implementation-log.md`.

@@ -32,7 +32,7 @@ export type CloseReason =
   | "hypothesis_invalidated"
   | "expired"
   | "cancelled";
-export type AIProvider = "openai" | "gemini" | "news_search" | "market_data" | "mock";
+export type AIProvider = "openai" | "news_search" | "market_data" | "mock";
 export type AIAnalysisType =
   | "event_analysis"
   | "setup_generation"
@@ -42,7 +42,14 @@ export type AIAnalysisType =
   | "discovery_run"
   | "candidate_dedupe"
   | "candidate_ranking"
-  | "source_quality";
+  | "source_quality"
+  | "advice_filter"
+  | "advice_analysis"
+  | "advice_setup"
+  | "advice_risk"
+  | "advice_assembly"
+  | "advice_briefing"
+  | "pipeline_step";
 export type DiscoveryStatus = "running" | "completed" | "failed";
 export type DiscoveryTrigger = "manual" | "morning" | "mock" | "future_cron" | "cron";
 export type DiscoveryProvider = "mock" | "news_search" | "market_data" | "mixed";
@@ -55,6 +62,16 @@ export type SourceCategory =
   | "market_context"
   | "manual";
 export type CandidateStatus = "new" | "accepted" | "ignored" | "merged" | "analyzed";
+export type AdviceDirection = "long" | "short";
+export type AdviceMarket = "us" | "eu";
+export type AdviceStatus = "active" | "expired" | "invalidated" | "rejected_by_user";
+export type AdviceTrackingOutcome =
+  | "target"
+  | "stop"
+  | "expired_positive"
+  | "expired_negative"
+  | "invalidated";
+export type PipelineStepStatus = "pending" | "running" | "completed" | "failed" | "skipped";
 
 export type ScanHintMode = "ranking_boost" | "extra_source_query" | "watch_only_note";
 
@@ -184,6 +201,10 @@ export type AIAnalysisLog = {
   summary: string;
   sourcePayloadRefs: string[];
   scoreInputs: Record<string, unknown>;
+  inputPayload?: Record<string, unknown>;
+  outputPayload?: Record<string, unknown>;
+  costSummary?: Record<string, unknown>;
+  errorMessage?: string | null;
   createdAt: string;
 };
 
@@ -251,6 +272,111 @@ export type EventCandidate = {
   updatedAt: string;
 };
 
+export type SourcePayloadSnapshot = {
+  id: string;
+  discoveryRunId: string | null;
+  eventSourceId: string | null;
+  rawPayloadRef: string;
+  provider: string;
+  payloadKind: "metadata" | "snippet" | "api_response";
+  payload: Record<string, unknown>;
+  payloadHash: string | null;
+  retentionNote: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type PipelineStepRun = {
+  id: string;
+  discoveryRunId: string;
+  candidateId: string | null;
+  adviceId: string | null;
+  stepName: string;
+  status: PipelineStepStatus;
+  attempt: number;
+  promptVersion: string | null;
+  model: string | null;
+  inputPayload: Record<string, unknown>;
+  outputPayload: Record<string, unknown>;
+  costSummary: Record<string, unknown>;
+  sourcePayloadRefs: string[];
+  errorMessage: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdviceSourceRef = {
+  title: string;
+  url: string | null;
+  publishedAt: string | null;
+  sourceId: string | null;
+  rawPayloadRef: string | null;
+};
+
+export type Advice = {
+  id: string;
+  discoveryRunId: string | null;
+  candidateId: string | null;
+  analysisId: string | null;
+  setupId: string | null;
+  riskReviewId: string | null;
+  assetId: string | null;
+  ticker: string;
+  direction: AdviceDirection;
+  market: AdviceMarket;
+  entryZoneLow: number;
+  entryZoneHigh: number;
+  stopLoss: number;
+  target: number;
+  horizonDays: number;
+  sizeSuggestionEur: number;
+  confidence: number;
+  rank: number | null;
+  eventType: EventType;
+  runProfile: RunProfile;
+  reasoning: string;
+  counterargument: string;
+  invalidation: string;
+  sourceRefs: AdviceSourceRef[];
+  executabilityNote: string | null;
+  expectedMovePct: number | null;
+  costEstimatePct: number | null;
+  costHurdleRatio: number | null;
+  correlationWarning: string | null;
+  gapRiskNote: string | null;
+  squeezeRiskNote: string | null;
+  status: AdviceStatus;
+  takenByUser: boolean;
+  userEntryPrice: number | null;
+  userExitPrice: number | null;
+  userNote: string | null;
+  rejectedReason: string | null;
+  metadata: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdviceTracking = {
+  id: string;
+  adviceId: string;
+  referenceEntry: number;
+  d1Return: number | null;
+  d3Return: number | null;
+  d5Return: number | null;
+  stopHitAt: string | null;
+  targetHitAt: string | null;
+  expiredAt: string | null;
+  finalReturn: number | null;
+  outcome: AdviceTrackingOutcome | null;
+  lastCheckedAt: string | null;
+  lastPrice: number | null;
+  metadata: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type DailyBriefing = {
   id: string;
   briefingDate: string;
@@ -268,12 +394,16 @@ export type TerminalData = {
   discoveryRuns: DiscoveryRun[];
   eventSources: EventSource[];
   eventCandidates: EventCandidate[];
+  sourcePayloadSnapshots: SourcePayloadSnapshot[];
+  pipelineStepRuns: PipelineStepRun[];
   latestDiscoveryRun: DiscoveryRun | null;
   assets: Asset[];
   events: MarketEvent[];
   analyses: EventAnalysis[];
   setups: TradeSetup[];
   riskReviews: RiskReview[];
+  advices: Advice[];
+  adviceTracking: AdviceTracking[];
   paperTrades: PaperTrade[];
   aiLogs: AIAnalysisLog[];
   dailyBriefing: DailyBriefing;

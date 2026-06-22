@@ -1,12 +1,12 @@
 # Template smoke tests
 
-Deze permanente smoke tests horen bij de Next/Supabase template en staan in `tests/e2e/smoke.spec.ts`.
+Deze smoke tests stammen uit de oude Next/Supabase-templatebasis en staan in `tests/e2e/smoke.spec.ts`. Voor Edge Terminal worden ze omgebouwd naar demo/local-mode regressietests zonder Supabase-testproject.
 
 ## Dekking
 
 - Home/cockpit rendert.
 - Loginpagina is bereikbaar.
-- Protected dashboard redirect unauthenticated users naar `/login`.
+- In local mode is `/login` een status/entry-scherm; verplichte auth hoort pas bij een latere Supabase-deploy.
 
 ## Run
 
@@ -14,4 +14,4 @@ Deze permanente smoke tests horen bij de Next/Supabase template en staan in `tes
 pnpm test:e2e
 ```
 
-Breid deze tests in fase 4 uit met project-specifieke MVP-flows en Supabase testdata.
+Breid deze tests uit met project-specifieke MVP-flows, demo-fixtures en lokale SQLite-fixtures.

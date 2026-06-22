@@ -1,6 +1,4 @@
 import { Badge, DataRow, Notice, PageHeader, Panel, PanelBody, PanelHeader } from "@/components/edge-terminal";
-import { Button } from "@/components/ui/button";
-import { generateEventAnalysis, generateSetup } from "@/lib/edge-terminal/actions";
 import { getEventDetail } from "@/lib/edge-terminal/data";
 import { formatPercent } from "@/lib/edge-terminal/metrics";
 
@@ -15,7 +13,6 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
   const { id } = await params;
   const query = await searchParams;
   const { event, analysis, setups, assets } = await getEventDetail(id);
-  const primaryAsset = assets[0];
 
   return (
     <div>
@@ -23,18 +20,13 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
       <PageHeader title={event.title} eyebrow={event.linkedTickers.join(", ") || "Market event"}>
         <Badge tone={event.impactDirection === "negative" ? "red" : "green"}>{event.impactDirection}</Badge>
         <Badge tone={event.eventType === "perception" ? "amber" : "blue"}>{event.eventType}</Badge>
-        <Badge tone="cyan">Paper trade only</Badge>
+        <Badge tone="cyan">source proof</Badge>
       </PageHeader>
 
       <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
         <div className="grid gap-4">
           <Panel>
-            <PanelHeader title="Event Analysis">
-              <form action={generateEventAnalysis}>
-                <input type="hidden" name="event_id" value={event.id} />
-                <Button size="sm" type="submit">Generate analysis</Button>
-              </form>
-            </PanelHeader>
+            <PanelHeader title="Event Analysis" />
             <PanelBody className="space-y-4">
               <p className="text-sm text-muted-foreground">{event.summary}</p>
               {analysis ? (
@@ -55,22 +47,15 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
                   </div>
                 </>
               ) : (
-                <p className="text-sm text-muted-foreground">No analysis yet. Generate a mock/OpenAI-ready analysis from this event.</p>
+                <p className="text-sm text-muted-foreground">
+                  No event-level analysis stored yet. The autonomous run writes candidate analysis to AI Log and advice detail.
+                </p>
               )}
             </PanelBody>
           </Panel>
 
           <Panel>
-            <PanelHeader title="Linked setups">
-              {primaryAsset ? (
-                <form action={generateSetup}>
-                  <input type="hidden" name="event_id" value={event.id} />
-                  <input type="hidden" name="asset_id" value={primaryAsset.id} />
-                  <input type="hidden" name="asset_ticker" value={primaryAsset.ticker} />
-                  <Button size="sm" type="submit">Generate setup</Button>
-                </form>
-              ) : null}
-            </PanelHeader>
+            <PanelHeader title="Linked setup history" />
             <PanelBody className="grid gap-3">
               {setups.map((setup) => (
                 <div key={setup.id} className="rounded-md border border-border bg-background p-3">
@@ -81,7 +66,11 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
                   <p className="mt-2 text-sm text-muted-foreground">{setup.rationale}</p>
                 </div>
               ))}
-              {setups.length === 0 ? <p className="text-sm text-muted-foreground">No setup generated yet.</p> : null}
+              {setups.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  No legacy setup rows are linked to this event. Current advice setup and risk output live on Advice Detail.
+                </p>
+              ) : null}
             </PanelBody>
           </Panel>
         </div>
@@ -103,8 +92,8 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             <PanelHeader title="Research sources" />
             <PanelBody>
               <DataRow label="Source" value={event.source ?? "Manual note"} />
-              <DataRow label="Gemini research" value={<Badge tone="amber">placeholder</Badge>} />
-              <DataRow label="OpenAI analysis" value={<Badge tone={analysis ? "green" : "amber"}>{analysis ? "ready" : "pending"}</Badge>} />
+              <DataRow label="Linked assets" value={assets.map((asset) => asset.ticker).join(", ") || "n/a"} />
+              <DataRow label="Pipeline analysis" value={<Badge tone={analysis ? "green" : "amber"}>{analysis ? "stored" : "AI Log"}</Badge>} />
             </PanelBody>
           </Panel>
         </div>

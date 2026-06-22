@@ -18,19 +18,21 @@ Consequentie voor elke prompt en ranking: geen beweging najagen, entry op pullba
 
 | Regel | Startwaarde |
 |---|---|
-| Trading-kapitaal | Door Robin vast te stellen: alleen geld dat volledig gemist kan worden. Vastleggen voor de eerste echte trade. |
+| Trading-kapitaal | EUR 2500 (vastgelegd 2026-06-13; alleen geld dat volledig gemist kan worden) |
 | Max risico per trade | 1% van het trading-kapitaal (afstand entry -> stop, inclusief slippage-marge, bepaalt de positiegrootte) |
 | Minimale positie | EUR 500 zolang het kostenprofiel CFD-achtig is; onder EUR 500 eten kosten elke realistische edge op |
 | Maximale positie | EUR 1000 (bestaand besluit) |
 | Max open posities | 4-5 tegelijk |
 | Correlatieregel | Max 2 open posities in hetzelfde sector/thema; een derde geldt als het vergroten van een bestaande trade |
 | Shorts | Halve positiegrootte of dubbele slippage-marge: verliesrisico is asymmetrisch en squeeze-risico is reeel bij negatief-sentiment-namen |
+| Broker startaanname | eToro voor MVP-validatie; IBKR-achtig alternatief aanbevolen voor structureel live traden |
 
 ## 3. Kostenhorde
 
 - **Regel:** verwachte round-trip kosten (spread + fees + overnight/weekend bij 1-2 weken aanhouden) <= 1/3 van de verwachte beweging naar target. Anders: no-trade of zware rank-penalty.
 - De pipeline berekent per advies `expected_move_pct` en `cost_estimate_pct` en toont de verhouding op de advieskaart.
-- **Broker-voorwaarde:** de overstap naar een broker met echte aandelen/shorts en lage kosten (IBKR-achtig) is een voorwaarde voor structureel echt traden, geen nice-to-have. Tot die tijd: alleen posities waar de kostenhorde ook met CFD-kosten haalbaar is.
+- **Broker-start:** de MVP rekent conservatief met eToro/CFD-achtige kosten, omdat Robin daar nu start.
+- **Broker-advies:** voor structureel echt traden is een overstap naar een broker met echte aandelen/shorts en lage kosten (IBKR-achtig) sterk aanbevolen, geen nice-to-have. Tot die tijd: alleen posities waar de kostenhorde ook met CFD-kosten haalbaar is.
 
 ## 4. Circuit breaker
 

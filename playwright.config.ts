@@ -19,8 +19,11 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: `pnpm exec next dev --webpack --hostname 127.0.0.1 --port ${port}`,
+    command: `node --use-system-ca ./node_modules/next/dist/bin/next dev --webpack --hostname 127.0.0.1 --port ${port}`,
     url: baseURL,
+    env: {
+      EDGE_RUNTIME_MODE: "demo",
+    },
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

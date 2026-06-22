@@ -49,7 +49,7 @@ export default function HomePage() {
               </h2>
               <p className="max-w-2xl text-base leading-7 text-muted-foreground">
                 Edge Terminal structures market events, perception shifts, AI analysis,
-                risk reviews and paper trades into one measurable research cycle.
+                risk reviews and tracked advice into one measurable decision cycle.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -65,8 +65,8 @@ export default function HomePage() {
           <div className="grid gap-4">
             <div className="grid gap-3 sm:grid-cols-3">
               <MetricCard label="MVP scope" value="US/EU/ETF" detail="Watchlist first" tone="cyan" />
-              <MetricCard label="Trade mode" value="Paper" detail="No broker execution" tone="amber" />
-              <MetricCard label="Core loop" value="7 steps" detail="Event to learning" tone="green" />
+              <MetricCard label="Execution" value="Manual" detail="No broker execution" tone="amber" />
+              <MetricCard label="Core loop" value="8 steps" detail="Source to learning" tone="green" />
             </div>
             <Panel>
               <PanelHeader title="Research cycle">
@@ -77,7 +77,7 @@ export default function HomePage() {
                   ["Event", "Manual market event or perception event"],
                   ["Analysis", "OpenAI impact, bull/bear case and risks"],
                   ["Setup", "Long, short or no trade hypothesis"],
-                  ["Risk", "Mandatory counterargument before paper trade"],
+                  ["Risk", "Mandatory counterargument before taken advice"],
                   ["Learning", "Performance Lab measures signal quality"],
                 ].map(([title, copy]) => (
                   <div key={title} className="rounded-md border border-border bg-background p-3">
@@ -91,19 +91,19 @@ export default function HomePage() {
               <Panel>
                 <PanelBody>
                   <Database className="mb-3 h-5 w-5 text-cyan-100" />
-                  <span className="text-sm font-medium">Supabase ready</span>
+                  <span className="text-sm font-medium">SQLite local</span>
                 </PanelBody>
               </Panel>
               <Panel>
                 <PanelBody>
                   <Bot className="mb-3 h-5 w-5 text-cyan-100" />
-                  <span className="text-sm font-medium">AI placeholders</span>
+                  <span className="text-sm font-medium">OpenAI ready</span>
                 </PanelBody>
               </Panel>
               <Panel>
                 <PanelBody>
                   <ShieldCheck className="mb-3 h-5 w-5 text-cyan-100" />
-                  <span className="text-sm font-medium">Paper only</span>
+                  <span className="text-sm font-medium">No broker execution</span>
                 </PanelBody>
               </Panel>
             </div>
@@ -112,7 +112,7 @@ export default function HomePage() {
 
         <footer className="flex items-center gap-2 border-t border-border py-4 text-xs text-muted-foreground">
           <TrendingUp className="h-4 w-4" />
-          Research first. No financial advice. Paper trades only.
+          Advice support only. No financial advice. Robin decides and executes manually.
         </footer>
       </div>
     </main>

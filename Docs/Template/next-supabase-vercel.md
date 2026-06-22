@@ -1,6 +1,7 @@
 # Next.js / Supabase / Vercel template
 
 > Bron voor de standaard technische projectstart van deze accelerator. Gebruik dit als default voor New Default-apps, tenzij het project bewust afwijkt.
+> Let op voor Edge Terminal: dit project wijkt bewust af. Het MVP gebruikt lokale SQLite en `pnpm dev`; Supabase/Vercel uit dit template zijn geen MVP-stappen en komen pas terug als S-46/S-49 dat besluit.
 
 ## Oordeel
 

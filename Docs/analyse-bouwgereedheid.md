@@ -1,6 +1,6 @@
 # Analyse - Plan en bouwgereedheid Edge Terminal
 
-> Status: verwerkt - de herijking uit dit document is op 2026-06-12 doorgevoerd in specs, briefing en backlog (zie EPIC-10 in `Docs/backlog.md`). Dit document blijft als onderbouwing.
+> Status: verwerkt - de herijking uit dit document is op 2026-06-12 doorgevoerd in specs, briefing en backlog (zie EPIC-10 in `Docs/backlog.md`). Runtime/deploy-aannames zijn op 2026-06-13 aangepast naar local-first MVP met SQLite; dit document blijft als onderbouwing.
 > Datum: 2026-06-12.
 > Doel: beoordelen wat er bruikbaar is in de huidige projectstart, wat herschreven moet worden, en wanneer de bouw moet starten.
 > Basis: ProjectOmschrijving.txt, voorstel-specs, functioneel/technisch ontwerp, backlog, implementatielog, de codebase en het interview van 2026-06-12.
@@ -24,7 +24,7 @@ Vastgelegde uitgangspunten uit het interview:
 | Budget | EUR 150/maand voor data-API's en AI samen. |
 | Traceerbaarheid | Pragmatisch: bron-URL erbij is genoeg, Robin googelt zelf na bij twijfel. |
 | Validatie | Robin beslist zelf op basis van het advies en de argumentatie; geen formele gate vooraf. |
-| Scan starten | Handmatig vanaf het dashboard is oke voor het MVP; daarna draait alles vanzelf. |
+| Scan starten | Handmatig vanaf het dashboard is oke voor het lokale MVP; automatisering/deploy pas na lokale validatie. |
 
 Deze uitgangspunten zijn vanaf nu de bron van waarheid. Waar bestaande documenten hiervan afwijken, wijken de documenten.
 
@@ -131,7 +131,7 @@ Twee runs per dag met ~50-100 bronitems filteren en ~10 diepe analyses past hier
 - **5.6 Broker en kostenrealisme.** Shorts en 1-2 weken aanhouden lopen bij eToro via CFD's met overnight/weekend-fees; samen met de spreads vreet dat aan posities van EUR 100-1000. Een broker met echte shorts, EU-beurzen en lage kosten (bijv. Interactive Brokers) past beter bij dit profiel. Buiten de scope van de app, maar bepalend voor of de adviezen netto iets opleveren - zelf verifieren.
 - **6 adviezen per week is een plafond, geen quota.** Weken met 0-2 adviezen moeten normaal zijn; een pipeline die naar 6 toe vult, vult met ruis. "Vandaag geen advies" moet een volwaardige dashboard-uitkomst zijn.
 - **Modelnamen verouderd.** `.env.example` noemt `gpt-4o-mini` en `gemini-1.5-flash`; bij de echte integratie actualiseren naar actuele modellen.
-- **Cron direct na MVP.** Handmatig starten is gekozen voor het MVP, maar de 07:30-run wordt anders wekker-discipline. De voorbereide cron-route is de eerste verbetering daarna, zodat de adviezen klaarstaan als Robin opstaat.
+- **Automatisering pas na lokale validatie.** Handmatig starten is gekozen voor het lokale MVP. Cron/deploy is pas zinvol als vier weken lokaal gebruik bewijst dat de adviezen waarde hebben en de extra infrastructuurcomplexiteit het waard is.
 
 ## 6. Wanneer bouwen?
 
@@ -146,9 +146,9 @@ Herijking eerst (1-2 sessies):
 
 Daarna bouwen:
 
-- **Slice 1 - tracer bullet (alles staat of valt hiermee):** Supabase + Vercel live; een echte nieuwsbron + EDGAR + delayed quotes aangesloten; echte LLM-keten (filteren -> analyseren -> ranken); end-to-end naar een top 5 expliciete adviezen op het dashboard. Hoe kaal ook - het doel is bewijzen dat de pipeline op echte data echte adviezen kan maken.
+- **Slice 1 - lokale tracer bullet (alles staat of valt hiermee):** Next.js lokaal + SQLite-store; een echte gratis bronlaag + EDGAR/RSS + delayed quotes waar beschikbaar; echte LLM-keten (filteren -> analyseren -> ranken); end-to-end naar een top 5 expliciete adviezen op het dashboard. Hoe kaal ook - het doel is bewijzen dat de pipeline op Robins machine met echte data echte adviezen kan maken.
 - **Slice 2:** tweede run-profiel (EU/US) en automatische uitkomstmeting per advies; Performance Lab op echte adviezen.
-- **Slice 3:** kwaliteitsiteraties: dedupe, bronmix, promptversies vergelijken via de AI-log; cron zodat de runs vanzelf klaarstaan.
+- **Slice 3:** lokale validatie en kwaliteitsiteraties: dedupe, bronmix, promptversies vergelijken via de AI-log; daarna pas besluiten of cron/Supabase/Vercel nodig zijn.
 
 **Succescriterium slice 1:** vier weken dagelijks draaien. Per advies beoordeelt Robin "had ik hier wat aan gehad", en de automatische tracking toont wat de adviezen netto hadden opgeleverd. Dat is de validatie - niet meer documentatie.
 

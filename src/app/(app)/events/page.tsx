@@ -17,7 +17,6 @@ import {
   createMarketEvent,
   ignoreCandidate,
   mergeCandidate,
-  startDailyScan,
 } from "@/lib/edge-terminal/actions";
 import { getTerminalData } from "@/lib/edge-terminal/data";
 import type { CandidateStatus, EventCandidate } from "@/lib/edge-terminal/types";
@@ -51,10 +50,17 @@ export const dynamic = "force-dynamic";
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const params = await searchParams;
   const data = await getTerminalData();
-  const candidates = data.eventCandidates
+  const latestRun = data.latestDiscoveryRun;
+  const runCandidates = latestRun
+    ? data.eventCandidates.filter((candidate) => candidate.discoveryRunId === latestRun.id)
+    : data.eventCandidates;
+  const runSources = latestRun
+    ? data.eventSources.filter((source) => source.discoveryRunId === latestRun.id)
+    : data.eventSources;
+  const candidates = runCandidates
     .slice()
     .sort((left, right) => right.candidateQualityScore - left.candidateQualityScore);
-  const sourceById = new Map(data.eventSources.map((source) => [source.id, source]));
+  const sourceById = new Map(runSources.map((source) => [source.id, source]));
   const candidatesByStatus = {
     new: candidates.filter((candidate) => candidate.candidateStatus === "new").length,
     accepted: candidates.filter((candidate) => candidate.candidateStatus === "accepted").length,
@@ -66,12 +72,12 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   return (
     <div>
       <Notice message={params.notice} />
-      <PageHeader title="Event Radar" eyebrow="Candidate triage, source proof and accepted market events">
+      <PageHeader title="Event Radar" eyebrow="Candidate inspection, source proof and correction controls">
         <Badge tone="cyan">{candidates.length} candidates</Badge>
         <Badge tone="green">{candidatesByStatus.accepted + candidatesByStatus.analyzed} promoted</Badge>
-        <form action={startDailyScan}>
-          <Button size="sm" type="submit">Start daily scan</Button>
-        </form>
+        <Button asChild size="sm">
+          <Link href="/dashboard">Start advice run</Link>
+        </Button>
       </PageHeader>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
@@ -166,14 +172,14 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
           </div>
           {candidates.length === 0 ? (
             <PanelBody>
-              <p className="text-sm text-muted-foreground">No candidates yet. Start a daily scan from Dashboard or Event Radar.</p>
+              <p className="text-sm text-muted-foreground">No candidates yet. Start an EU or US advice run from Dashboard.</p>
             </PanelBody>
           ) : null}
         </Panel>
 
         <div className="grid gap-4">
           <Panel>
-            <PanelHeader title="Triage Summary" />
+            <PanelHeader title="Candidate Summary" />
             <PanelBody>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">New</span><span className="font-mono">{candidatesByStatus.new}</span></div>
@@ -191,7 +197,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
               {["broad_news", "financial_feed", "primary_source", "macro_calendar", "market_context"].map((category) => (
                 <div key={category} className="flex justify-between gap-3 text-sm">
                   <span className="text-muted-foreground">{category}</span>
-                  <span className="font-mono">{data.eventSources.filter((source) => source.sourceCategory === category).length}</span>
+                  <span className="font-mono">{runSources.filter((source) => source.sourceCategory === category).length}</span>
                 </div>
               ))}
             </PanelBody>

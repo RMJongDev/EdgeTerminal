@@ -38,11 +38,12 @@ Externe tools, MCP servers, skills en repos die dit project (of de Claude-workfl
 ## Runtime & package manager
 
 ### Node.js
-- **Wat**: JavaScript runtime — basis voor alles (Next.js, Playwright, Vercel CLI, MCP servers).
+- **Wat**: JavaScript runtime — basis voor alles (Next.js, Playwright, lokale SQLite via `node:sqlite`, MCP servers).
 - **Bron**: <https://nodejs.org/>
 - **Install**: via [nvm-windows](https://github.com/coreybutler/nvm-windows) of [volta](https://volta.sh/). Vastleggen via `.nvmrc` in project root.
 - **Versie**: Node 24 (`.nvmrc`) — Active LTS voor nieuwe projecten in 2026.
 - **Scope**: global
+- **Gebruik**: `pnpm dev`, `pnpm build` en `pnpm start` starten Next via `node --use-system-ca`, zodat Node op Windows de systeemcertificaten gebruikt voor server-side providerfetches (o.a. Finnhub).
 
 ### pnpm
 - **Wat**: package manager — sneller en disk-efficiënter dan npm; voorkeur voor monorepo's.
@@ -56,7 +57,7 @@ Externe tools, MCP servers, skills en repos die dit project (of de Claude-workfl
 
 ---
 
-## Template runtime — Next/Supabase/Vercel
+## Template runtime — Next/local SQLite/Supabase later
 
 ### Next.js + React
 - **Wat**: App Router frontend/backend runtime voor de template.
@@ -65,8 +66,14 @@ Externe tools, MCP servers, skills en repos die dit project (of de Claude-workfl
 - **Versie**: `next@^16.2.6`, `react@^19.2.0`, `react-dom@^19.2.0`.
 - **Scope**: project
 
+### Local SQLite
+- **Wat**: lokale persistente MVP-store in `.data/edge-terminal.sqlite`, via Node 24 `node:sqlite`.
+- **Bron**: Node.js built-in module.
+- **Install**: geen extra package; vereist Node 24.
+- **Scope**: project
+
 ### Supabase SSR client
-- **Wat**: Supabase Auth/Postgres client met cookie-based SSR auth.
+- **Wat**: Supabase Auth/Postgres client met cookie-based SSR auth; aanwezig voor latere deployfase, niet vereist voor de lokale MVP.
 - **Bron**: <https://supabase.com/docs/guides/auth/server-side>
 - **Install**: projectdependency via `pnpm install`.
 - **Versie**: `@supabase/ssr@^0.10.3`, `@supabase/supabase-js@^2.106.2`.
@@ -109,14 +116,14 @@ Externe tools, MCP servers, skills en repos die dit project (of de Claude-workfl
 ## Backend & deploy CLIs
 
 ### Supabase CLI
-- **Wat**: lokale Supabase, migraties, en aparte test-Supabase voor e2e met storageState.
+- **Wat**: migraties en cloud/deploy workflows zodra Supabase mode gebouwd wordt.
 - **Bron**: <https://supabase.com/docs/guides/cli>
 - **Install**:
   ```bash
   npm install -g supabase
   ```
 - **Scope**: global
-- **Toevoegen wanneer**: het project daadwerkelijk Supabase gebruikt.
+- **Toevoegen wanneer**: S-46/S-49 besluit dat Supabase nodig is. Niet nodig voor de lokale SQLite-MVP.
 
 ### Vercel CLI
 - **Wat**: deploys, env-sync, lokaal Vercel-runtime testen.
@@ -126,7 +133,7 @@ Externe tools, MCP servers, skills en repos die dit project (of de Claude-workfl
   npm install -g vercel
   ```
 - **Scope**: global
-- **Toevoegen wanneer**: er naar Vercel gedeployed wordt.
+- **Toevoegen wanneer**: S-46/S-49 besluit dat Vercel nodig is. Niet nodig voor de lokale SQLite-MVP.
 
 ### GitHub CLI (`gh`)
 - **Wat**: PR's, issues, checks vanuit terminal — Claude gebruikt dit voor PR-workflows.
@@ -173,15 +180,19 @@ Skills die niet in `.claude/skills/` van dit repo zitten maar wel verwacht worde
 - **Onderhoud**: bij elke nieuwe env var → toevoegen aan `.env.example` met dummy/placeholder, en kort beschrijven waarvoor.
 
 Verwachte keys (waarden levert Robin op verzoek aan; zie `.env.example` en `Docs/Specs/news-sources.md`):
-- `OPENAI_API_KEY` + `OPENAI_FILTER_MODEL` / `OPENAI_ANALYSIS_MODEL` - LLM-keten: goedkoop filtermodel, sterk analysemodel (providerbesluit 2026-06-12).
-- `FINANCIAL_NEWS_API_KEY` / `FINANCIAL_NEWS_BASE_URL` - Finnhub: company/market news, quotes, earnings calendar.
-- `BROAD_NEWS_API_KEY` - Marketaux als brede laag (GDELT heeft geen key nodig).
-- `MOVERS_API_KEY` - Alpha Vantage `TOP_GAINERS_LOSERS` voor de mover sweep.
+- `EDGE_RUNTIME_MODE` - `local` voor de MVP, `demo` voor vaste voorbeelddata, `supabase` later.
+- `EDGE_LOCAL_DB_PATH` - pad naar het lokale SQLite-bestand, default `.data/edge-terminal.sqlite`.
+- `NEXT_PUBLIC_SITE_URL` - lokale of later gedeployde app-URL.
+- `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` - later/deploy only; leeg laten voor de lokale MVP.
+- `OPENAI_API_KEY` + `OPENAI_FILTER_MODEL=gpt-5.4-mini` / `OPENAI_ANALYSIS_MODEL=gpt-5.4` - LLM-keten: goedkoop filtermodel, sterker analysemodel. Officiele prijscheck 2026-06-13: `gpt-5.4-mini` $0.75 input / $4.50 output per 1M tokens; `gpt-5.4` $2.50 input / $15.00 output per 1M tokens. `gpt-5.5` is nieuwer/sterker maar duurder en niet nodig voor het MVP-budget. Live smoke 2026-06-13: structured output via `gpt-5.4-mini`, 98 tokens, geschatte kost EUR 0.000147. Pipeline smoke 2026-06-13: compacte `us_open` run met Finnhub + OpenAI filter, 45 bronnen, 43 candidates, 0 zonder bronreferentie, `totalCostEur` EUR 0.005222. Op Windows live providerfetches draaien met `node --use-system-ca`.
+- `FINANCIAL_NEWS_API_KEY` / `FINANCIAL_NEWS_BASE_URL` - Finnhub: company/market news, quotes, earnings calendar. Aanmaken: <https://finnhub.io/register>. Live check 2026-06-13: US `AAPL` news/quote werkt; EU-mandje geeft 403; earnings calendar geeft met deze gratis key HTTP 401 en wordt non-fataal op de runstatus gelogd.
+- `BROAD_NEWS_API_KEY` - optioneel/later: Marketaux als fallback brede laag. De lokale MVP gebruikt GDELT DOC 2.0 zonder key.
+- `MOVERS_API_KEY` - Alpha Vantage `TOP_GAINERS_LOSERS` voor de mover sweep. Live check 2026-06-13: 1 call werkte en leverde 26 movers boven 4% in de testconfig.
 - `EDGAR_USER_AGENT` - verplichte User-Agent (naam + e-mail) voor SEC EDGAR; geen key.
 - `MARKET_DATA_API_KEY` / `MARKET_DATA_BASE_URL` - delayed quotes US+EU voor market context en advice tracking (EODHD/Twelve Data; EU-dekking is het criterium).
-- `DISCOVERY_SCAN_CRON_SECRET` - beveiligt het cron-entrypoint (slice 3).
+- `DISCOVERY_SCAN_CRON_SECRET` - later/deploy only; beveiligt het cron-entrypoint als cloud scheduling wordt gebouwd.
 
-Providerkeuzes per bronlaag zijn op 2026-06-12 vastgelegd in `Docs/Specs/news-sources.md`. Nog open: definitieve keuze brede laag (GDELT vs Marketaux) en quotes-provider, na de EU-dekkingstest in het backlog.
+Providerkeuzes per bronlaag zijn op 2026-06-12 vastgelegd in `Docs/Specs/news-sources.md`. Startkeuze 2026-06-13: eerst gratis/geen-key waar mogelijk (EDGAR, RSS/official, GDELT), plus Finnhub en Alpha Vantage zodra Robin de gratis keys heeft aangemaakt. Brede laag voor de MVP: GDELT DOC 2.0; Marketaux blijft optioneel fallback. Nog open: definitieve quotes-provider, na de EU-dekkingstest in het backlog.
 
 ---
 

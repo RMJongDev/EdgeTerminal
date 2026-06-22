@@ -1,19 +1,15 @@
 import type { AIAnalysisLog, EventAnalysis, MarketEvent, RiskReview, TradeSetup } from "./types";
+import { getOpenAiModel, hasOpenAiApiKey } from "./llm/openai";
 
 export function hasOpenAiEnv() {
-  return Boolean(process.env.OPENAI_API_KEY);
-}
-
-export function hasGeminiEnv() {
-  return Boolean(process.env.GEMINI_API_KEY);
+  return hasOpenAiApiKey();
 }
 
 export function getAiRuntimeStatus() {
   return {
     openai: hasOpenAiEnv() ? "configured" : "mock",
-    gemini: hasGeminiEnv() ? "configured" : "mock",
-    openaiModel: process.env.OPENAI_ANALYSIS_MODEL ?? "gpt-4o-mini",
-    geminiModel: process.env.GEMINI_RESEARCH_MODEL ?? "gemini-1.5-flash",
+    filterModel: getOpenAiModel("filter"),
+    analysisModel: getOpenAiModel("analysis"),
   };
 }
 
@@ -67,7 +63,7 @@ export function createMockSetup(event: MarketEvent, assetId: string, assetTicker
     confidenceScore: direction === "no_trade" ? 42 : 60,
     rationale:
       direction === "no_trade"
-        ? "The event is relevant but not clean enough for a paper trade yet."
+        ? "The event is relevant but not clean enough for a tracked advice yet."
         : "The event can create a tradable hypothesis if market reaction confirms the initial bias.",
     invalidation: "Invalid if price action contradicts the event bias or the broader sector moves against the setup.",
     assumptions: "Market reaction is not fully priced in and follow-through confirms the thesis.",
@@ -99,12 +95,7 @@ export function createAiLog(
   return {
     analysisType,
     provider,
-    model:
-      provider === "openai"
-        ? runtime.openaiModel
-        : provider === "gemini"
-          ? runtime.geminiModel
-          : "mock-provider-v1",
+    model: provider === "openai" ? runtime.analysisModel : "mock-provider-v1",
     promptVersion: `${analysisType}-v1`,
     status: "success",
     usefulnessRating: null,

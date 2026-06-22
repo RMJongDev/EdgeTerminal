@@ -44,7 +44,7 @@ GET https://finnhub.io/api/v1/calendar/earnings?from=2026-06-12&to=2026-06-13
 Response: JSON-array met `headline`, `summary`, `url`, `datetime` (unix), `source`, `related` (ticker). Mapt direct op ons source-item formaat.
 
 Aandachtspunten:
-- company-news op free tier is vooral Noord-Amerika; **EU-dekking in week 1 van slice 1 testen** met een mandje EU-tickers (ASML, SAP, LVMH, Shell). Schiet dat tekort, dan vangt laag 4/5 het EU-gat af.
+- company-news op free tier is vooral Noord-Amerika. **EU-dekkingstest 2026-06-13:** mandje `ASML.AS`, `SAP.DE`, `SHEL.L`, `MC.PA`, `AIR.PA` gaf 403 op `company-news` en `quote` met de gratis key; controle met `AAPL` werkte wel (`quote`, `company-news`, `news/general`). Besluit: Finnhub is in de MVP bruikbaar voor US + general news, niet als primaire EU-laag. EU loopt via RSS/official/GDELT en later een aparte delayed-quotes-provider.
 - 60/min is ruim: een run met 30 tickers + categorieen blijft onder de limiet met een kleine delay tussen calls.
 - Bij 429: exponential backoff, run draait door met wat binnen is.
 
@@ -75,53 +75,69 @@ Aandachtspunten:
 
 Monitort wereldwijd nieuws in tientallen talen, gratis, geen key. Perfect voor de "random nieuws"-wens en perception events (Ferrari-scenario), maar ruisig: altijd door de dedupe + LLM-filter.
 
+**MVP-keuze 2026-06-13:** GDELT is gekozen als primaire brede laag voor de lokale gratis MVP. Reden: geen key/account nodig, wereldwijd bereik, geschikt voor onbekende namen buiten de watchlist. Marketaux blijft fallback als GDELT te ruisig blijkt of als entity-mapping belangrijker wordt.
+
 ```text
 # Artikelen over een onderwerp/bedrijf, laatste 12 uur, JSON
-GET https://api.gdeltproject.org/api/v2/doc/doc?query=(ASML%20OR%20%22Ferrari%22)%20sourcelang:eng&mode=artlist&maxrecords=100&timespan=12h&sort=datedesc&format=json
+GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22ASML%20Holding%22%20stock%20OR%20shares%20OR%20earnings%20sourcelang:eng&mode=ArtList&maxrecords=100&timespan=12h&sort=datedesc&format=json
 
 # Querysyntax
 #   "exacte frase", OR/AND, sourcelang:eng, sourcecountry:NL, domain:reuters.com
-#   tone<-5 (negatief nieuws - bruikbaar voor perception events)
+#   tonelessthan:-1 (negatieve tone - bruikbaar voor perception events)
 
-# Generieke event-pattern-query (verplicht naast watchlist/sector-query's):
+# Generieke event-pattern-query's (verplicht naast watchlist/sector-query's):
 # het vangnet voor namen die we NIET kennen - geen bedrijfsnamen in de query
-GET https://api.gdeltproject.org/api/v2/doc/doc?query=(shares%20OR%20stock)%20(plunge%20OR%20slump%20OR%20backlash%20OR%20%22profit%20warning%22)%20sourcelang:eng%20tone%3C-5&mode=artlist&maxrecords=100&timespan=12h&sort=datedesc&format=json
+GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22shares%20fell%22%20OR%20%22stock%20drops%22%20OR%20%22profit%20warning%22%20OR%20%22cuts%20guidance%22%20sourcelang:eng%20tonelessthan:-1&mode=ArtList&maxrecords=100&timespan=12h&sort=datedesc&format=json
+GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22recall%22%20OR%20%22investigation%22%20OR%20%22lawsuit%22%20OR%20%22short%20seller%22%20stock%20sourcelang:eng%20tonelessthan:-1&mode=ArtList&maxrecords=100&timespan=12h&sort=datedesc&format=json
 ```
 
 Aandachtspunten:
 - max 250 artikelen per call; historie ~3 maanden; updates elke 15 min;
-- informele rate limit: enkele gerichte queries per run (per profiel 3-5 query's), niet hammeren;
+- live-check 2026-06-13: GDELT geeft HTTP 429 met melding om requests tot ongeveer 1 per 5 seconden te beperken; adapter gebruikt daarom 5,5s delay tussen queries en een 6s retry bij 429;
+- enkele gerichte queries per run (per profiel 3-5 query's), niet hammeren;
 - `timespan` koppelen aan het run-profiel (eu_open: `timespan=16h` sinds US-close; us_open: `timespan=8h`);
 - titels in vreemde talen meenemen: de LLM-filter leest ze prima, `sourcelang:eng` alleen als ruisfilter voor de brede query.
 
 ## 4. RSS-feeds - persberichten, company IR en EU regulated news
 
-Gratis, stabiel, en de beste EU-dekking. EU-bedrijven distribueren regulated news vrijwel altijd via GlobeNewswire, EQS (DE/EU) of Euronext company news. Daarnaast publiceren bedrijven vaak als eerste op hun eigen investor-relations site. Pollen met een standaard RSS-parser (npm `rss-parser`), GUID/link opslaan voor dedupe.
+Gratis, stabiel, en de beste EU-dekking. EU-bedrijven distribueren regulated news vrijwel altijd via GlobeNewswire, EQS (DE/EU) of Euronext company news. Daarnaast publiceren bedrijven vaak als eerste op hun eigen investor-relations site. De MVP gebruikt een beperkte RSS/Atom-parser voor titel, link/GUID, publicatiedatum en samenvatting; geen volledige artikelen herpubliceren.
 
-Startlijst (uitbreidbaar, configuratie in code of tabel):
+Startlijst MVP (uitbreidbaar via adapter-config):
 
 ```text
-GlobeNewswire (tags/regio's en per organisatie):
+Live-check 2026-06-13: 10 van 13 feeds bereikbaar, waarvan 7 primary/official.
+
+GlobeNewswire:
   https://www.globenewswire.com/RssFeed/orgclass/1/feedTitle/GlobeNewswire%20-%20News%20Releases  (alle releases)
-  https://www.globenewswire.com/search/tag/europe  (Europa-tag; RSS-variant via site)
-EQS News (Duitse/EU regulated news):
-  https://www.eqs-news.com/  (RSS per categorie via site)
-Euronext company news (AEX/Brussel/Parijs/Lissabon):
-  https://live.euronext.com/en/products/equities/company-news  (RSS/notification via site)
-London Stock Exchange / RNS (FTSE/UK):
-  https://www.londonstockexchange.com/news  (news explorer; alleen officiele toegankelijke feeds/API's gebruiken)
 PR Newswire:
-  https://www.prnewswire.com/rss/  (categorie-feeds, o.a. financial services)
+  https://www.prnewswire.com/rss/news-releases-list.rss
 Business Wire:
-  https://www.businesswire.com/help/feed-options  (RSS-feed opties; categorie/marktfeeds)
-Company IR registry:
-  per watchlist- en mover-universumticker: investor-relations news/press-release/feed/calendar URL vastleggen
-ECB persberichten:        https://www.ecb.europa.eu/rss/press.html
-Federal Reserve:          https://www.federalreserve.gov/feeds/press_all.xml
+  https://feed.businesswire.com/rss/home/?rss=G1QFDERJXkJeEFpQWQ==
+Federal Reserve:
+  https://www.federalreserve.gov/feeds/press_all.xml
+ECB:
+  https://www.ecb.europa.eu/rss/press.html
+BLS:
+  https://www.bls.gov/feed/bls_latest.rss
+SEC press:
+  https://www.sec.gov/news/pressreleases.rss
+FDA press announcements:
+  https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml
+EMA news:
+  https://www.ema.europa.eu/en/news.xml
+Apple Newsroom:
+  https://www.apple.com/newsroom/rss-feed.rss
+
+Niet-live of later te vervangen op 2026-06-13:
+  Eurostat news RSS: huidige API-RSS-route geeft 404; vervangen door correcte public feed of API-route in S-29/S-30.
+  ASML press RSS: huidige IR-route geeft 404; vastleggen via company-IR registry wanneer ASML gericht nodig is.
+  Microsoft IR RSS: huidige IR-route geeft 404; vervangen door correcte Microsoft feed of press endpoint.
+  LSE/RNS RSS: London Stock Exchange RSS is niet meer ondersteund; alleen publieke officiele route of betaalde/licentiefeed gebruiken.
+  EQS/Euronext: portal/pagina blijven op de bronnenlijst, maar pas activeren na bewezen publiek feed/API-endpoint.
 ```
 
 Aandachtspunten:
-- exacte RSS-URL's per feed in week 1 vastleggen in de adapter-config (sites herschikken ze soms; daarom hier de vindplaats, niet alleen de URL);
+- exacte RSS-URL's staan in de adapter-config; live-status periodiek herchecken omdat sites feeds kunnen verplaatsen;
 - company IR-feeds zijn ticker-specifiek: begin met watchlist + top holdings + large-cap mover-universum; onbekende movers krijgen pas een IR-lookup nadat ze door de mover sweep zijn gevonden;
 - RNS/licenties: gebruik alleen publiek toegankelijke pagina's/feeds of een officiele gratis toegangsroute; geen betaalde RNS-feed of scraping achter licentie;
 - poll-moment = run-start; items ouder dan het profiel-tijdvenster overslaan;
@@ -130,6 +146,8 @@ Aandachtspunten:
 ## 5. Marketaux - brede financiele feed met entiteiten
 
 Gratis: 100 requests per dag, geen betaalgegevens nodig. Levert nieuws met herkende tickers/entiteiten en sentiment, wereldwijd inclusief EU - een goede tweede brede laag naast of in plaats van GDELT.
+
+**MVP-besluit 2026-06-13:** niet gekozen als primaire brede laag, omdat de lokale MVP gratis en zonder extra account/key moet kunnen draaien. Marketaux blijft de eerste fallback als GDELT te veel ruis geeft; dan is de waarde vooral entity/ticker-herkenning.
 
 ```text
 GET https://api.marketaux.com/v1/news/all?symbols=ASML,SAP&filter_entities=true&language=en&published_after=2026-06-12T05:00&api_token=<KEY>
@@ -154,8 +172,8 @@ Inzet: niet als primaire discovery maar als verrijking op candidates die de filt
 
 - FRED API (gratis key, optioneel): macro-reeksen en release-calendar; `https://api.stlouisfed.org/fred/releases/dates?api_key=<KEY>&file_type=json`.
 - ECB/Fed RSS (zie 4) voor rentebesluiten, speeches en persberichten.
-- BLS RSS/news releases: CPI, jobs, wages, productivity; relevant voor US-rates, indexen en rate-sensitive aandelen.
-- Eurostat RSS/news releases: inflatie, productie, werkloosheid, handel; relevant voor EU macro-context.
+- BLS RSS/news releases: `https://www.bls.gov/feed/bls_latest.rss`; relevant voor US-rates, indexen en rate-sensitive aandelen.
+- Eurostat RSS/news releases: huidige RSS-route gaf op 2026-06-13 404; opnieuw testen of vervangen door een stabiele Eurostat API-route.
 - Earnings calendar komt al uit Finnhub (1).
 
 Inzet: macrofeeds zijn meestal run-context en risk-context, niet automatisch een single-name candidate. Alleen bij duidelijke sector-/tickerkoppeling of grote koersreactie mogen ze door naar de filterstap.
@@ -185,6 +203,12 @@ De funnel hierboven stroomt van nieuws naar marktcontext. Voor perception events
 
 Hiermee is gegarandeerd dat alles wat hard beweegt - watchlist of niet - minstens een gerichte nieuws-zoektocht krijgt. Kosten: 1 endpoint-call + enkele tientallen quote-calls + 2-10 gerichte nieuws-fetches per run; verwaarloosbaar binnen de limieten.
 
+Live-status 2026-06-13:
+- Alpha Vantage `TOP_GAINERS_LOSERS` werkte met de gratis key en leverde 26 movers boven de 4%-drempel in de testconfig.
+- Alpha-movers worden opgeslagen als `market_context` met `unexplained_move`; ze worden niet direct candidate en verschijnen op het dashboard als context.
+- Per mover draait de pipeline gerichte follow-up via Finnhub company-news en GDELT; als geen verklarende bron binnenkomt blijft het context.
+- EU quote-sweep blijft afhankelijk van S-31, omdat daarvoor een delayed-quotes-provider met EU-dekking nodig is.
+
 ## 9. Exchange alerts - trading halts en marktstructuur
 
 Gratis en belangrijk als trigger: een trading halt is vaak een vroeg signaal dat er nieuws, nieuwsverwachting of extreme marktactiviteit speelt. Dit is geen advies op zichzelf; het triggert gerichte bronfetch en verschijnt als context.
@@ -194,13 +218,16 @@ Nasdaq current halts:
   https://www.nasdaqtrader.com/trader.aspx?id=tradehalts
 
 Nasdaq halt RSS:
-  https://www.nasdaqtrader.com/Trader.aspx?id=TradeHaltRSS
+  informatiepagina: https://www.nasdaqtrader.com/Trader.aspx?id=TradeHaltRSS
+  live RSS:         https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts
 
 NYSE trading halts:
   https://www.nyse.com/trade/trading-halts
 ```
 
 Aandachtspunten:
+- live-check 2026-06-13: Nasdaq halt RSS werkte en leverde 5 recente halts in het 48u-testvenster, inclusief `T1` news pending;
+- Nasdaq RSS bevat ook other exchange-listed securities; de NYSE-pagina blijft backstop/latere uitbreiding als we expliciet de download/CSV-route stabiel willen maken;
 - halt-codes wegen mee: `T1` (news pending) en `T2` (news released) zijn sterkere event-triggers dan puur LULD-volatiliteit;
 - halts zonder gevonden bron blijven context of unexplained mover, geen candidate;
 - alleen ticker, halt time, code, exchange en link opslaan.
@@ -225,6 +252,19 @@ Inzet:
 - alleen gericht pollen voor onbekende movers nadat de mover sweep ze heeft gevonden;
 - bronkwaliteit hoog, want dit is company-owned primary context, maar de LLM moet promotional bias expliciet meewegen.
 
+## 10a. Start-watchlist v1
+
+Deze lijst seedt de local store en de company-IR registry in S-22/S-28. De watchlist is rankingcontext, geen zoekgrens; mover sweep en generieke event-pattern-query's blijven verplicht.
+
+| Regio | Tickers | Reden |
+|---|---|---|
+| US mega/tech | AAPL, MSFT, NVDA, AMD, TSLA, AMZN, GOOGL, META, NFLX, ORCL | Hoog nieuwsvolume, sterke koersreacties, veel perception/product-events |
+| US financial/consumer/industrial | JPM, BAC, BA, DIS, NKE, SBUX, MCD | Macro-, consument-, rente- en sentimentgevoelig |
+| US healthcare | LLY, PFE | Regulator- en pipeline-events; nuttig voor FDA-feedvalidatie |
+| EU large caps | ASML.AS, SAP.DE, SHEL.L, RACE.MI, MC.PA, RMS.PA, AIR.PA, TTE.PA, OR.PA, SIE.DE, VOW3.DE, NESN.SW, UBSG.SW, AZN.L, BP.L, NOVO-B.CO | EU-dekking testen over semis, luxury, energy, industrials, pharma en financials |
+
+Provider-symbolen verschillen per bron; de seed mag daarom zowel een `display_ticker` als provider-specifieke aliases opslaan.
+
 ## 11. Healthcare/pharma regulator feeds - FDA en EMA
 
 Gratis sectorlaag voor biotech, pharma, medtech en consumer-health namen. Alleen actief wanneer de watchlist, mover of candidate-sector healthcare/pharma/biotech is, zodat de ruis beperkt blijft.
@@ -232,12 +272,14 @@ Gratis sectorlaag voor biotech, pharma, medtech en consumer-health namen. Alleen
 ```text
 FDA news feeds:
   https://www.fda.gov/about-fda/contact-fda/subscribe-podcasts-and-news-feeds
+  MVP live feed: https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml
 
 FDA recalls / market withdrawals / safety alerts:
   https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts
 
 EMA RSS feeds:
   https://www.ema.europa.eu/en/news-events/rss-feeds
+  MVP live feed: https://www.ema.europa.eu/en/news.xml
 ```
 
 Inzet:

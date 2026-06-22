@@ -39,7 +39,7 @@ Run (07:30 EU / 15:00 US)
 ```
 
 ## Markt & doelgroep
-- **Doelgroep:** Robin als enige gebruiker. Single-user met Supabase Auth, zodat sessies en latere uitbreiding netjes geregeld zijn.
+- **Doelgroep:** Robin als enige gebruiker. Het MVP draait lokaal zonder verplichte auth; Supabase Auth is alleen een latere deploy-optie.
 - **Marktpositie:** Persoonlijke adviesmachine tussen nieuwsplatformen, watchlists en professionele terminals in; vergelijkbaar denkkader: LevelFields AI, Trade Ideas.
 - **Geografische focus:** Start US-aandelen + EU large caps, long en short; EU small caps later.
 
@@ -70,11 +70,11 @@ Vermijden: "Guaranteed winner", "Must buy", "Perfect setup", "Risk-free", "Easy 
 Gewenst: "Short RACE, entry 380-388, invalidated above 402 - because...", "No advice today", "High uncertainty", "Cost check passed", "Counterargument:".
 
 ## Technische context
-- **Bestaande systemen:** Next.js / Supabase / Vercel app (demo-skelet, wordt omgebouwd volgens `Docs/backlog.md`).
-- **Tech stack:** Next.js App Router, Supabase Auth/Postgres/RLS, Tailwind, TypeScript, Playwright, Vercel.
+- **Bestaande systemen:** Next.js demo-skelet, wordt omgebouwd volgens `Docs/backlog.md` naar een lokale SQLite-MVP.
+- **Tech stack:** Next.js App Router, lokale SQLite-store, Tailwind, TypeScript, Playwright, OpenAI; Supabase/Vercel pas na lokale validatie.
 - **AI-aanpak:** OpenAI - goedkoop filtermodel + sterk analysemodel, structured outputs, alles gelogd met kosten (besluit 2026-06-12).
 - **Databronnen:** Finnhub, SEC EDGAR, RSS (GlobeNewswire/EQS/Euronext), GDELT of Marketaux, Alpha Vantage movers, delayed quotes US+EU. Budget EUR 150/maand totaal.
-- **Belangrijke randvoorwaarden:** alle keys server-only; RLS verplicht; adviezen zijn uitsluitend voor Robin en worden nooit gedeeld of gepubliceerd; de app voert nooit zelf trades uit.
+- **Belangrijke randvoorwaarden:** alle keys server-only; local mode is single-user op Robins machine; RLS verplicht zodra Supabase/deploy mode wordt gebouwd; adviezen zijn uitsluitend voor Robin en worden nooit gedeeld of gepubliceerd; de app voert nooit zelf trades uit.
 
 ## Bronnen
 - `ProjectOmschrijving.txt` - oorspronkelijke ruwe projectomschrijving (deels achterhaald, gemarkeerd).

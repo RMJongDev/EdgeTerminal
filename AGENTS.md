@@ -2,7 +2,7 @@
 
 Persoonlijke adviesmachine voor swing trading op nieuws, gebouwd voor en door Robin de Jong. Een autonome pipeline verzamelt twee keer per dag nieuws, filings, macro-items en marktcontext, analyseert koersimpact en levert een gerangschikte top 5 expliciete koop/verkoop-adviezen (ticker, richting, entry, stop, target, horizon, onderbouwing). Elk advies wordt automatisch gevolgd zodat meetbaar wordt welke adviestypen waarde hebben. Robin beslist en handelt zelf bij zijn broker; de app voert nooit zelf trades uit.
 
-Stack: Next.js App Router, Supabase (Auth/Postgres/RLS), Vercel, Tailwind, TypeScript, Playwright, OpenAI.
+Stack: Next.js App Router, lokale SQLite-MVP, Supabase/Vercel later na validatie, Tailwind, TypeScript, Playwright, OpenAI.
 
 ## Bron van waarheid
 
@@ -25,7 +25,7 @@ Stack: Next.js App Router, Supabase (Auth/Postgres/RLS), Vercel, Tailwind, TypeS
 3. **Definition of Done per story:** `pnpm typecheck`, `pnpm lint`, `pnpm build` en de relevante tests groen; demo mode blijft werken zonder env vars; geen secrets in de repo; entry in `Docs/implementation-log.md`; `graphify update .` na codewijzigingen.
 4. **Keys en accounts:** Robin levert API-keys op verzoek. Vraag er expliciet en concreet om ("ik heb nu X nodig, in te vullen als `VAR` in `.env.local`") bij stories met een Robin-input-markering. Blokkeer niet stil: ga door met wat zonder keys kan (mock/demo mode).
 5. Bij een conflict tussen specs onderling of tussen spec en backlog: stel de vraag aan Robin, kies niet stil.
-6. Vaste besluiten heronderhandel je niet zonder Robin: adviesmachine (geen researchtool), autonome pipeline zonder verplichte triage, top 5 met "geen advies" als geldige uitkomst, twee run-profielen (eu_open/us_open), kostenhorde en risk framework signalerend in de ranking, OpenAI als LLM-provider, budget EUR 150/maand, demo mode behouden, UI-copy Engels.
+6. Vaste besluiten heronderhandel je niet zonder Robin: adviesmachine (geen researchtool), autonome pipeline zonder verplichte triage, top 5 met "geen advies" als geldige uitkomst, twee run-profielen (eu_open/us_open), kostenhorde en risk framework signalerend in de ranking, OpenAI als LLM-provider, budget EUR 150/maand, demo mode behouden, local-first MVP zonder Docker/WSL/Supabase/Vercel, UI-copy Engels.
 
 ## Structuur
 
@@ -33,7 +33,7 @@ Stack: Next.js App Router, Supabase (Auth/Postgres/RLS), Vercel, Tailwind, TypeS
 - `CLAUDE.md` - dunne wrapper die `AGENTS.md` importeert.
 - `.agents/skills/` - gedeelde skills; `.claude/skills/` is een junction hiernaartoe.
 - `src/` - Next.js app: `src/app/` routes, `src/components/`, `src/lib/supabase/` SSR-clients, `src/lib/edge-terminal/` domein- en pipelinecode.
-- `supabase/` - migraties en seed.
+- `supabase/` - migraties en seed als latere deploy-pariteitsbron.
 - `tests/e2e/` - Playwright.
 - `Docs/` - documentatie: `Specs/`, `backlog.md`, `implementation-log.md`, `dependencies.md`, `Briefings/`, `Context/`, `Archive/`.
 
@@ -43,7 +43,7 @@ Stack: Next.js App Router, Supabase (Auth/Postgres/RLS), Vercel, Tailwind, TypeS
 - Documenten Nederlands, code Engels, UI-copy Engels, diagrammen ASCII, UI darkmode terminal-stijl.
 - Secrets nooit committen. Nieuwe env vars altijd toevoegen aan `.env.example` en `Docs/dependencies.md`.
 - Alle provider- en LLM-keys server-only; nooit in client components.
-- Data beschermen met Supabase RLS; route checks zijn aanvullend, niet de bron van waarheid.
+- Local mode is single-user SQLite op Robins machine; zodra Supabase/deploy mode bestaat, data beschermen met Supabase RLS.
 - Elke skill: `.agents/skills/<naam>/SKILL.md`. Elke agent: een `.md` in `.claude/agents/`.
 - Team-config in `settings.json`, persoonlijk in `settings.local.json` (gitignored).
 
