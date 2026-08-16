@@ -13,6 +13,11 @@
 
 ---
 
+## 2026-08-05 - Edge Terminal onepager
+- Wat: Nederlandstalige Word-onepager toegevoegd met productdoel, adviesflow, edge-these, technische opbouw, risicokader en actuele MVP-status.
+- Wat: Oplevering gecontroleerd op een pagina, visuele layout en documenttoegankelijkheid.
+- Waarom: Een compact deelbaar overzicht maken van wat Edge Terminal doet en hoe het is gebouwd.
+
 ## 2026-06-13 - Live bronnen lokaal hersteld
 - Wat: `.env.local` aangevuld met de ontbrekende Finnhub/Alpha Vantage provider-vars onder de namen die de code leest; waarden blijven gitignored.
 - Wat: Oude local mock-scan knop uit Dashboard/Event Radar gehaald zodat live testen via EU/US advice runs loopt.
