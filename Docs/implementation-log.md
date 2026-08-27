@@ -13,6 +13,24 @@
 
 ---
 
+## 2026-08-21 - Prompt voor actuele trade-setups
+- Wat: Een direct bruikbare prompt opgesteld voor maximaal drie actuele, conditionele swingtrade-adviezen met bron-, koers-, broker-, kosten- en risicocontroles.
+- Waarom: Actuele suggesties moeten alleen tot een live setup leiden wanneer katalysator, prijsdata en uitvoerbaarheid aantoonbaar kloppen; anders blijft de uitkomst paper-only of geen trade.
+
+## 2026-08-21 - Intraday Euronext-katalysatorscan
+- Wat: Euronext Amsterdam gescand op verse materiële katalysatoren, actuele koersreacties en screenshotgeschiktheid voor AVTX, ALFEN en CSG.
+- Wat: Brokercontrole toegevoegd als harde vervolgstap nadat `AVTX` op eToro naar het Amerikaanse Avalo Therapeutics bleek te verwijzen in plaats van Avantium.
+- Waarom: Een tijdgebonden shortlist maken voor directe technische chart-captures zonder een onverklaarde koersbeweging als kandidaat te behandelen.
+
+## 2026-08-21 - Favicon voor Edge Terminal Local
+- Wat: Het lokale dashboard voorzien van een herkenbare `E//`-favicon in de bestaande mintkleurige terminalstijl.
+- Waarom: De lokale pagina is hierdoor sneller herkenbaar tussen andere Chrome-tabs en favorieten.
+
+## 2026-08-21 - Lokale daytrade-tool uitgebreid met EU-route
+- Wat: In het aparte `EdgeTerminalLocal`-project een Euronext Amsterdam-route naast de bestaande U.S.-route gebouwd, inclusief proces-UI, gates, aparte statistiek en skill-instructies.
+- Wat: Datamodel, gegenereerde bundel en regressietests bijgewerkt; alle 15 tests en de databundelcontrole slagen.
+- Waarom: De Europese handelsuren sluiten beter aan op Robins werkdag, zonder EU- en U.S.-resultaten methodologisch te vermengen.
+
 ## 2026-08-05 - Edge Terminal onepager
 - Wat: Nederlandstalige Word-onepager toegevoegd met productdoel, adviesflow, edge-these, technische opbouw, risicokader en actuele MVP-status.
 - Wat: Oplevering gecontroleerd op een pagina, visuele layout en documenttoegankelijkheid.
